@@ -2,18 +2,20 @@ window.onload = iniciar;
 
 async function iniciar(){
 
-    console.clear();
-
-    console.log("================================");
-    console.log("CAMINANDO CON DIOS");
-    console.log("Iniciando plataforma...");
-    console.log("================================");
-
     try{
 
         const datos = await obtenerDevocional();
 
-        console.log(datos);
+        // Por ahora mostramos el primer devocional.
+        // Después lo cambiaremos para detectar automáticamente la fecha.
+
+        const devocional = datos[0];
+
+        mostrarDevocional(devocional);
+
+        document.getElementById("loader").style.display="none";
+
+        document.getElementById("app").style.display="block";
 
     }
 
