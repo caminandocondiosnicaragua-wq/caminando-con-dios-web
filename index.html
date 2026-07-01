@@ -3,134 +3,37 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Caminando con Dios</title>
+    <title>Caminando con Dios</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta name="description"
+        content="Devocionales diarios para caminar con Dios.">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="assets/css/estilos.css">
 
 </head>
 
 <body>
 
-<header>
+    <!-- Pantalla de carga -->
 
-<div class="logo">
+    <div id="loader">
 
-<h1>Caminando con Dios</h1>
+        <h2>Caminando con Dios</h2>
 
-<p>Proverbios 3:5-6</p>
+        <p>Cargando devocional...</p>
 
-</div>
+    </div>
 
-<nav>
+    <!-- Aquí se construirá toda la página -->
 
-<button id="modo">🌙</button>
+    <main id="app"></main>
 
-<button>🌐</button>
+    <script src="assets/js/api.js"></script>
 
-</nav>
-
-</header>
-
-<section id="hero">
-
-<img id="heroImagen">
-
-<div class="hero-texto">
-
-<h2 id="heroTitulo"></h2>
-
-<p id="heroFecha"></p>
-
-<p id="heroAT"></p>
-
-<p id="heroNT"></p>
-
-</div>
-
-</section>
-
-<main id="contenido">
-
-<section class="card">
-
-<h2>💡 Enseñanza</h2>
-
-<p id="ensenanza"></p>
-
-</section>
-
-<section class="card">
-
-<h2>❤️ Idea Central</h2>
-
-<p id="idea"></p>
-
-</section>
-
-<section class="card">
-
-<h2>📖 Explicación</h2>
-
-<p id="explicacion"></p>
-
-</section>
-
-<section class="card">
-
-<h2>🌱 Reflexión</h2>
-
-<p id="reflexion"></p>
-
-</section>
-
-<section class="card">
-
-<h2>❓ Preguntas</h2>
-
-<p id="preguntas"></p>
-
-</section>
-
-<section class="card">
-
-<h2>🙏 Oración</h2>
-
-<p id="oracion"></p>
-
-</section>
-
-<section class="card">
-
-<h2>✨ Palabra de Vida</h2>
-
-<p id="palabra"></p>
-
-</section>
-
-</main>
-
-<footer>
-
-<p>
-
-Confía en Jehová con todo tu corazón...
-
-Proverbios 3:5-6
-
-</p>
-
-</footer>
-
-<script src="js/api.js"></script>
-<script src="js/app.js"></script>
+    <script src="assets/js/app.js"></script>
 
 </body>
 
