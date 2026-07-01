@@ -118,3 +118,21 @@ function mostrarDevocional(devocional){
     `;
 
 }
+
+function formatearFecha(fecha){
+
+    const f = new Date(fecha);
+
+    return f.toLocaleDateString("es-ES",{
+
+        weekday:"long",
+
+        year:"numeric",
+
+        month:"long",
+
+        day:"numeric"
+
+    });
+
+}
