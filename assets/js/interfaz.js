@@ -8,7 +8,7 @@ function mostrarDevocional(devocional){
 
         <header class="cabecera">
 
-            <h1>Caminando con Dios</h1>
+            <h1>Caminando con Dios | Biblia y Fe</h1>
 
             <p class="lema">
                 "Confía en Jehová con todo tu corazón..."<br>
