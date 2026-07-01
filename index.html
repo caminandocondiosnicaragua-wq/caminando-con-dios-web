@@ -8,6 +8,11 @@
 
 <title>Caminando con Dios</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/estilos.css">
 
 </head>
@@ -16,19 +21,113 @@
 
 <header>
 
+<div class="logo">
+
 <h1>Caminando con Dios</h1>
 
-<p>Devocionales Bíblicos Diarios</p>
+<p>Proverbios 3:5-6</p>
+
+</div>
+
+<nav>
+
+<button id="modo">🌙</button>
+
+<button>🌐</button>
+
+</nav>
 
 </header>
 
-<main>
+<section id="hero">
 
-<section id="devocional">
+<img id="heroImagen">
+
+<div class="hero-texto">
+
+<h2 id="heroTitulo"></h2>
+
+<p id="heroFecha"></p>
+
+<p id="heroAT"></p>
+
+<p id="heroNT"></p>
+
+</div>
+
+</section>
+
+<main id="contenido">
+
+<section class="card">
+
+<h2>💡 Enseñanza</h2>
+
+<p id="ensenanza"></p>
+
+</section>
+
+<section class="card">
+
+<h2>❤️ Idea Central</h2>
+
+<p id="idea"></p>
+
+</section>
+
+<section class="card">
+
+<h2>📖 Explicación</h2>
+
+<p id="explicacion"></p>
+
+</section>
+
+<section class="card">
+
+<h2>🌱 Reflexión</h2>
+
+<p id="reflexion"></p>
+
+</section>
+
+<section class="card">
+
+<h2>❓ Preguntas</h2>
+
+<p id="preguntas"></p>
+
+</section>
+
+<section class="card">
+
+<h2>🙏 Oración</h2>
+
+<p id="oracion"></p>
+
+</section>
+
+<section class="card">
+
+<h2>✨ Palabra de Vida</h2>
+
+<p id="palabra"></p>
 
 </section>
 
 </main>
+
+<footer>
+
+<p>
+
+Confía en Jehová con todo tu corazón...
+
+Proverbios 3:5-6
+
+</p>
+
+</footer>
 
 <script src="js/api.js"></script>
 <script src="js/app.js"></script>
