@@ -10,6 +10,8 @@ async function iniciar(){
         // Después lo cambiaremos para detectar automáticamente la fecha.
 
         const devocional = datos[0];
+        console.log(devocional);
+        console.log(devocional["TEXTO N.T."]);
 
         mostrarDevocional(devocional);
 
