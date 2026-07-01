@@ -1,33 +1,54 @@
-window.onload=iniciar;
+window.addEventListener("DOMContentLoaded", iniciar);
 
-async function iniciar(){
+async function iniciar() {
 
-const datos=await obtenerDevocionales();
+    try {
 
-const hoy=datos[0];
+        const devocionales = await obtenerDevocionales();
 
-document.getElementById("heroTitulo").textContent=hoy.TITULO;
+        if (devocionales.length === 0) return;
 
-document.getElementById("heroFecha").textContent=hoy.FECHA;
+        mostrarDevocional(devocionales[0]);
 
-document.getElementById("heroAT").textContent=hoy["TEXTO A.T."];
+    } catch (error) {
 
-document.getElementById("heroNT").textContent=hoy["TEXTO N.T."];
+        console.error(error);
 
-document.getElementById("ensenanza").textContent=hoy.ENSEÑANZA;
+    }
 
-document.getElementById("idea").textContent=hoy["IDEA CENTRAL"];
+}
 
-document.getElementById("explicacion").textContent=hoy.EXPLICACION;
+function mostrarDevocional(devocional) {
 
-document.getElementById("reflexion").textContent=hoy.REFLEXION;
+    asignarTexto("heroTitulo", devocional.TITULO);
+    asignarTexto("heroFecha", devocional.FECHA);
+    asignarTexto("heroAT", devocional["TEXTO A.T."]);
+    asignarTexto("heroNT", devocional["TEXTO N.T."]);
 
-document.getElementById("preguntas").textContent=hoy.PREGUNTAS;
+    asignarTexto("ensenanza", devocional.ENSEÑANZA);
+    asignarTexto("idea", devocional["IDEA CENTRAL"]);
+    asignarTexto("explicacion", devocional.EXPLICACION);
+    asignarTexto("reflexion", devocional.REFLEXION);
+    asignarTexto("preguntas", devocional.PREGUNTAS);
+    asignarTexto("oracion", devocional.ORACION);
+    asignarTexto("palabra", devocional["PALABRA DE VIDA"]);
 
-document.getElementById("oracion").textContent=hoy.ORACION;
+    const imagen = document.getElementById("heroImagen");
 
-document.getElementById("palabra").textContent=hoy["PALABRA DE VIDA"];
+    if (devocional.IMAGEN) {
+        imagen.src = devocional.IMAGEN;
+    }
 
-document.getElementById("heroImagen").src=hoy.IMAGEN;
+}
+
+function asignarTexto(id, valor) {
+
+    const elemento = document.getElementById(id);
+
+    if (elemento) {
+
+        elemento.textContent = valor || "";
+
+    }
 
 }
