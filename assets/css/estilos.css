@@ -5,13 +5,15 @@
 
     width:100%;
 
-    height:260px;
-
-    object-fit:cover;
+    height:220px;
 
     display:block;
 
-    border-radius:0 0 18px 18px;
+    object-fit:cover;
+
+    object-position:center;
+
+    border-radius:0;
 
 }
 /* ===========================
