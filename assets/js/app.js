@@ -1,47 +1,76 @@
-window.onload = iniciar;
+function mostrarDevocional(devocional) {
 
-async function iniciar() {
+    const app = document.getElementById("app");
 
-    try {
+    app.innerHTML = `
 
-        const datos = await obtenerDevocional();
+    <div class="pagina">
 
-        if (!Array.isArray(datos) || datos.length === 0) {
-            throw new Error("La API no devolvió datos.");
-        }
+        <header class="cabecera">
 
-        // Fecha actual
-        const hoy = new Date();
+            <h1>Caminando con Dios | Biblia y Fe</h1>
 
-        const fechaHoy =
-            hoy.getFullYear() + "-" +
-            String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
-            String(hoy.getDate()).padStart(2, "0");
+            <p class="lema">
+                Confía en Jehová con todo tu corazón,
+                y no te apoyes en tu propia prudencia.
+                <br>
+                <strong>Proverbios 3:5-6</strong>
+            </p>
 
-        // Buscar el devocional del día
-        let devocional = datos.find(
-            d => d.FECHA === fechaHoy
-        );
+        </header>
 
-        // Si aún no existe, mostrar el primero
-        if (!devocional) {
-            devocional = datos[0];
-        }
+        <main class="tarjeta">
 
-        mostrarDevocional(devocional);
+            ${crearCabecera(devocional)}
 
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("app").style.display = "block";
+            ${crearLecturas(devocional)}
 
-    }
+            ${crearSeccion(
+                "📖",
+                "Enseñanza",
+                devocional["ENSEÑANZA"]
+            )}
 
-    catch (error) {
+            ${crearSeccion(
+                "💡",
+                "Idea Central",
+                devocional["IDEA CENTRAL"]
+            )}
 
-        console.error(error);
+            ${crearSeccion(
+                "📚",
+                "Explicación",
+                devocional["EXPLICACION"]
+            )}
 
-        document.getElementById("loader").innerHTML =
-            "<h2>Error al cargar el devocional.</h2>";
+            ${crearSeccion(
+                "❤️",
+                "Reflexión",
+                devocional["REFLEXION"]
+            )}
 
-    }
+            ${crearSeccion(
+                "❓",
+                "Preguntas",
+                devocional["PREGUNTAS"]
+            )}
+
+            ${crearSeccion(
+                "🙏",
+                "Oración",
+                devocional["ORACION"]
+            )}
+
+            ${crearPalabraVida(
+                devocional["PALABRA DE VIDA"]
+            )}
+
+            ${crearAcciones()}
+
+        </main>
+
+    </div>
+
+    `;
 
 }
