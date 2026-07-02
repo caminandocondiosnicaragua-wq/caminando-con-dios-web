@@ -1,7 +1,22 @@
 /* ===========================
+   PORTADA
+=========================== */
+.hero{
+
+    width:100%;
+
+    height:260px;
+
+    object-fit:cover;
+
+    display:block;
+
+    border-radius:0 0 18px 18px;
+
+}
+/* ===========================
    BARRA SUPERIOR
 =========================== */
-
 .navbar{
 
     position:fixed;
