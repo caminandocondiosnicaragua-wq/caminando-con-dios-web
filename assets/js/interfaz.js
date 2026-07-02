@@ -136,3 +136,191 @@ function formatearFecha(fecha){
     });
 
 }
+function crearCabecera(devocional){
+
+    return `
+
+    <div class="cabecera-devocional">
+
+        <div class="fecha">
+
+            📅 ${formatearFecha(devocional["FECHA"])}
+
+        </div>
+
+        <h2>
+
+            ${devocional["TÍTULO"] || "Devocional Diario"}
+
+        </h2>
+
+    </div>
+
+    `;
+
+}
+function crearLecturas(devocional){
+
+    return `
+
+    <section class="lecturas">
+
+        <div class="lectura">
+
+            <strong>📜 Antiguo Testamento</strong>
+
+            <p>
+
+                ${devocional["TEXTO A.T."] || "-"}
+
+            </p>
+
+        </div>
+
+        <div class="lectura">
+
+            <strong>✝ Nuevo Testamento</strong>
+
+            <p>
+
+                ${devocional["TEXTO. N.T."] || "-"}
+
+            </p>
+
+        </div>
+
+    </section>
+
+    `;
+
+}
+function crearSeccion(icono,titulo,contenido){
+
+    if(!contenido){
+
+        return "";
+
+    }
+
+    return `
+
+    <section class="bloque">
+
+        <h3>
+
+            ${icono} ${titulo}
+
+        </h3>
+
+        <p>
+
+            ${contenido}
+
+        </p>
+
+    </section>
+
+    `;
+
+}
+function crearPalabraVida(texto){
+
+    if(!texto){
+
+        return "";
+
+    }
+
+    return `
+
+    <section class="palabra">
+
+        <h3>
+
+            ✨ Palabra de Vida
+
+        </h3>
+
+        <blockquote>
+
+            ${texto}
+
+        </blockquote>
+
+    </section>
+
+    `;
+
+}
+function crearAcciones(){
+
+    return `
+
+    <section class="acciones">
+
+        <button disabled>
+
+            ❤️ Me ayudó
+
+        </button>
+
+        <button disabled>
+
+            💬 Comentar
+
+        </button>
+
+        <button disabled>
+
+            📤 Compartir
+
+        </button>
+
+    </section>
+
+    `;
+
+}
+function formatearFecha(fecha){
+
+    if(!fecha){
+
+        return "";
+
+    }
+
+    const partes = fecha.split("-");
+
+    if(partes.length!==3){
+
+        return fecha;
+
+    }
+
+    const f = new Date(
+
+        Number(partes[0]),
+        Number(partes[1])-1,
+        Number(partes[2])
+
+    );
+
+    return f.toLocaleDateString(
+
+        "es-ES",
+
+        {
+
+            weekday:"long",
+
+            day:"numeric",
+
+            month:"long",
+
+            year:"numeric"
+
+        }
+
+    );
+
+}
