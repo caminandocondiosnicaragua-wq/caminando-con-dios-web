@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,24 +11,40 @@
         content="Devocionales diarios para caminar con Dios.">
 
     <link rel="stylesheet" href="assets/css/estilos.css">
-
 </head>
 
 <body>
-
     <!-- Pantalla de carga -->
 
     <div id="loader">
-
         <h2>Caminando con Dios| Biblia y Fe</h2>
-
         <p>Cargando devocional...</p>
-
     </div>
 
     <!-- Aquí se construirá toda la página -->
 
-    <main id="app"></main>
+    <nav class="navbar">
+
+    <div class="logo-area">
+        <img src="assets/img/logo.png"
+             alt="Caminando con Dios"
+             class="logo">
+        <div>
+            <h2>Caminando con Dios</h2>
+            <span>Biblia y Fe</span>
+        </div>
+
+    </div>
+
+    <ul class="menu">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Devocionales</a></li>
+        <li><a href="#">Biblioteca</a></li>
+        <li><a href="#">Estudios</a></li>
+    </ul>
+</nav>
+
+<main id="app"></main>
 
     <script src="assets/js/api.js"></script>
     <script src="assets/js/interfaz.js"></script>
