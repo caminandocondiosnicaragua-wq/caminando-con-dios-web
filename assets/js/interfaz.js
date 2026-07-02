@@ -12,7 +12,13 @@ function mostrarDevocional(devocional) {
     <div class="pagina">
 
         <header class="cabecera">
-
+          
+            <img
+                src="assets/img/hero.png"
+                class="hero"
+                alt="Portada">
+    <div class="overlay"></div>
+    
             <div class="logo-area">
 
                 <img
