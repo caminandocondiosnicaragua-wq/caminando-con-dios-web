@@ -1,28 +1,28 @@
 window.onload = iniciar;
 
-async function iniciar(){
+async function iniciar() {
 
-    try{
+    try {
 
         const datos = await obtenerDevocional();
 
-        // Por ahora mostramos el primer devocional.
-        // Después lo cambiaremos para detectar automáticamente la fecha.
+        console.log("Datos recibidos:");
+        console.log(datos);
+        console.log("¿Es un arreglo?:", Array.isArray(datos));
 
         const devocional = datos[0];
+
+        console.log("Primer devocional:");
         console.log(devocional);
-        console.log(devocional["TEXTO. N.T."]);
-        console.log(Object.keys(devocional));
 
         mostrarDevocional(devocional);
 
-        document.getElementById("loader").style.display="none";
-
-        document.getElementById("app").style.display="block";
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("app").style.display = "block";
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
