@@ -11,7 +11,7 @@ async function iniciar(){
 
         const devocional = datos[0];
         console.log(devocional);
-        console.log(devocional["TEXTO N.T."]);
+        console.log(devocional["TEXTO. N.T."]);
         console.log(Object.keys(devocional));
 
         mostrarDevocional(devocional);
