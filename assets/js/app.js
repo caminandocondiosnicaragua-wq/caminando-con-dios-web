@@ -6,14 +6,27 @@ async function iniciar() {
 
         const datos = await obtenerDevocional();
 
-        console.log("Datos recibidos:");
-        console.log(datos);
-        console.log("¿Es un arreglo?:", Array.isArray(datos));
+        if (!Array.isArray(datos) || datos.length === 0) {
+            throw new Error("La API no devolvió datos.");
+        }
 
-        const devocional = datos[0];
+        // Fecha actual
+        const hoy = new Date();
 
-        console.log("Primer devocional:");
-        console.log(devocional);
+        const fechaHoy =
+            hoy.getFullYear() + "-" +
+            String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
+            String(hoy.getDate()).padStart(2, "0");
+
+        // Buscar el devocional del día
+        let devocional = datos.find(
+            d => d.FECHA === fechaHoy
+        );
+
+        // Si aún no existe, mostrar el primero
+        if (!devocional) {
+            devocional = datos[0];
+        }
 
         mostrarDevocional(devocional);
 
@@ -25,6 +38,9 @@ async function iniciar() {
     catch (error) {
 
         console.error(error);
+
+        document.getElementById("loader").innerHTML =
+            "<h2>Error al cargar el devocional.</h2>";
 
     }
 
