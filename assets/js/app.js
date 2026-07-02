@@ -6,9 +6,19 @@ async function iniciar() {
 
         const datos = await obtenerDevocional();
 
-        const devocional = datos[0];
+       // Obtener la fecha de hoy
+        const hoy = new Date();
 
-        mostrarDevocional(devocional);
+    // Formato YYYY-MM-DD
+        const fechaHoy = hoy.toISOString().split("T")[0];
+
+    // Buscar el devocional correspondiente a la fecha
+        const devocional = datos.find(item => item.FECHA === fechaHoy);
+
+    // Si no existe, mostrar el primero como respaldo
+        const devocionalFinal = devocional || datos[0];
+
+        mostrarDevocional(devocionalFinal);
 
         document.getElementById("loader").style.display = "none";
 
