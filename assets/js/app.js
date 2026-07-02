@@ -1,76 +1,25 @@
-function mostrarDevocional(devocional) {
+window.onload = iniciar;
 
-    const app = document.getElementById("app");
+async function iniciar() {
 
-    app.innerHTML = `
+    try {
 
-    <div class="pagina">
+        const datos = await obtenerDevocional();
 
-        <header class="cabecera">
+        const devocional = datos[0];
 
-            <h1>Caminando con Dios | Biblia y Fe</h1>
+        mostrarDevocional(devocional);
 
-            <p class="lema">
-                Confía en Jehová con todo tu corazón,
-                y no te apoyes en tu propia prudencia.
-                <br>
-                <strong>Proverbios 3:5-6</strong>
-            </p>
+        document.getElementById("loader").style.display = "none";
 
-        </header>
+        document.getElementById("app").style.display = "block";
 
-        <main class="tarjeta">
+    }
 
-            ${crearCabecera(devocional)}
+    catch (error) {
 
-            ${crearLecturas(devocional)}
+        console.error(error);
 
-            ${crearSeccion(
-                "📖",
-                "Enseñanza",
-                devocional["ENSEÑANZA"]
-            )}
-
-            ${crearSeccion(
-                "💡",
-                "Idea Central",
-                devocional["IDEA CENTRAL"]
-            )}
-
-            ${crearSeccion(
-                "📚",
-                "Explicación",
-                devocional["EXPLICACION"]
-            )}
-
-            ${crearSeccion(
-                "❤️",
-                "Reflexión",
-                devocional["REFLEXION"]
-            )}
-
-            ${crearSeccion(
-                "❓",
-                "Preguntas",
-                devocional["PREGUNTAS"]
-            )}
-
-            ${crearSeccion(
-                "🙏",
-                "Oración",
-                devocional["ORACION"]
-            )}
-
-            ${crearPalabraVida(
-                devocional["PALABRA DE VIDA"]
-            )}
-
-            ${crearAcciones()}
-
-        </main>
-
-    </div>
-
-    `;
+    }
 
 }
