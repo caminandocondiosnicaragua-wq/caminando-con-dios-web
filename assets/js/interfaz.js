@@ -45,7 +45,7 @@ function mostrarDevocional(devocional){
 
                     <strong>Nuevo Testamento</strong><br>
 
-                    ${devocional["TEXTO N.T."]}
+                    ${devocional["TEXTO. N.T."]}
 
                 </div>
 
