@@ -109,13 +109,17 @@ box-sizing:border-box;
 
 body{
 
-background:#f4f6fb;
+    background:linear-gradient(
+        180deg,
+        #edf3fb 0%,
+        #dbe7f6 100%
+    );
 
-font-family:Segoe UI,Arial,sans-serif;
+    font-family:Segoe UI,Arial,sans-serif;
 
-color:#333;
+    color:#24344d;
 
-line-height:1.7;
+    line-height:1.7;
 
 }
 
