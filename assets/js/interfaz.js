@@ -21,11 +21,7 @@ function mostrarDevocional(devocional) {
     
             <div class="logo-area">
 
-                <img
-                    src="assets/img/logo.png"
-                    class="logo"
-                    alt="Caminando con Dios">
-
+            
                 <div>
 
                     <h1>Caminando con Dios | Biblia y Fe</h1>
