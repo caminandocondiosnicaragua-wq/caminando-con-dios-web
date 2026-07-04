@@ -213,9 +213,13 @@ margin-bottom:20px;
 .lectura{
 
     background:#edf5ff;
-    padding:22px 28px;
+    padding:20px 24px;
     border-radius:18px;
-    min-height:120px;
+    min-height:110px;
+
+   background:#eef5ff;
+    border:1px solid #d8e5f7;
+   
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -226,14 +230,19 @@ margin-bottom:20px;
 
 }
 
+.lectura h3{
+
+    font-size:22px;
+    margin-top:8px;
+    margin-bottom:10px;
+}
+
 .lectura p{
 
     font-size:20px;
-
-    margin-top:10px;
-
+    font-weight:600;
+    color:#24426b;
 }
-
 }
 section{
 
