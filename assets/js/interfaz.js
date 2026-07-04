@@ -1,101 +1,182 @@
 /************************************************
- * INTERFAZ
- * CAMINANDO CON DIOS
+ * CAMINANDO CON DIOS | BIBLIA Y FE
+ * INTERFAZ 2.0
  ************************************************/
 
-function mostrarDevocional(devocional) {
+function mostrarDevocional(devocional){
 
     const app = document.getElementById("app");
 
     app.innerHTML = `
 
-    <div class="pagina">
+<div class="pagina">
 
-        <header class="cabecera">
-          
-            <img
-                src="assets/img/hero.png"
-                class="hero"
-                alt="Portada">
-    <div class="overlay"></div>
-                        
-            <div class="logo-area">
+    <!-- HERO -->
 
-            
-                <div>
-                    <h1>Caminando con Dios | Biblia y Fe</h1>
+    <header>
 
-                    <p class="lema">
+        <img
+            src="assets/img/hero.png"
+            class="hero"
+            alt="Portada">
 
-                        Confía en Jehová con todo tu corazón,
-                        y no te apoyes en tu propia prudencia.
+        <section class="cabecera">
 
-                        <br>
+            <h1>Caminando con Dios | Biblia y Fe</h1>
 
-                        <strong>Proverbios 3:5-6</strong>
+            <p class="lema">
 
-                    </p>
+                "Confía en Jehová con todo tu corazón,
+                y no te apoyes en tu propia prudencia."
 
-                </div>
+                <br>
 
-            </div>
+                <strong>Proverbios 3:5-6</strong>
 
-        </header>
+            </p>
+
+        </section>
+
+    </header>
+
+    <!-- CONTENIDO -->
+
+    <div class="layout">
+
+        <!-- COLUMNA IZQUIERDA -->
 
         <main class="tarjeta">
 
-           ${crearCabecera(devocional)}
-            ${crearAcciones()}
+            ${crearCabecera(devocional)}
+
+            ${crearAcciones(devocional)}
+
             ${crearLecturas(devocional)}
 
             ${crearSeccion(
+
                 "📖",
+
                 "Enseñanza",
+
                 devocional["ENSEÑANZA"]
+
             )}
 
             ${crearSeccion(
+
                 "💡",
+
                 "Idea Central",
+
                 devocional["IDEA CENTRAL"]
+
             )}
 
             ${crearSeccion(
+
                 "📚",
+
                 "Explicación",
+
                 devocional["EXPLICACION"]
+
             )}
 
             ${crearSeccion(
+
                 "❤️",
+
                 "Reflexión",
+
                 devocional["REFLEXION"]
+
             )}
 
             ${crearSeccion(
+
                 "❓",
+
                 "Preguntas",
+
                 devocional["PREGUNTAS"]
+
             )}
 
             ${crearSeccion(
+
                 "🙏",
+
                 "Oración",
+
                 devocional["ORACION"]
+
             )}
 
             ${crearPalabraVida(
+
                 devocional["PALABRA DE VIDA"]
+
             )}
 
         </main>
 
+        <!-- PANEL DERECHO -->
+
+        <aside class="panel-biblia">
+
+            <h2>
+
+                📖 Leer los capítulos
+
+            </h2>
+
+            <div id="contenidoBiblia">
+
+                <p>
+
+                    Selecciona una lectura para
+                    visualizar aquí el capítulo completo.
+
+                </p>
+
+                <hr>
+
+                <h3>
+
+                    Antiguo Testamento
+
+                </h3>
+
+                <p>
+
+                    ${devocional["TEXTO A.T."]}
+
+                </p>
+
+                <h3>
+
+                    Nuevo Testamento
+
+                </h3>
+
+                <p>
+
+                    ${devocional["TEXTO. N.T."]}
+
+                </p>
+
+            </div>
+
+        </aside>
+
     </div>
 
-    `;
+</div>
+
+`;
 
 }
-
 /************************************************
  * CABECERA DEL DEVOCIONAL
  ************************************************/
@@ -112,7 +193,7 @@ function crearCabecera(devocional){
 
             </div>
 
-            <h2>
+            <h2 class="titulo">
 
                 ${devocional.TITULO || "Devocional Diario"}
 
@@ -123,6 +204,67 @@ function crearCabecera(devocional){
     `;
 
 }
+
+/************************************************
+ * BOTONES
+ ************************************************/
+
+function crearAcciones(devocional){
+
+    return `
+
+        <section class="acciones">
+
+            <button class="btn secundario" id="btnAnterior">
+
+                ← Día anterior
+
+            </button>
+
+            <button class="btn principal" id="btnCalendario">
+
+                📅 Elegir día
+
+            </button>
+
+            <button class="btn secundario" id="btnSiguiente">
+
+                Día siguiente →
+
+            </button>
+
+        </section>
+
+        <section class="acciones">
+
+            <button class="btn lectura" id="btnLeerBiblia">
+
+                📖 Leer los capítulos de hoy
+
+                <br><br>
+
+                <strong>
+
+                    ${devocional["TEXTO A.T."]}
+
+                </strong>
+
+                <br>
+
+                <strong>
+
+                    ${devocional["TEXTO. N.T."]}
+
+                </strong>
+
+            </button>
+
+        </section>
+
+    `;
+
+}
+
 /************************************************
  * LECTURAS BÍBLICAS
  ************************************************/
@@ -133,15 +275,21 @@ function crearLecturas(devocional){
 
         <section class="lecturas">
 
-            <div class="lectura-card antiguo">
+            <article class="lectura-card antiguo">
 
                 <div class="lectura-icono">
+
                     📜
+
                 </div>
 
                 <div>
 
-                    <h3>Antiguo Testamento</h3>
+                    <h3>
+
+                        Antiguo Testamento
+
+                    </h3>
 
                     <p class="cita">
 
@@ -151,17 +299,23 @@ function crearLecturas(devocional){
 
                 </div>
 
-            </div>
+            </article>
 
-            <div class="lectura-card nuevo">
+            <article class="lectura-card nuevo">
 
                 <div class="lectura-icono">
+
                     ✝️
+
                 </div>
 
                 <div>
 
-                    <h3>Nuevo Testamento</h3>
+                    <h3>
+
+                        Nuevo Testamento
+
+                    </h3>
 
                     <p class="cita">
 
@@ -171,20 +325,18 @@ function crearLecturas(devocional){
 
                 </div>
 
-            </div>
+            </article>
 
         </section>
 
     `;
 
 }
-
-
 /************************************************
- * SECCIONES
+ * SECCIONES DEL DEVOCIONAL
  ************************************************/
 
-function crearSeccion(icono,titulo,texto){
+function crearSeccion(icono, titulo, texto){
 
     return `
 
@@ -208,7 +360,7 @@ function crearSeccion(icono,titulo,texto){
 
             <div class="contenido-seccion">
 
-                ${texto}
+                ${texto || ""}
 
             </div>
 
@@ -217,7 +369,6 @@ function crearSeccion(icono,titulo,texto){
     `;
 
 }
-
 
 /************************************************
  * PALABRA DE VIDA
@@ -237,7 +388,7 @@ function crearPalabraVida(texto){
 
             <blockquote>
 
-                ${texto}
+                ${texto || ""}
 
             </blockquote>
 
@@ -246,50 +397,6 @@ function crearPalabraVida(texto){
     `;
 
 }
-/************************************************
- * BOTONES DE ACCIÓN
- ************************************************/
-
-function crearAcciones(){
-
-    return `
-
-        <section class="acciones">
-
-            <button class="btn secundario">
-
-                ← Día anterior
-
-            </button>
-
-            <button class="btn principal">
-
-                📅 Elegir día
-
-            </button>
-
-            <button class="btn secundario">
-
-                Día siguiente →
-
-            </button>
-
-        </section>
-
-        <section class="acciones">
-
-            <button class="btn lectura">
-
-                📖 Leer capítulo completo
-
-            </button>
-
-        </section>
-
-    `;
-
-}
-
 
 /************************************************
  * FORMATEAR FECHA
@@ -299,18 +406,58 @@ function formatearFecha(fecha){
 
     if(!fecha) return "";
 
+    // Mantener la fecha local (no UTC)
     const f = new Date(fecha + "T00:00:00");
 
     return f.toLocaleDateString("es-ES",{
 
         weekday:"long",
 
-        year:"numeric",
+        day:"numeric",
 
         month:"long",
 
-        day:"numeric"
+        year:"numeric"
 
     });
+
+}
+
+/************************************************
+ * PANEL BÍBLICO
+ * (Preparado para la siguiente versión)
+ ************************************************/
+
+function mostrarCapitulo(referencia){
+
+    const panel = document.getElementById("contenidoBiblia");
+
+    if(!panel) return;
+
+    panel.innerHTML = `
+
+        <h2>
+
+            📖 ${referencia}
+
+        </h2>
+
+        <p>
+
+            Aquí cargaremos automáticamente el texto completo
+            del capítulo sin salir del devocional.
+
+        </p>
+
+        <br>
+
+        <p>
+
+            Esta función se conectará con nuestra base de datos
+            bíblica en la siguiente etapa.
+
+        </p>
+
+    `;
 
 }
