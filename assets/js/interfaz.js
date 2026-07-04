@@ -18,11 +18,6 @@ function mostrarDevocional(devocional) {
                 class="hero"
                 alt="Portada">
     <div class="overlay"></div>
-    
-            <div class="logo-area">
-
-            
-                <div>
 
                     <h1>Caminando con Dios | Biblia y Fe</h1>
 
