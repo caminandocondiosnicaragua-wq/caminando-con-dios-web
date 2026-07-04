@@ -179,14 +179,12 @@ color:#555;
 
 .tarjeta{
 
-background:white;
-
-border-radius:20px;
-
-padding:40px;
-
-box-shadow:0 15px 35px rgba(0,0,0,.08);
-
+    background:white;
+    border-radius:26px;
+    padding:50px;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.10);
+    border:1px solid #e4ebf5;
 }
 
 .fecha{
