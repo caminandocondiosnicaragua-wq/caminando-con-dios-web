@@ -44,8 +44,8 @@ function mostrarDevocional(devocional) {
 
         <main class="tarjeta">
 
-            ${crearCabecera(devocional)}
-
+           ${crearCabecera(devocional)}
+            ${crearAcciones()}
             ${crearLecturas(devocional)}
 
             ${crearSeccion(
@@ -87,8 +87,6 @@ function mostrarDevocional(devocional) {
             ${crearPalabraVida(
                 devocional["PALABRA DE VIDA"]
             )}
-
-            ${crearAcciones()}
 
         </main>
 
