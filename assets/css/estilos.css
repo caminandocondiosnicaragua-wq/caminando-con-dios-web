@@ -22,18 +22,28 @@
 .navbar{
 
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
-    padding:18px 50px;
+    padding:18px 45px;
 
-    background:rgba(7,18,35,.82);
-    backdrop-filter:blur(12px);
+    background:rgba(10,20,35,.58);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 
     z-index:999;
 
@@ -109,17 +119,22 @@ box-sizing:border-box;
 
 body{
 
-    background:linear-gradient(
+    margin:0;
+
+    font-family:"Segoe UI",Arial,sans-serif;
+
+    color:#eef4ff;
+
+    background:
+    linear-gradient(
         180deg,
-        #edf3fb 0%,
-        #dbe7f6 100%
+        #08111d 0%,
+        #102238 35%,
+        #173557 70%,
+        #21496f 100%
     );
 
-    font-family:Segoe UI,Arial,sans-serif;
-
-    color:#24344d;
-
-    line-height:1.7;
+    min-height:100vh;
 
 }
 
@@ -145,14 +160,13 @@ display:none;
 
 .pagina{
 
-max-width:900px;
+    max-width:1200px;
 
-margin:auto;
+    margin:auto;
 
-padding:30px;
+    padding-top:95px;
 
 }
-
 .cabecera{
 
 text-align:center;
