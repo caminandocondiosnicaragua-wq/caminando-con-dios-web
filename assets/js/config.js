@@ -19,9 +19,7 @@ const CONFIG = {
     },
 
     API:{
-        // URL del Apps Script
         sheets:"",
-        // URL de la API Bíblica
         biblia:""
     },
 
