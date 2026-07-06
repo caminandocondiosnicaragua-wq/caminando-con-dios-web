@@ -37,3 +37,8 @@ const CONFIG = {
         mostrarLecturaBiblica:true
     }
 };
+YOUTUBE:{
+    canal:"",
+    video:"",
+    autoplay:false
+},
