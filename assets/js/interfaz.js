@@ -243,19 +243,7 @@ function crearAcciones(devocional){
 
                 <br><br>
 
-                <strong>
-
-                    ${devocional["TEXTO A.T."]}
-
-                </strong>
-
-                <br>
-
-                <strong>
-
-                    ${devocional["TEXTO. N.T."]}
-
-                </strong>
+   
 
             </button>
 
