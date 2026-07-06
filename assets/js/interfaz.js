@@ -209,25 +209,35 @@ function crearCabecera(devocional){
  * BOTONES
  ************************************************/
 
-function crearAcciones(devocional){
+/************************************************
+ * BOTONES
+ ************************************************/
+
+function crearAcciones(){
 
     return `
 
         <section class="acciones">
 
-            <button class="btn secundario" onclick="btnAnterior()">
+            <button
+                class="btn secundario"
+                id="btnAnterior">
 
                 ← Día anterior
 
             </button>
 
-            <button class="btn principal" onclik="abrirCalendario()">
+            <button
+                class="btn principal"
+                id="btnCalendario">
 
                 📅 Elegir día
 
             </button>
 
-            <button class="btn secundario" onclick="diaSiguiente()">
+            <button
+                class="btn secundario"
+                id="btnSiguiente">
 
                 Día siguiente →
 
@@ -237,13 +247,11 @@ function crearAcciones(devocional){
 
         <section class="acciones">
 
-            <button class="btn lectura" onclick="abrirPanelLectura()">
+            <button
+                class="btn lectura"
+                id="btnLeerBiblia">
 
                 📖 Comenzar lectura bíblica
-
-                <br><br>
-
-   
 
             </button>
 
@@ -252,75 +260,19 @@ function crearAcciones(devocional){
     `;
 
 }
+/************************************************
+ * LECTURAS BÍBLICAS
+ ************************************************/
 
 /************************************************
  * LECTURAS BÍBLICAS
  ************************************************/
 
-function crearLecturas(devocional){
+function crearLecturas(){
 
-    return `
+    return "";
 
-        <section class="lecturas">
-
-            <article class="lectura-card antiguo">
-
-                <div class="lectura-icono">
-
-                    📜
-
-                </div>
-
-                <div>
-
-                    <h3>
-
-                        Antiguo Testamento
-
-                    </h3>
-
-                    <p class="cita">
-
-                        ${devocional["TEXTO A.T."]}
-
-                    </p>
-
-                </div>
-
-            </article>
-
-            <article class="lectura-card nuevo">
-
-                <div class="lectura-icono">
-
-                    ✝️
-
-                </div>
-
-                <div>
-
-                    <h3>
-
-                        Nuevo Testamento
-
-                    </h3>
-
-                    <p class="cita">
-
-                        ${devocional["TEXTO. N.T."]}
-
-                    </p>
-
-                </div>
-
-            </article>
-
-        </section>
-
-    `;
-
-}
-/************************************************
+}/************************************************
  * SECCIONES DEL DEVOCIONAL
  ************************************************/
 
