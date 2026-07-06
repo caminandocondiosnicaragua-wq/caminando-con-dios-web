@@ -4,7 +4,7 @@ const API_URL =
 /************************************************
  * Obtiene el devocional
  ***********************************************/
-async function obtenerDevocional() {
+async function obtenerDevocionalHoy() {
 
     const respuesta = await fetch(API_URL);
 
