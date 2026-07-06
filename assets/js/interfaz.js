@@ -215,19 +215,19 @@ function crearAcciones(devocional){
 
         <section class="acciones">
 
-            <button class="btn secundario" id="btnAnterior">
+            <button class="btn secundario" onclick="btnAnterior()">
 
                 ← Día anterior
 
             </button>
 
-            <button class="btn principal" id="btnCalendario">
+            <button class="btn principal" onclik="abrirCalendario()">
 
                 📅 Elegir día
 
             </button>
 
-            <button class="btn secundario" id="btnSiguiente">
+            <button class="btn secundario" onclick="diaSiguiente()">
 
                 Día siguiente →
 
@@ -237,9 +237,9 @@ function crearAcciones(devocional){
 
         <section class="acciones">
 
-            <button class="btn lectura" id="btnLeerBiblia">
+            <button class="btn lectura" onclick="abrirPanelLectura()">
 
-                📖 Leer los capítulos de hoy
+                📖 Comenzar lectura bíblica
 
                 <br><br>
 
@@ -447,5 +447,63 @@ function mostrarCapitulo(referencia){
         </p>
 
     `;
+
+}
+/********************************************
+NAVEGACIÓN
+********************************************/
+
+function diaAnterior(){
+
+    alert(
+`📖
+
+Volvamos al devocional anterior.
+
+Cada día en la Palabra fortalece nuestra fe.
+
+(En el siguiente paso cargaremos automáticamente el devocional anterior.)`
+    );
+
+}
+
+
+function diaSiguiente(){
+
+    alert(
+`🌅
+
+Gracias por acompañarnos hoy.
+
+El próximo devocional estará disponible
+en la fecha correspondiente.
+
+Te esperamos mañana para seguir caminando con Dios.
+
+"Lámpara es a mis pies tu palabra,
+y lumbrera a mi camino."
+
+Salmo 119:105`
+    );
+
+}
+
+
+function abrirCalendario(){
+
+    alert(
+`📅
+
+Aquí abriremos el calendario.
+
+Solo estarán habilitados:
+
+✓ Hoy
+
+✓ Días anteriores
+
+Los días futuros permanecerán bloqueados
+hasta que llegue su fecha.`
+    );
 
 }
