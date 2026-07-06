@@ -35,8 +35,7 @@ const CONFIG = {
         mostrarVideo:true,
         mostrarComentarios:true,
         mostrarLecturaBiblica:true
-    }
-},
+    },
 YOUTUBE:{
     canal:"",
     video:"",
