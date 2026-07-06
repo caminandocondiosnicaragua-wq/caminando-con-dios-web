@@ -65,8 +65,6 @@ function iniciarModulos(){
 
     iniciarNavegacion();
 
-    iniciarLectura();
-
     iniciarVideo();
 
     iniciarComentarios();
