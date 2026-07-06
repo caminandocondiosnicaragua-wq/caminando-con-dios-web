@@ -1,19 +1,28 @@
 /************************************************
  * CAMINANDO CON DIOS
  * PARSER BÍBLICO
+ * Versión 2.0
  ************************************************/
 
 
 /************************************************
- * CONVIERTE UNA REFERENCIA EN UNA LISTA
+ * INTERPRETAR REFERENCIA
  *
- * Ejemplo:
+ * Entrada:
  * "1 Crónicas 11-12"
  *
- * Resultado:
+ * Salida:
  * [
- *   "1 Crónicas 11",
- *   "1 Crónicas 12"
+ *   {
+ *      libro:"1 Crónicas",
+ *      codigo:"1CH",
+ *      capitulo:11
+ *   },
+ *   {
+ *      libro:"1 Crónicas",
+ *      codigo:"1CH",
+ *      capitulo:12
+ *   }
  * ]
  ************************************************/
 
@@ -23,30 +32,44 @@ function interpretarReferencia(referencia){
     const ultimoEspacio = referencia.lastIndexOf(" ");
     if(ultimoEspacio === -1){
         return [];
-
     }
-    const libro = referencia.substring(0, ultimoEspacio);
-    const capitulo = referencia.substring(ultimoEspacio + 1);
+    const libro = referencia.substring(0, ultimoEspacio).trim();
+    const codigo = obtenerCodigoLibro(libro);
+    if(!codigo){
+        console.warn("Libro no reconocido:", libro);
+        return [];
+    }
+    const textoCapitulos = referencia.substring(ultimoEspacio + 1).trim();
+    let resultado = [];
+    // Rango de capítulos
 
-    if(capitulo.includes("-")){
-
-        const partes = capitulo.split("-");
+    if(textoCapitulos.includes("-")){
+        const partes = textoCapitulos.split("-");
         const inicio = parseInt(partes[0]);
         const fin = parseInt(partes[1]);
-        const resultado = [];
-        for(let i = inicio; i <= fin; i++){
-            resultado.push(`${libro} ${i}`);
+        for(let capitulo=inicio; capitulo<=fin; capitulo++){
+            resultado.push({
+                libro,
+                codigo,
+                capitulo
+            });
         }
-        return resultado;
     }
-    return [
-        `${libro} ${capitulo}`
 
-    ];
-
+    // Un solo capítulo
+    else{
+        resultado.push({
+            libro,
+            codigo,
+            capitulo:parseInt(textoCapitulos)
+        });
+    }
+    return resultado;
 }
+
+
 /************************************************
- * DEVUELVE TODOS LOS CAPÍTULOS DEL DÍA
+ * OBTENER TODOS LOS CAPÍTULOS DEL DÍA
  ************************************************/
 
 function obtenerCapitulosDelDia(devocional){
@@ -58,6 +81,7 @@ function obtenerCapitulosDelDia(devocional){
             )
         );
     }
+
     if(devocional["TEXTO. N.T."]){
         capitulos = capitulos.concat(
             interpretarReferencia(
@@ -66,26 +90,43 @@ function obtenerCapitulosDelDia(devocional){
         );
     }
     return capitulos;
-
 }
+
+
 /************************************************
  * CAPÍTULO ANTERIOR
  ************************************************/
 
-function capituloAnterior(lista,indice){
+function obtenerCapituloAnterior(lista,indice){
     if(indice<=0){
         return null;
     }
     return lista[indice-1];
 }
-
 /************************************************
  * CAPÍTULO SIGUIENTE
  ************************************************/
 
-function capituloSiguiente(lista,indice){
+function obtenerCapituloSiguiente(lista,indice){
     if(indice>=lista.length-1){
         return null;
     }
     return lista[indice+1];
+}
+/************************************************
+ * BUSCAR CAPÍTULO
+ ************************************************/
+
+function buscarCapitulo(lista,libro,capitulo){
+    return lista.find(item=>
+        item.libro===libro &&
+        item.capitulo===capitulo
+    );
+}
+/************************************************
+ * FORMATEAR REFERENCIA
+ ************************************************/
+
+function formatearReferencia(item){
+    return `${item.libro} ${item.capitulo}`;
 }
