@@ -10,7 +10,7 @@ let devocionalActual = null;
 /************************************************
  * INICIAR APLICACIÓN
  ************************************************/
-let devocionalActual = null;
+
 window.addEventListener("DOMContentLoaded", iniciarAplicacion);
 
 
