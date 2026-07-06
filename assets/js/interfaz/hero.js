@@ -11,7 +11,7 @@ function crearHero() {
     <img
         src="assets/img/hero.png"
         class="hero-imagen"
-        alt="Caminando con Dios">
+        alt="${CONFIG.APP.nombre}"
     <div class="hero-overlay">
 
         <div class="hero-contenido">
