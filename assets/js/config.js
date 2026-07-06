@@ -36,7 +36,7 @@ const CONFIG = {
         mostrarComentarios:true,
         mostrarLecturaBiblica:true
     }
-};
+},
 YOUTUBE:{
     canal:"",
     video:"",
@@ -49,4 +49,4 @@ BIBLIA:{
     traduccion:"RVR1960",
     mostrarNumerosVersiculos:true,
     recordarUltimaLectura:true
-},
+};
