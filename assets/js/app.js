@@ -62,8 +62,15 @@ function construirAplicacion(devocional){
 function iniciarModulos(){
 
     iniciarHeader();
+
     iniciarNavegacion();
+
+    iniciarLectura();
+
     iniciarVideo();
+
+    iniciarComentarios();
+
     iniciarFooter();
 
 }
