@@ -105,3 +105,26 @@ const LIBROS_BIBLIA = {
     "Apocalipsis":"REV"
 
 };
+/************************************************
+ * OBTENER CÓDIGO
+ ************************************************/
+
+function obtenerCodigoLibro(nombre){
+    return LIBROS_BIBLIA[nombre] || null;
+}
+
+/************************************************
+ * EXISTE EL LIBRO
+ ************************************************/
+
+function existeLibro(nombre){
+    return nombre in LIBROS_BIBLIA;
+}
+
+/************************************************
+ * LISTA DE LIBROS
+ ************************************************/
+
+function obtenerLibros(){
+    return Object.keys(LIBROS_BIBLIA);
+}
