@@ -4,39 +4,25 @@
  ************************************************/
 
 function mostrarDevocional(devocional){
-
     const app = document.getElementById("app");
-
     app.innerHTML = `
-
 <div class="pagina">
-
     <!-- HERO -->
-
     <header>
-
         <img
             src="assets/img/hero.png"
             class="hero"
             alt="Portada">
 
         <section class="cabecera">
-
             <h1>Caminando con Dios | Biblia y Fe</h1>
-
             <p class="lema">
-
-                "Confía en Jehová con todo tu corazón,
+               "Confía en Jehová con todo tu corazón,
                 y no te apoyes en tu propia prudencia."
-
                 <br>
-
                 <strong>Proverbios 3:5-6</strong>
-
             </p>
-
         </section>
-
     </header>
 
     <!-- CONTENIDO -->
@@ -48,29 +34,20 @@ function mostrarDevocional(devocional){
         <main class="tarjeta">
 
             ${crearCabecera(devocional)}
-
             ${crearAcciones(devocional)}
-
             ${crearLecturas(devocional)}
-
             ${crearSeccion(
 
                 "📖",
 
                 "Enseñanza",
-
                 devocional["ENSEÑANZA"]
-
             )}
 
             ${crearSeccion(
-
                 "💡",
-
                 "Idea Central",
-
                 devocional["IDEA CENTRAL"]
-
             )}
 
             ${crearSeccion(
@@ -78,92 +55,53 @@ function mostrarDevocional(devocional){
                 "📚",
 
                 "Explicación",
-
                 devocional["EXPLICACION"]
-
             )}
 
             ${crearSeccion(
-
                 "❤️",
-
                 "Reflexión",
-
                 devocional["REFLEXION"]
-
             )}
-
             ${crearSeccion(
-
                 "❓",
-
                 "Preguntas",
-
                 devocional["PREGUNTAS"]
-
             )}
-
             ${crearSeccion(
-
                 "🙏",
-
                 "Oración",
-
                 devocional["ORACION"]
-
             )}
-
             ${crearPalabraVida(
-
-                devocional["PALABRA DE VIDA"]
-
+               devocional["PALABRA DE VIDA"]
             )}
-
         </main>
-
        <!-- PANEL DE LECTURA -->
-
 <aside
     class="panel-biblia oculto"
     id="panelBiblia">
-
     <div id="contenidoBiblia">
-
         <h2>
-
-            📖 Comenzar lectura bíblica
-
+           📖 Comenzar lectura bíblica
         </h2>
-
         <p>
-
             Antes de leer el devocional,
             dedica unos minutos a leer
             la Palabra de Dios.
 
         </p>
-
         <hr>
-
         <p>
 
             Selecciona uno de los capítulos
             correspondientes al día de hoy.
         </p>
         <div class="lista-capitulos">
-            <button class="capitulo">
-                📜 ${devocional["TEXTO A.T."]}
-            </button>
-            <button class="capitulo">
-                ✝️ ${devocional["TEXTO. N.T."]}
-            </button>
-        </div>
-        <button
-            class="btn cerrar-panel"
-            id="btnCerrarPanel">
-            ✕ Cerrar
-        </button>
-    </div>
+
+    ${crearListaCapitulos(devocional)}
+
+</div>
 </aside>
     </div>
 
@@ -179,21 +117,13 @@ function mostrarDevocional(devocional){
 function crearCabecera(devocional){
 
     return `
-
         <section class="cabecera-devocional">
-
             <div class="fecha">
-
                 📅 ${formatearFecha(devocional.FECHA)}
-
             </div>
-
             <h2 class="titulo">
-
                 ${devocional.TITULO || "Devocional Diario"}
-
             </h2>
-
         </section>
 
     `;
@@ -211,37 +141,26 @@ function crearCabecera(devocional){
 function crearAcciones(){
 
     return `
-
-        <section class="acciones">
-
+       <section class="acciones">
             <button
                 class="btn secundario"
                 id="btnAnterior">
-
                 ← Día anterior
-
             </button>
 
             <button
                 class="btn principal"
                 id="btnCalendario">
-
                 📅 Elegir día
-
             </button>
-
             <button
                 class="btn secundario"
                 id="btnSiguiente">
-
                 Día siguiente →
-
             </button>
-
         </section>
 
         <section class="acciones">
-
             <button
                 class="btn lectura"
                 id="btnLeerBiblia">
@@ -249,7 +168,6 @@ function crearAcciones(){
                 📖 Comenzar lectura bíblica
 
             </button>
-
         </section>
 
     `;
@@ -312,23 +230,14 @@ function crearSeccion(icono, titulo, texto){
 function crearPalabraVida(texto){
 
     return `
-
         <section class="palabra-vida">
-
             <h3>
-
                 ✨ Palabra de Vida
-
             </h3>
-
             <blockquote>
-
                 ${texto || ""}
-
             </blockquote>
-
         </section>
-
     `;
 
 }
@@ -340,20 +249,13 @@ function crearPalabraVida(texto){
 function formatearFecha(fecha){
 
     if(!fecha) return "";
-
     // Mantener la fecha local (no UTC)
     const f = new Date(fecha + "T00:00:00");
-
     return f.toLocaleDateString("es-ES",{
-
         weekday:"long",
-
         day:"numeric",
-
         month:"long",
-
         year:"numeric"
-
     });
 
 }
@@ -452,5 +354,47 @@ Solo estarán habilitados:
 Los días futuros permanecerán bloqueados
 hasta que llegue su fecha.`
     );
+
+}
+/************************************************
+ * LISTA DE CAPÍTULOS
+ ************************************************/
+
+function crearListaCapitulos(devocional){
+
+    let html="";
+
+    html+=crearBotonesCapitulo(
+        devocional["TEXTO A.T."],
+        "📜"
+    );
+
+    html+=crearBotonesCapitulo(
+        devocional["TEXTO. N.T."],
+        "✝️"
+    );
+
+    return html;
+
+}
+/************************************************
+ * BOTONES DE CAPÍTULOS
+ ************************************************/
+
+function crearBotonesCapitulo(texto,icono){
+
+    if(!texto) return "";
+
+    return `
+
+    <button
+        class="capitulo"
+        onclick="abrirReferencia('${texto}')">
+
+        ${icono} ${texto}
+
+    </button>
+
+    `;
 
 }
