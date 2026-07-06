@@ -19,12 +19,12 @@ const CONFIG = {
     },
 
     API:{
-        // Aquí irá la URL del Apps Script
+        // URL del Apps Script
         sheets:"",
-        // API Bíblica
+        // URL de la API Bíblica
         biblia:""
-
     },
+
     IDIOMA:{
         defecto:"es",
         automatico:true
@@ -36,16 +36,19 @@ const CONFIG = {
         mostrarComentarios:true,
         mostrarLecturaBiblica:true
     },
-YOUTUBE:{
-    canal:"",
-    video:"",
-    autoplay:false
-},
-BIBLIA:{
 
-    proveedor:"HelloAO",
-    idioma:"es",
-    traduccion:"RVR1960",
-    mostrarNumerosVersiculos:true,
-    recordarUltimaLectura:true
+    YOUTUBE:{
+        canal:"",
+        video:"",
+        autoplay:false
+    },
+
+    BIBLIA:{
+        proveedor:"HelloAO",
+        idioma:"es",
+        traduccion:"RVR1960",
+        mostrarNumerosVersiculos:true,
+        recordarUltimaLectura:true
+    }
+
 };
