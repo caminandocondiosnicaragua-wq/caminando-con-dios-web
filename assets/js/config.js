@@ -42,3 +42,11 @@ YOUTUBE:{
     video:"",
     autoplay:false
 },
+BIBLIA:{
+
+    proveedor:"HelloAO",
+    idioma:"es",
+    traduccion:"RVR1960",
+    mostrarNumerosVersiculos:true,
+    recordarUltimaLectura:true
+},
