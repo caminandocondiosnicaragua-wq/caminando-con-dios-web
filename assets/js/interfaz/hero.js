@@ -23,12 +23,12 @@ function crearHero() {
             </h2>
 
             <p class="hero-versiculo">
-                "Confía en Jehová con todo tu corazón,
-                y no te apoyes en tu propia prudencia."
-            </p>
-            <span>
-                Proverbios 3:5-6
-            </span>
+    "${CONFIG.APP.versiculo}"
+</p>
+<span class="hero-cita">
+    ${CONFIG.APP.cita}
+</span>
+
         </div>
     </div>
 </section>
