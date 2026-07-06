@@ -121,55 +121,50 @@ function mostrarDevocional(devocional){
 
         </main>
 
-        <!-- PANEL DERECHO -->
+       <!-- PANEL DE LECTURA -->
 
-        <aside class="panel-biblia">
+<aside
+    class="panel-biblia oculto"
+    id="panelBiblia">
 
-            <h2>
+    <div id="contenidoBiblia">
 
-                📖 Leer los capítulos
+        <h2>
 
-            </h2>
+            📖 Comenzar lectura bíblica
 
-            <div id="contenidoBiblia">
+        </h2>
 
-                <p>
+        <p>
 
-                    Selecciona una lectura para
-                    visualizar aquí el capítulo completo.
+            Antes de leer el devocional,
+            dedica unos minutos a leer
+            la Palabra de Dios.
 
-                </p>
+        </p>
 
-                <hr>
+        <hr>
 
-                <h3>
+        <p>
 
-                    Antiguo Testamento
-
-                </h3>
-
-                <p>
-
-                    ${devocional["TEXTO A.T."]}
-
-                </p>
-
-                <h3>
-
-                    Nuevo Testamento
-
-                </h3>
-
-                <p>
-
-                    ${devocional["TEXTO. N.T."]}
-
-                </p>
-
-            </div>
-
-        </aside>
-
+            Selecciona uno de los capítulos
+            correspondientes al día de hoy.
+        </p>
+        <div class="lista-capitulos">
+            <button class="capitulo">
+                📜 ${devocional["TEXTO A.T."]}
+            </button>
+            <button class="capitulo">
+                ✝️ ${devocional["TEXTO. N.T."]}
+            </button>
+        </div>
+        <button
+            class="btn cerrar-panel"
+            id="btnCerrarPanel">
+            ✕ Cerrar
+        </button>
+    </div>
+</aside>
     </div>
 
 </div>
