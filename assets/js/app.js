@@ -24,10 +24,19 @@ async function iniciarAplicacion(){
         construirAplicacion(devocionalActual);
         iniciarModulos();
     }
-    catch(error){
-        console.error(error);
-        mostrarError();
-    }
+   catch(error){
+
+    alert(
+        error.name +
+        "\n\n" +
+        error.message
+    );
+
+    console.error(error);
+
+    mostrarError();
+
+}
     finally{
 
         ocultarLoader();
