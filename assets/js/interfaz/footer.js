@@ -11,16 +11,7 @@ function crearFooter(){
 
     <div class="footer-contenedor">
 
-        <div class="footer-logo">
-
-            <img
-                src="assets/img/logo.png"
-                alt="${CONFIG.APP.nombre}"
-                class="footer-logo-img">
-
-            <div>
-
-                <h3>
+                   <h3>
 
                     ${CONFIG.APP.nombre}
 
@@ -33,8 +24,6 @@ function crearFooter(){
                 </p>
 
             </div>
-
-        </div>
 
         <div class="footer-enlaces">
 
