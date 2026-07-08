@@ -43,21 +43,7 @@ function crearFooter(){
 
         </div>
 
-        <div class="footer-contacto">
-
-            <h4>
-
-                Ministerio
-
-            </h4>
-
-            <p>
-
-                Compartiendo diariamente la Palabra de Dios.
-
-            </p>
-
-            <div class="footer-redes">
+              <div class="footer-redes">
 
                 <button
                     class="btn-red-social"
@@ -68,8 +54,6 @@ function crearFooter(){
                 </button>
 
             </div>
-
-        </div>
 
     </div>
 
