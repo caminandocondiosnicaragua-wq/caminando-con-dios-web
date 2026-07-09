@@ -206,7 +206,7 @@ BANNER
 
 .hero{
     position:relative;
-    height:clamp(140px,20vw,240px);
+    height:clamp(140px,20vw,220px);
     overflow:hidden;
     border-radius:0 0 24px 24px;
 }
