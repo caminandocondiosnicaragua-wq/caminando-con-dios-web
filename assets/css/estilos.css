@@ -402,6 +402,18 @@ BOTONES
 }
 
 /*==============================
+CONTENEDOR
+(da margenes a los lados de todo
+el contenido, excepto la portada)
+==============================*/
+
+.contenedor{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 20px;
+}
+
+/*==============================
 LECTURAS
 ==============================*/
 
@@ -735,6 +747,11 @@ PANEL DE LECTURA BÍBLICA
 
     margin-top:20px;
 
+}
+@media(max-width:600px){
+    .lecturas{
+        grid-template-columns:1fr;
+    }
 }
 @media(max-width:900px){
     .btn-menu{
