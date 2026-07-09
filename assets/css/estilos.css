@@ -205,8 +205,8 @@ BANNER
 ==============================*/
 
 .hero{
-    width:100%;
-    height:clamp(220px,35vw,420px);
+    position:relative;
+    height:clamp(180px,28vw,320px);
     overflow:hidden;
     border-radius:0 0 24px 24px;
 }
@@ -215,9 +215,22 @@ BANNER
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:center;
 }
+.hero-overlay{
 
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.30);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+}
+.hero-contenido{
+    color:white;
+
+}
 /*==============================
 CABECERA
 ==============================*/
