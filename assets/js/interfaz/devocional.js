@@ -14,9 +14,8 @@ function crearDevocional(devocional){
 <section class="devocional">
 
     ${crearCabecera(devocional)}
-
+    ${crearLecturas(devocional)}
     ${crearAcciones(devocional)}
-
     ${crearContenido(devocional)}
 
 </section>
@@ -54,6 +53,28 @@ function crearCabecera(devocional){
 
 }
 
+/************************************************
+ * LECTURAS BÍBLICAS
+ ************************************************/
+
+function crearLecturas(devocional){
+    return `
+<section class="lecturas-biblicas">
+    <div class="lectura-item">
+        <strong>📖 Antiguo Testamento</strong>
+        <p>
+            ${devocional["TEXTO A.T."] || ""}
+        </p>
+    </div>
+    <div class="lectura-item">
+        <strong>📖 Nuevo Testamento</strong>
+        <p>
+            ${devocional["TEXTO. N.T."] || ""}
+        </p>
+    </div>
+</section>
+`;
+}
 
 /************************************************
  * CONTENIDO COMPLETO
