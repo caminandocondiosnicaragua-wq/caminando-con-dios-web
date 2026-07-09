@@ -37,20 +37,22 @@ function crearCabecera(devocional){
  ************************************************/
 function crearLecturas(devocional){
     return `
-<section class="lecturas-biblicas">
-    <div class="lectura-item">
-        <strong>📖 Antiguo Testamento</strong>
-        <p>
+<div class="lecturas">
+    <div class="lectura-card">
+        <div class="lectura-icono">📖</div>
+        <h3>Antiguo Testamento</h3>
+        <p class="cita">
             ${devocional["TEXTO A.T."] || ""}
         </p>
     </div>
-    <div class="lectura-item">
-        <strong>📖 Nuevo Testamento</strong>
-        <p>
+    <div class="lectura-card">
+        <div class="lectura-icono">📖</div>
+        <h3>Nuevo Testamento</h3>
+        <p class="cita">
             ${devocional["TEXTO. N.T."] || ""}
         </p>
     </div>
-</section>
+</div>
 `;
 }
 /************************************************
