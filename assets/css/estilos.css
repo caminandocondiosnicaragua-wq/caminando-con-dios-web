@@ -56,29 +56,22 @@ body{
     sans-serif;
 
     color:var(--texto);
-
     background:
-
     linear-gradient(
-
         180deg,
-
         var(--azul-1) 0%,
-
         var(--azul-2) 35%,
-
         var(--azul-3) 70%,
-
         var(--azul-4) 100%
 
     );
-
     min-height:100vh;
-
     line-height:1.7;
+}
+body{
+    padding-top:84px;
 
 }
-
 img{
 
     display:block;
@@ -120,75 +113,52 @@ LOADER
 }
 
 /*==============================
-BARRA SUPERIOR
+HEADER
 ==============================*/
 
-.navbar{
-
+.header{
     position:fixed;
-
     top:0;
-
     left:0;
-
     width:100%;
+    z-index:9999;
+    background:rgba(8,17,29,.75);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    box-shadow:0 8px 25px rgba(0,0,0,.30);
+}
 
+.header-contenedor{
+    max-width:1400px;
+    margin:auto;
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
-    padding:16px 38px;
-
-    background:rgba(8,16,30,.38);
-
-    backdrop-filter:blur(18px);
-
-    -webkit-backdrop-filter:blur(18px);
-
-    border-bottom:
-
-    1px solid var(--borde);
-
-    z-index:999;
-
+    padding:12px 30px;
 }
 
 .logo-area{
-
     display:flex;
-
     align-items:center;
-
-    gap:15px;
-
+    gap:16px;
 }
 
 .logo{
-
-    width:58px;
-
-    height:58px;
-
-    object-fit:contain;
-
+    width:56px;
+    height:56px;
 }
 
-.logo-area h2{
-
+.titulo-area h1{
     color:white;
-
-    font-size:24px;
-
+    font-size:20px;
+    margin:0;
 }
 
-.logo-area span{
-
-    color:var(--texto-sec);
-
+.titulo-area p{
+    color:#d7e4f4;
+    margin-top:4px;
     font-size:14px;
-
 }
 
 /*==============================
@@ -196,31 +166,26 @@ MENU
 ==============================*/
 
 .menu{
-
     display:flex;
-
-    list-style:none;
-
-    gap:30px;
-
+    align-items:center;
+    gap:26px;
 }
-
 .menu a{
-
     color:white;
-
     font-weight:600;
-
     transition:.25s;
-
 }
-
 .menu a:hover{
-
     color:var(--dorado);
-
 }
-
+.btn-menu{
+    display:none;
+    background:none;
+    border:none;
+    color:white;
+    font-size:28px;
+    cursor:pointer;
+}
 /*==============================
 PAGINA
 ==============================*/
@@ -240,15 +205,17 @@ BANNER
 ==============================*/
 
 .hero{
-
     width:100%;
+    height:clamp(220px,35vw,420px);
+    overflow:hidden;
+    border-radius:0 0 24px 24px;
+}
 
-    height:180px;
-
+.hero img{
+    width:100%;
+    height:100%;
     object-fit:cover;
-
     object-position:center;
-
 }
 
 /*==============================
@@ -967,4 +934,23 @@ PANEL DE LECTURA BÍBLICA
 
     margin-top:20px;
 
+}
+@media(max-width:900px){
+    .btn-menu{
+        display:block;
+    }
+    .menu{
+        display:none;
+    }
+    .menu.activo{
+        display:flex;
+        flex-direction:column;
+        position:absolute;
+        top:100%;
+        left:0;
+        width:100%;
+        background:#102238;
+        padding:20px;
+       gap:18px;
+    }
 }
