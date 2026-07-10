@@ -772,3 +772,46 @@ PANEL DE LECTURA BÍBLICA
        gap:18px;
     }
 }
+/* ============================================
+   AGREGAR ESTO AL FINAL DE TU estilos.css ACTUAL
+   (no borres nada de lo que ya tienes)
+   ============================================ */
+
+/*==============================
+DONACIÓN (FOOTER)
+==============================*/
+
+.footer-donacion{
+    text-align:center;
+    padding:24px 20px;
+    margin:20px 0;
+    background:rgba(212,175,55,.10);
+    border-top:1px solid rgba(212,175,55,.30);
+    border-bottom:1px solid rgba(212,175,55,.30);
+}
+
+.footer-donacion p{
+    color:#f5d87c;
+    font-size:16px;
+    margin-bottom:14px;
+}
+
+.btn-donar{
+    display:inline-block;
+    background:linear-gradient(
+        135deg,
+        #8d6d18,
+        #d4af37
+    );
+    color:#10233f;
+    font-weight:700;
+    font-size:16px;
+    padding:14px 28px;
+    border-radius:14px;
+    transition:.25s;
+}
+
+.btn-donar:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(212,175,55,.35);
+}
