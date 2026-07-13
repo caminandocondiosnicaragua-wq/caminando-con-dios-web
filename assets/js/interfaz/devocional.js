@@ -24,7 +24,7 @@ function crearCabecera(devocional){
     return `
 <header class="cabecera-devocional">
     <h2 class="titulo-devocional">
-        ${devocional.TITULO || "Devocional Diario"}
+        ${devocional["TíTULO"] || "Devocional Diario"}
     </h2>
     <div class="fecha">
         📅 ${formatearFecha(devocional.FECHA)}
