@@ -11,6 +11,7 @@ function crearDevocional(devocional){
 <section class="devocional">
     ${crearCabecera(devocional)}
     ${crearAcciones(devocional)}
+    ${crearMultimedia(devocional)}
     ${crearLecturas(devocional)}
     ${crearContenido(devocional)}
 </section>
@@ -30,6 +31,52 @@ function crearCabecera(devocional){
         📅 ${formatearFecha(devocional.FECHA)}
     </div>
 </header>
+`;
+}
+/************************************************
+ * MULTIMEDIA
+ ************************************************/
+function crearMultimedia(devocional){
+
+    const imagen = devocional.IMAGEN || "";
+
+    const audio = devocional.AUDIO || "";
+
+    // Si no existe ninguno, no mostrar nada
+    if(!imagen && !audio){
+        return "";
+    }
+
+    return `
+<section class="multimedia-devocional">
+
+    ${
+        imagen
+        ? `
+        <div class="imagen-devocional">
+            <img
+                src="${imagen}"
+                alt="Imagen del devocional"
+                loading="lazy">
+        </div>
+        `
+        : ""
+    }
+
+    ${
+        audio
+        ? `
+        <div class="audio-devocional">
+            <audio controls preload="none">
+                <source src="${audio}" type="audio/mpeg">
+                Tu navegador no soporta audio.
+            </audio>
+        </div>
+        `
+        : ""
+    }
+
+</section>
 `;
 }
 /************************************************
