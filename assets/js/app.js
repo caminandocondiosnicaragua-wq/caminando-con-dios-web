@@ -13,6 +13,7 @@ async function iniciarAplicacion(){
     try{
         // Obtener el devocional desde la API
         devocionalActual = await obtenerDevocionalHoy();
+        console.log(devocionalActual);
         construirAplicacion(devocionalActual);
         iniciarModulos();
     }
