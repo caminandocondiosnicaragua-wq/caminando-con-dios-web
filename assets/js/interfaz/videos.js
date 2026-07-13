@@ -1,26 +1,30 @@
 /************************************************
  * CAMINANDO CON DIOS
- * VIDEO DEL DÍA
+ * VIDEO DEL DEVOCIONAL
  ************************************************/
 
-function crearVideo(){
+/************************************************
+ * CREAR VIDEO
+ ************************************************/
+function crearVideo(devocional){
+
+    const videoID = devocional["ID VIDEO"] || "";
+
+    if(!videoID){
+        return "";
+    }
 
     return `
-
 <section class="video-devocional">
 
     <div class="video-cabecera">
 
         <h2>
-
             🎥 Reflexión en Video
-
         </h2>
 
         <p>
-
             Complementa el devocional con esta enseñanza.
-
         </p>
 
     </div>
@@ -28,13 +32,10 @@ function crearVideo(){
     <div class="video-contenedor">
 
         <iframe
-
             id="youtubeVideo"
-
-            src=""
-
+            src="https://www.youtube.com/embed/${videoID}"
             title="Video del Día"
-
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
 
         </iframe>
@@ -62,23 +63,30 @@ function crearVideo(){
     </div>
 
 </section>
-
 `;
 
 }
+
 /************************************************
  * INICIAR VIDEO
  ************************************************/
+function iniciarVideo(devocional){
 
-function iniciarVideo(){
+    const videoID = devocional["ID VIDEO"] || "";
 
-    const botonVideo=document.getElementById("btnVerYoutube");
+    const botonVideo =
+        document.getElementById("btnVerYoutube");
 
-    const botonCanal=document.getElementById("btnCanal");
+    const botonCanal =
+        document.getElementById("btnCanal");
 
     if(botonVideo){
 
-        botonVideo.addEventListener("click",abrirVideoYoutube);
+        botonVideo.addEventListener("click",()=>{
+
+            abrirVideoYoutube(videoID);
+
+        });
 
     }
 
@@ -89,13 +97,13 @@ function iniciarVideo(){
     }
 
 }
+
 /************************************************
- * ABRIR VIDEO
+ * ABRIR VIDEO EN YOUTUBE
  ************************************************/
+function abrirVideoYoutube(videoID){
 
-function abrirVideoYoutube(){
-
-    if(!CONFIG.YOUTUBE.video){
+    if(!videoID){
 
         return;
 
@@ -103,17 +111,17 @@ function abrirVideoYoutube(){
 
     window.open(
 
-        CONFIG.YOUTUBE.video,
+        `https://www.youtube.com/watch?v=${videoID}`,
 
         "_blank"
 
     );
 
 }
+
 /************************************************
  * ABRIR CANAL
  ************************************************/
-
 function abrirCanalYoutube(){
 
     if(!CONFIG.YOUTUBE.canal){
@@ -129,20 +137,5 @@ function abrirCanalYoutube(){
         "_blank"
 
     );
-
-}
-/************************************************
- * CARGAR VIDEO
- ************************************************/
-
-function cargarVideo(videoID){
-
-    const iframe=document.getElementById("youtubeVideo");
-
-    if(!iframe) return;
-
-    iframe.src=
-
-`https://www.youtube.com/embed/${videoID}`;
 
 }
