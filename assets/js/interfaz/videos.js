@@ -8,7 +8,12 @@
  ************************************************/
 function crearVideo(devocional){
 
-    const videoID = devocional["ID VIDEO"] || "";
+   /* const videoID = devocional["ID VIDEO"] || "";*/
+
+    const videoID = (devocional["ID VIDEO"] || "").trim();
+
+    console.log(videoID);
+    console.log(videoID.length);
 
     if(!videoID){
         return "";
