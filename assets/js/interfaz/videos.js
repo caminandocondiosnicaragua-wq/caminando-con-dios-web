@@ -8,7 +8,14 @@
  ************************************************/
 function crearVideo(devocional){
 
-    const videoID = devocional["ID VIDEO"] || "";
+    if(!devocional){
+        console.error("crearVideo recibió un devocional undefined");
+        return "";
+    }
+
+    const videoID = String(devocional["ID VIDEO"] || "").trim();
+
+    console.log("ID VIDEO:", videoID);
 
     if(!videoID){
         return "";
@@ -71,6 +78,10 @@ function crearVideo(devocional){
  * INICIAR VIDEO
  ************************************************/
 function iniciarVideo(devocional){
+
+    if(!devocional){
+        return;
+    }
 
     const videoID = devocional["ID VIDEO"] || "";
 
