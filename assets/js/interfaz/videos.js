@@ -10,10 +10,14 @@ function crearVideo(devocional){
 
    /* const videoID = devocional["ID VIDEO"] || "";*/
 
-    const videoID = (devocional["ID VIDEO"] || "").trim();
+    if(!devocional){
+        console.error("crearVideo recibió un devocional undefined");
+        return "";
+    }
 
-    console.log(videoID);
-    console.log(videoID.length);
+    const videoID = String(devocional["ID VIDEO"] || "").trim();
+
+    console.log("ID VIDEO:", videoID);
 
     if(!videoID){
         return "";
