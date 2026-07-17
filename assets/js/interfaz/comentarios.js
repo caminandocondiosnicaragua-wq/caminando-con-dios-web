@@ -197,8 +197,8 @@ catch(error){
 
         "No fue posible enviar el comentario."
 
-    );
-
+        );
+    }
 }
 /************************************************
  * MOSTRAR COMENTARIOS
