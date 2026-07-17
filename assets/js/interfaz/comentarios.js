@@ -127,6 +127,9 @@ function publicarComentario(){
 
     }
 
+    console.log(devocionalActual);
+    console.log(devocionalActual["ID NOTION"]);
+    
     const datos={
 
         nombre:nombre,
