@@ -143,10 +143,9 @@ async function publicarComentario(){
             devocionalActual["ID NOTION"]
 
     };
+try{
 
-  try{
-
-    const respuesta = await fetch(URL_API,{
+    const respuesta = await fetch(API_URL,{
 
         method:"POST",
 
@@ -196,13 +195,9 @@ catch(error){
 
     alert(
 
-        "No fue posible enviar el comentario.\n" +
-
-        "Verifique su conexión."
+        "No fue posible enviar el comentario."
 
     );
-
-}
 
 }
 /************************************************
