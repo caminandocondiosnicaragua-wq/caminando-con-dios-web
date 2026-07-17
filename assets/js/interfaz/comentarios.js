@@ -85,16 +85,31 @@ function iniciarComentarios(){
 /************************************************
  * PUBLICAR
  ************************************************/
-
 function publicarComentario(){
 
-    const nombre = document.getElementById("txtNombre").value.trim();
+    const nombre =
 
-    const comentario = document.getElementById("txtComentario").value.trim();
+        document.getElementById(
+
+            "txtNombre"
+
+        ).value.trim();
+
+    const comentario =
+
+        document.getElementById(
+
+            "txtComentario"
+
+        ).value.trim();
 
     if(nombre===""){
 
-        alert("Ingrese su nombre.");
+        alert(
+
+            "Ingrese su nombre."
+
+        );
 
         return;
 
@@ -102,27 +117,31 @@ function publicarComentario(){
 
     if(comentario===""){
 
-        alert("Escriba un comentario.");
+        alert(
+
+            "Escriba un comentario."
+
+        );
 
         return;
 
     }
 
-    console.log({
+    const datos={
+
+        nombre:nombre,
+
+        comentario:comentario,
 
         fecha:devocionalActual.FECHA,
 
-        nombre,
+        idDevocional:
 
-        comentario
+            devocionalActual["ID NOTION"]
 
-    });
+    };
 
-    alert(
-
-        "Gracias por compartir tu comentario."
-
-    );
+    console.log(datos);
 
 }
 /************************************************
