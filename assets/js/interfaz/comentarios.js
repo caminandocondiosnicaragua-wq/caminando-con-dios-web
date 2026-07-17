@@ -85,7 +85,7 @@ function iniciarComentarios(){
 /************************************************
  * PUBLICAR
  ************************************************/
-function publicarComentario(){
+async function publicarComentario(){
 
     const nombre =
 
@@ -144,7 +144,65 @@ function publicarComentario(){
 
     };
 
-    console.log(datos);
+  try{
+
+    const respuesta = await fetch(URL_API,{
+
+        method:"POST",
+
+        headers:{
+
+            "Content-Type":"application/json"
+
+        },
+
+        body:JSON.stringify(datos)
+
+    });
+
+    const resultado =
+
+        await respuesta.json();
+
+    if(resultado.ok){
+
+        limpiarFormularioComentario();
+
+        alert(
+
+            "Gracias por compartir tu comentario.\n\n" +
+
+            "Será revisado antes de publicarse."
+
+        );
+
+    }
+
+    else{
+
+        alert(
+
+            resultado.mensaje
+
+        );
+
+    }
+
+}
+
+catch(error){
+
+    console.error(error);
+
+    alert(
+
+        "No fue posible enviar el comentario.\n" +
+
+        "Verifique su conexión."
+
+    );
+
+}
 
 }
 /************************************************
