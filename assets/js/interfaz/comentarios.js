@@ -145,13 +145,21 @@ async function publicarComentario(){
     };
 try{
 
+    // IMPORTANTE (CORS):
+    // Se usa "text/plain" en lugar de "application/json" para que el
+    // navegador NO envíe una petición "preflight" OPTIONS. Google Apps
+    // Script no responde correctamente al preflight (no incluye el
+    // header Access-Control-Allow-Origin), por lo que "application/json"
+    // provocaba el bloqueo por política CORS. Con "text/plain" la
+    // petición se considera "simple" y se envía directamente como POST.
+    // El body sigue siendo JSON (Apps Script lo lee con JSON.parse).
     const respuesta = await fetch(API_URL,{
 
         method:"POST",
 
         headers:{
 
-            "Content-Type":"application/json"
+            "Content-Type":"text/plain;charset=utf-8"
 
         },
 
