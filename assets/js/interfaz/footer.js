@@ -38,8 +38,8 @@ function crearFooter(){
 
     <div class="footer-donacion">
         <p>
-            💛 ¿Este devocional bendice tu vida?
-            Considera apoyar este ministerio.
+            💛  Gracias por caminar con nosotros.
+Comparte este mensaje, ora por este ministerio o contribuye con una donación voluntaria.
         </p>
         <a
             href="https://www.paypal.com/paypalme/CaminandoconDiosNic"
