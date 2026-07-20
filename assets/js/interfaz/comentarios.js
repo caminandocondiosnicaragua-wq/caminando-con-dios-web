@@ -128,7 +128,7 @@ async function publicarComentario(){
     }
 
     console.log(devocionalActual);
-    console.log(devocionalActual["ID NOTION"]);
+    console.log(devocionalActual["ID DEVOCIONAL"]);
     
     const datos={
 
@@ -140,9 +140,14 @@ async function publicarComentario(){
 
         idDevocional:
 
-            devocionalActual["ID NOTION"]
+            devocionalActual["ID DEVOCIONAL"]
 
     };
+    console.log("DEVOCIONAL ACTUAL");
+    console.log(devocionalActual);
+
+    console.log("DATOS A ENVIAR");
+    console.log(datos);
 try{
 
     const respuesta = await fetch(API_URL,{
