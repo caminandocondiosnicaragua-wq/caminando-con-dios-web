@@ -7,38 +7,9 @@
 /************************************************
  * BOTONES
  ************************************************/
-
 function crearAcciones(devocional){
 
     return `
-
-<section class="acciones">
-
-    <button
-        class="btn secundario"
-        id="btnAnterior">
-
-        ← Día anterior
-
-    </button>
-
-    <button
-        class="btn principal"
-        id="btnCalendario">
-
-        📅 Elegir día
-
-    </button>
-
-    <button
-        class="btn secundario"
-        id="btnSiguiente">
-
-        Día siguiente →
-
-    </button>
-
-</section>
 
 <section class="acciones">
 
@@ -49,9 +20,9 @@ function crearAcciones(devocional){
     </button>
 
 </section>
+
 `;
 }
-
 
 /************************************************
  * ACTIVAR NAVEGACIÓN
