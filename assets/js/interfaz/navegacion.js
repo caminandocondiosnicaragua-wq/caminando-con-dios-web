@@ -75,11 +75,20 @@ function activarCalendario(){
 /************************************************
  * MODO LECTURA
  ************************************************/
-
 function activarModoLectura(){
+
     const boton = document.getElementById("btnLectura");
+
     if(!boton) return;
-    boton.addEventListener("click",()=>{
+
+    boton.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        console.log("CLICK LECTURA");
+
         abrirModoLectura();
+
     });
+
 }
