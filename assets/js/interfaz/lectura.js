@@ -7,7 +7,23 @@ let lecturaActiva = false;
 
 let scrollAnterior = 0;
 
+/************************************************
+ * ESTADO DEL LECTOR BÍBLICO
+ ************************************************/
 
+let lecturaActual = {
+
+    lecturas: [],
+
+    indiceLectura: 0,
+
+    libro: "",
+
+    capitulos: [],
+
+    indiceCapitulo: 0
+
+};
 /************************************************
  * ABRIR MODO LECTURA
  ************************************************/
