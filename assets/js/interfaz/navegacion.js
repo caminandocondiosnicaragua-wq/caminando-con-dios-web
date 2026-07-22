@@ -11,15 +11,15 @@ function crearAcciones(devocional){
 
     return `
 
-<section class="acciones">
+<button
+    type="button"
+    class="btn lectura"
+    id="btnLectura"
+    onclick="alert('LECTURA')">
 
-    <button
-        class="btn lectura"
-        id="btnLectura">
-        📖 Comenzar lectura bíblica
-    </button>
+    📖 Comenzar lectura bíblica
 
-</section>
+</button>
 
 `;
 }
