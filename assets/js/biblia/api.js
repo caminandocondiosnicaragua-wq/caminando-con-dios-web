@@ -55,17 +55,13 @@ async function obtenerDevocionalHoy() {
  ************************************************/
 
 /************************************************
- * OBTENER CAPÍTULO
+ * OBTENER CAPÍTULO DE LA BIBLIA
  ************************************************/
 
 async function obtenerCapituloBiblia(
-
     libro,
-
     capitulo,
-
     version = CONFIG.BIBLIA.traduccion
-
 ){
 
     const url =
@@ -92,6 +88,18 @@ async function obtenerCapituloBiblia(
 
     }
 
-    return await respuesta.json();
+    const datos = await respuesta.json();
+
+    if(datos.error){
+
+        throw new Error(
+
+            datos.mensaje || "La API devolvió un error."
+
+        );
+
+    }
+
+    return datos;
 
 }
