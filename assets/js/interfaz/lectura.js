@@ -58,7 +58,10 @@ function abrirModoLectura(){
  ************************************************/
 
 function mostrarPantallaLectura(){
-
+   
+    if(document.getElementById("modoLectura")){
+    return;
+}
     const app = document.getElementById("app");
 
     const pantalla = document.createElement("section");
@@ -170,47 +173,64 @@ function cerrarModoLectura(){
  * LISTA DE CAPÍTULOS
  ************************************************/
 
+/************************************************
+ * LISTA DE CAPÍTULOS
+ ************************************************/
+
 function mostrarCapitulos(lista){
 
-    const contenedor=document.getElementById("listaCapitulos");
+    const contenedor = document.getElementById("listaCapitulos");
 
     if(!contenedor) return;
 
-    contenedor.innerHTML="";
+    contenedor.innerHTML = "";
 
-lista.forEach(function(item){
+    lista.forEach(function(item){
 
-    contenedor.innerHTML += `
+        contenedor.innerHTML += `
 
-        <button
-            class="btn-capitulo"
-            data-libro="${item.codigo}"
-            data-capitulo="${item.capitulo}">
+            <button
+                class="btn-capitulo"
+                data-libro="${item.codigo}"
+                data-capitulo="${item.capitulo}">
 
-            ${item.libro} ${item.capitulo}
+                ${item.libro} ${item.capitulo}
 
-        </button>
+            </button>
 
-    `;
-
-});
-const botones = contenedor.querySelectorAll(".btn-capitulo");
-
-botones.forEach(function(boton){
-
-    boton.addEventListener("click", function(){
-
-        console.log(
-
-            boton.dataset.libro,
-
-            boton.dataset.capitulo
-
-        );
+        `;
 
     });
 
-});
+    const botones = contenedor.querySelectorAll(".btn-capitulo");
+
+    botones.forEach(function(boton){
+
+        boton.addEventListener("click", async function(){
+
+            const libro = boton.dataset.libro;
+
+            const capitulo = Number(
+                boton.dataset.capitulo
+            );
+
+            console.log(
+                "Libro:",
+                libro
+            );
+
+            console.log(
+                "Capítulo:",
+                capitulo
+            );
+
+            // Próximo paso:
+            // obtenerCapituloBiblia(libro, capitulo);
+
+        });
+
+    });
+
 }
 /************************************************
  * MOSTRAR CAPÍTULO
