@@ -1,5 +1,3 @@
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxpCZ00WGFhINXrmOEs2NmVWOXIw_-_mmO0Da_XGfrWzLzuZyki2kzercmR14I7HlkNAw/exec";
 
 /************************************************
  * Devuelve la fecha de HOY en formato "AAAA-MM-DD",
@@ -26,7 +24,7 @@ function obtenerFechaHoyTexto() {
  * Obtiene el devocional de HOY (no todos los días)
  ***********************************************/
 async function obtenerDevocionalHoy() {
-    const respuesta = await fetch(API_URL);
+    const respuesta = await fetch(CONFIG.API.url);
     if (!respuesta.ok) {
         throw new Error("No fue posible conectar con la API.");
     }
@@ -49,4 +47,51 @@ async function obtenerDevocionalHoy() {
     }
 
     return devocionalDeHoy;
+}
+
+/************************************************
+ * CAMINANDO CON DIOS
+ * API BÍBLICA
+ ************************************************/
+
+/************************************************
+ * OBTENER CAPÍTULO
+ ************************************************/
+
+async function obtenerCapituloBiblia(
+
+    libro,
+
+    capitulo,
+
+    version = CONFIG.BIBLIA.traduccion
+
+){
+
+    const url =
+
+        CONFIG.API.url +
+
+        "?accion=capitulo" +
+
+        "&biblia=" + encodeURIComponent(libro) +
+
+        "&capitulo=" + encodeURIComponent(capitulo) +
+
+        "&version=" + encodeURIComponent(version);
+
+    const respuesta = await fetch(url);
+
+    if(!respuesta.ok){
+
+        throw new Error(
+
+            "No fue posible consultar la API Bíblica."
+
+        );
+
+    }
+
+    return await respuesta.json();
+
 }
