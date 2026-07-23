@@ -30,9 +30,19 @@ let lecturaActual = {
 
 function abrirModoLectura(){
 
+    // Evitar abrir varias veces el lector
+    if(document.getElementById("modoLectura")){
+        return;
+    }
+
     scrollAnterior = window.scrollY;
 
     lecturaActiva = true;
+
+    // Obtener todas las lecturas del día
+    lecturaActual.lecturas = obtenerCapitulosDelDia(devocionalActual);
+
+    lecturaActual.indiceLectura = 0;
 
     const devocional = document.querySelector(".devocional");
 
@@ -102,9 +112,12 @@ function mostrarPantallaLectura(){
 
     `;
 
-    app.appendChild(pantalla);
+  app.appendChild(pantalla);
 
-    iniciarModoLectura();
+// Mostrar los capítulos del día
+mostrarCapitulos(lecturaActual.lecturas);
+
+iniciarModoLectura();
 
 }
 /************************************************
@@ -165,21 +178,39 @@ function mostrarCapitulos(lista){
 
     contenedor.innerHTML="";
 
-    lista.forEach(capitulo=>{
+lista.forEach(function(item){
 
-        contenedor.innerHTML+=`
+    contenedor.innerHTML += `
 
-            <button
-                class="btn-capitulo">
+        <button
+            class="btn-capitulo"
+            data-libro="${item.codigo}"
+            data-capitulo="${item.capitulo}">
 
-                ${capitulo}
+            ${item.libro} ${item.capitulo}
 
-            </button>
+        </button>
 
-        `;
+    `;
+
+});
+const botones = contenedor.querySelectorAll(".btn-capitulo");
+
+botones.forEach(function(boton){
+
+    boton.addEventListener("click", function(){
+
+        console.log(
+
+            boton.dataset.libro,
+
+            boton.dataset.capitulo
+
+        );
 
     });
 
+});
 }
 /************************************************
  * MOSTRAR CAPÍTULO
