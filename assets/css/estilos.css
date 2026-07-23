@@ -890,3 +890,122 @@ MULTIMEDIA
     width:100%;
 
 }
+
+/************************************************
+ * LECTOR BÍBLICO
+ ************************************************/
+
+.modo-lectura{
+
+    max-width:900px;
+
+    margin:40px auto;
+
+    padding:30px;
+
+    background:#10233B;
+
+    border-radius:18px;
+
+    border:1px solid rgba(212,175,55,.25);
+
+}
+
+.lectura-contenedor h2{
+
+    color:#F5F7FA;
+
+    margin-bottom:10px;
+
+}
+
+.lectura-contenedor p{
+
+    color:#D7DDE5;
+
+    line-height:1.6;
+
+}
+
+.grupo-lectura{
+
+    margin-top:35px;
+
+}
+
+.grupo-lectura h3{
+
+    color:#D4AF37;
+
+    margin-bottom:15px;
+
+    font-size:22px;
+
+    border-bottom:1px solid rgba(212,175,55,.25);
+
+    padding-bottom:10px;
+
+}
+
+.tarjeta-capitulo{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    margin-bottom:14px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#18304D;
+
+    color:#F5F7FA;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.tarjeta-capitulo:hover{
+
+    background:#D4AF37;
+
+    color:#0D1B2A;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
+
+}
+
+.tarjeta-capitulo span:last-child{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+#textoBiblico{
+    margin-top:35px;
+    padding:30px;
+    background:#0D1B2A;
+    border-radius:16px;
+    border:1px solid rgba(212,175,55,.25);
+    color:#F5F7FA;
+    line-height:1.9;
+    font-size:18px;
+}
