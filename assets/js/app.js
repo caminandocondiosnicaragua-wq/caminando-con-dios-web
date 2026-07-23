@@ -43,7 +43,7 @@ function construirAplicacion(devocional){
         ${crearHero()}
         <div class="contenedor">
             ${crearDevocional(devocional)}
-            ${CONFIG.DEVOCIONAL.mostrarVideo ? crearVideo() : ""}
+        
             ${CONFIG.DEVOCIONAL.mostrarComentarios ? crearComentarios() : ""}
         </div>
         ${crearFooter()}
@@ -56,7 +56,7 @@ function iniciarModulos(){
     iniciarHeader();
     iniciarNavegacion();
     activarModoLectura(); 
-    iniciarVideo();
+
     iniciarComentarios();
     iniciarFooter();
 }
