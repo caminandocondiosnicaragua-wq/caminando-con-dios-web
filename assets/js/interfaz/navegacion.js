@@ -14,7 +14,7 @@ function crearAcciones(devocional){
 <button
     type="button"
     class="btn lectura"
-    id="btnLectura"
+    id="btnLectura">
    
     📖 Comenzar lectura bíblica
 
