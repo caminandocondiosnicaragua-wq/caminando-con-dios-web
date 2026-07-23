@@ -176,51 +176,75 @@ function cerrarModoLectura(){
 /************************************************
  * LISTA DE CAPÍTULOS
  ************************************************/
-
 function mostrarCapitulos(lista){
-
     const contenedor = document.getElementById("listaCapitulos");
-
     if(!contenedor) return;
-
-    contenedor.innerHTML = "";
-
+    const ANTIGUO = [
+        "GEN","EXO","LEV","NUM","DEU",
+        "JOS","JDG","RUT",
+        "1SA","2SA","1KI","2KI",
+        "1CH","2CH",
+        "EZR","NEH","EST",
+        "JOB","PSA","PRO","ECC","SNG",
+        "ISA","JER","LAM","EZK","DAN",
+        "HOS","JOL","AMO","OBA","JON",
+        "MIC","NAM","HAB","ZEP",
+        "HAG","ZEC","MAL"
+    ];
+    const antiguo = [];
+    const nuevo = [];
     lista.forEach(function(item){
-
-        contenedor.innerHTML += `
-
-            <button
-                class="btn-capitulo"
-                data-libro="${item.codigo}"
-                data-capitulo="${item.capitulo}">
-
-                ${item.libro} ${item.capitulo}
-            </button>
-        `;
+        if(ANTIGUO.includes(item.codigo)){
+            antiguo.push(item);
+        }else{
+            nuevo.push(item);
+        }
     });
-    const botones = contenedor.querySelectorAll(".btn-capitulo");
-    botones.forEach(function(boton){
-        boton.addEventListener("click", async function(){
-            const libro = boton.dataset.libro;
-            const capitulo = Number(
-                boton.dataset.capitulo
-            );
+    contenedor.innerHTML = `
+        <div class="grupo-lectura">
+            <h3>📜 Antiguo Testamento</h3>
+            <div id="listaAT"></div>
+        </div>
+        <div class="grupo-lectura">
+            <h3>✝ Nuevo Testamento</h3>
+            <div id="listaNT"></div>
+        </div>
+    `;
+    crearTarjetas("listaAT", antiguo);
+    crearTarjetas("listaNT", nuevo);
+
+}/************************************************
+ * CREAR TARJETAS
+ ************************************************/
+function crearTarjetas(idContenedor, lista){
+    const contenedor = document.getElementById(idContenedor);
+    if(!contenedor) return;
+    lista.forEach(function(item){
+        const tarjeta = document.createElement("button");
+        tarjeta.className = "tarjeta-capitulo";
+        tarjeta.dataset.libro = item.codigo;
+        tarjeta.dataset.capitulo = item.capitulo;
+        tarjeta.innerHTML = `
+            <span>
+                📖 ${item.libro} ${item.capitulo}
+            </span>
+            <span>
+                ➜
+            </span>
+        `;
+        tarjeta.addEventListener("click", async function(){
             try{
-    const datos = await obtenerCapituloBiblia(
-        libro,
-        capitulo
-    );
-    console.log(datos);
-}
-catch(error){
-    console.error(error);
-    alert(
-        "No fue posible cargar el capítulo."
-    );
-}
-            // Próximo paso:
-            // obtenerCapituloBiblia(libro, capitulo);
+                const datos = await obtenerCapituloBiblia(
+                    item.codigo,
+                    item.capitulo
+                );
+                console.log(datos);
+            }
+            catch(error){
+                console.error(error);
+            }
         });
+        contenedor.appendChild(tarjeta);
     });
 }
 /************************************************
