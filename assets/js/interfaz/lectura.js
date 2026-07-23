@@ -30,10 +30,10 @@ function abrirModoLectura(){
     // Obtener todas las lecturas del día
     lecturaActual.lecturas = obtenerCapitulosDelDia(devocionalActual);
     lecturaActual.indiceLectura = 0;
-    const devocional = document.querySelector(".devocional");
-    if(!devocional) return;
-    devocional.style.display="none";
-    mostrarPantallaLectura();
+    const contenedor = document.querySelector(".contenedor");
+        if(!contenedor) return;
+        contenedor.style.display = "none";
+        mostrarPantallaLectura();
 }
 /************************************************
  * PANTALLA DE LECTURA
@@ -95,9 +95,10 @@ function cerrarModoLectura(){
     if(pantalla){
         pantalla.remove();
     }
-    const devocional=document.querySelector(".devocional");
-    if(devocional){
-        devocional.style.display="block";
+    const contenedor = document.querySelector(".contenedor");
+    if(contenedor){
+    contenedor.style.display = "block";
+}
     }
     window.scrollTo({
         top:scrollAnterior,
