@@ -19,8 +19,7 @@ const CONFIG = {
     },
 
     API:{
-        sheets:"",
-        biblia:""
+        url: "https://script.google.com/macros/s/AKfycbxpCZ00WGFhINXrmOEs2NmVWOXIw_-_mmO0Da_XGfrWzLzuZyki2kzercmR14I7HlkNAw/exec"
     },
 
     IDIOMA:{
@@ -42,11 +41,11 @@ const CONFIG = {
     },
 
     BIBLIA:{
-        proveedor:"HelloAO",
-        idioma:"es",
-        traduccion:"RVR1960",
-        mostrarNumerosVersiculos:true,
-        recordarUltimaLectura:true
-    }
+    proveedor:"API Caminando con Dios",
+    idioma:"es",
+    traduccion:"DEVOCIONAL",
+    mostrarNumerosVersiculos:true,
+    recordarUltimaLectura:true
+}
 
 };
