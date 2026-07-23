@@ -235,10 +235,11 @@ function crearTarjetas(idContenedor, lista){
         tarjeta.addEventListener("click", async function(){
             try{
                 const datos = await obtenerCapituloBiblia(
-                    item.codigo,
-                    item.capitulo
-                );
-                console.log(datos);
+                item.codigo,
+                item.capitulo
+            );
+            const html = crearHTMLCapitulo(datos);
+            mostrarTextoBiblico(html);
             }
             catch(error){
                 console.error(error);
@@ -259,4 +260,26 @@ function mostrarTextoBiblico(html){
 
     texto.innerHTML=html;
 
+}
+/************************************************
+ * CREAR HTML DEL CAPÍTULO
+ ************************************************/
+function crearHTMLCapitulo(capitulo){
+    let html = `
+        <h2>${capitulo.referencia}</h2>
+    `;
+    if(capitulo.titulo){
+        html += `
+            <h3>${capitulo.titulo}</h3>
+        `;
+    }
+    capitulo.versiculos.forEach(function(versiculo){
+        html += `
+            <p class="versiculo">
+                <strong>${versiculo.numero}</strong>
+                ${versiculo.texto}
+            </p>
+        `;
+    });
+    return html;
 }
