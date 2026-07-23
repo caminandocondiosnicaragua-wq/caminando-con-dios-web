@@ -195,42 +195,33 @@ function mostrarCapitulos(lista){
                 data-capitulo="${item.capitulo}">
 
                 ${item.libro} ${item.capitulo}
-
             </button>
-
         `;
-
     });
-
     const botones = contenedor.querySelectorAll(".btn-capitulo");
-
     botones.forEach(function(boton){
-
         boton.addEventListener("click", async function(){
-
             const libro = boton.dataset.libro;
-
             const capitulo = Number(
                 boton.dataset.capitulo
             );
-
-            console.log(
-                "Libro:",
-                libro
-            );
-
-            console.log(
-                "Capítulo:",
-                capitulo
-            );
-
+            try{
+    const datos = await obtenerCapituloBiblia(
+        libro,
+        capitulo
+    );
+    console.log(datos);
+}
+catch(error){
+    console.error(error);
+    alert(
+        "No fue posible cargar el capítulo."
+    );
+}
             // Próximo paso:
             // obtenerCapituloBiblia(libro, capitulo);
-
         });
-
     });
-
 }
 /************************************************
  * MOSTRAR CAPÍTULO
