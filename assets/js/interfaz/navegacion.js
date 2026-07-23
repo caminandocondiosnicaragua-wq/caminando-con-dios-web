@@ -15,8 +15,7 @@ function crearAcciones(devocional){
     type="button"
     class="btn lectura"
     id="btnLectura"
-    onclick="alert('LECTURA')">
-
+   
     📖 Comenzar lectura bíblica
 
 </button>
@@ -77,15 +76,13 @@ function activarCalendario(){
  ************************************************/
 function activarModoLectura(){
 
-    const boton = document.getElementById("btnLectura");
+    const boton=document.getElementById("btnLectura");
 
     if(!boton) return;
 
-    boton.addEventListener("click", function(e){
+    boton.addEventListener("click",function(e){
 
         e.preventDefault();
-
-        console.log("CLICK LECTURA");
 
         abrirModoLectura();
 
