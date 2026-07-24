@@ -28,7 +28,7 @@ function abrirModoLectura(){
     scrollAnterior = window.scrollY;
     lecturaActiva = true;
 
-    const header = document.querySelector("header"); // ULTIMA MODIFICACION PARA OCULTAR 
+    const header = document.querySelector(".header");
     const hero = document.querySelector(".hero");
     const contenedor = document.querySelector(".contenedor");
     if(header){
@@ -39,7 +39,7 @@ function abrirModoLectura(){
     }
     if(contenedor){
     contenedor.style.display = "none";
-} //TERMINA LA ULTIMA MODIFICACION
+}
    
     // Obtener todas las lecturas del día
     lecturaActual.lecturas = obtenerCapitulosDelDia(devocionalActual);
@@ -114,7 +114,7 @@ function cerrarModoLectura(){
     contenedor.style.display = "block";
 }
     }
-const header = document.querySelector("header"); // AUMNETO PARA OCULTAR
+const header = document.querySelector(".header");
 const hero = document.querySelector(".hero");
 const contenedor = document.querySelector(".contenedor");
 if(header){
@@ -125,8 +125,7 @@ if(hero){
 }
 if(contenedor){
     contenedor.style.display = "";
-} //AQUI FINALIZA LO ULTIMO AGREGADO
-
+}
 window.scrollTo({
         top:scrollAnterior,
         behavior:"smooth"
