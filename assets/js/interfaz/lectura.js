@@ -20,36 +20,44 @@ let lecturaActual = {
  * ABRIR MODO LECTURA
  ************************************************/
 
+/************************************************
+ * ABRIR MODO LECTURA
+ ************************************************/
 function abrirModoLectura(){
+
     // Evitar abrir varias veces el lector
     if(document.getElementById("modoLectura")){
         return;
     }
+
     scrollAnterior = window.scrollY;
+
     lecturaActiva = true;
 
     const header = document.querySelector(".header");
     const hero = document.querySelector(".hero");
     const contenedor = document.querySelector(".contenedor");
+
     if(header){
         header.style.display = "none";
     }
+
     if(hero){
         hero.style.display = "none";
     }
+
     if(contenedor){
-    contenedor.style.display = "none";
-}
-   
+        contenedor.style.display = "none";
+    }
+
     // Obtener todas las lecturas del día
     lecturaActual.lecturas = obtenerCapitulosDelDia(devocionalActual);
+
     lecturaActual.indiceLectura = 0;
-    const contenedor = document.querySelector(".contenedor");
-        if(!contenedor) return;
-        contenedor.style.display = "none";
-        mostrarPantallaLectura();
-}
-/************************************************
+
+    mostrarPantallaLectura();
+
+}/************************************************
  * PANTALLA DE LECTURA
  ************************************************/
 
@@ -104,34 +112,50 @@ function iniciarModoLectura(){
  ************************************************/
 
 function cerrarModoLectura(){
-    lecturaActiva=false;
-    const pantalla=document.getElementById("modoLectura");
+
+    lecturaActiva = false;
+
+    const pantalla = document.getElementById("modoLectura");
+
     if(pantalla){
+
         pantalla.remove();
+
     }
+
+    const header = document.querySelector(".header");
+
+    const hero = document.querySelector(".hero");
+
     const contenedor = document.querySelector(".contenedor");
-    if(contenedor){
-    contenedor.style.display = "block";
-}
+
+    if(header){
+
+        header.style.display = "";
+
     }
-const header = document.querySelector(".header");
-const hero = document.querySelector(".hero");
-const contenedor = document.querySelector(".contenedor");
-if(header){
-    header.style.display = "";
-}
-if(hero){
-    hero.style.display = "";
-}
-if(contenedor){
-    contenedor.style.display = "";
-}
-window.scrollTo({
-        top:scrollAnterior,
-        behavior:"smooth"
+
+    if(hero){
+
+        hero.style.display = "";
+
+    }
+
+    if(contenedor){
+
+        contenedor.style.display = "";
+
+    }
+
+    window.scrollTo({
+
+        top: scrollAnterior,
+
+        behavior: "smooth"
+
     });
-}
-/************************************************
+
+}/************************************************
  * LISTA DE CAPÍTULOS
  ************************************************/
 
