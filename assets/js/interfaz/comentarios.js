@@ -87,6 +87,7 @@ function iniciarComentarios(){
  ************************************************/
 async function publicarComentario(){
 
+    const API_URL = CONFIG.API.url;
     const nombre =
 
         document.getElementById(
@@ -150,7 +151,7 @@ async function publicarComentario(){
     console.log(datos);
 try{
 
-    const respuesta = await fetch(API_URL,{
+    const respuesta = await fetch(CONFIG.API.url,{
 
         method:"POST",
 
