@@ -16,6 +16,11 @@ async function iniciarAplicacion(){
         console.log(devocionalActual);
         construirAplicacion(devocionalActual);
         iniciarModulos();
+
+        /********************************************
+         * CARGAR COMENTARIOS DEL DEVOCIONAL
+         ********************************************/
+        await cargarComentarios();
     }
    catch(error){
     alert(
