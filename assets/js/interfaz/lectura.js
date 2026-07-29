@@ -37,7 +37,7 @@ function abrirModoLectura(){
     const header = document.querySelector(".header");
     const hero = document.querySelector(".hero");
     const contenedor = document.querySelector(".contenedor");
-    const footer = document.querySelector("footer");
+    const footer = document.querySelector(".footer");
 
     if(footer){
         footer.style.display = "none";
@@ -132,11 +132,11 @@ function cerrarModoLectura(){
     const hero = document.querySelector(".hero");
 
     const contenedor = document.querySelector(".contenedor");
-    const footer = document.querySelector("footer");
+   const footer = document.querySelector(".footer");
 
     if(footer){
         footer.style.display = "";
-}
+    }
     if(header){
 
         header.style.display = "";
