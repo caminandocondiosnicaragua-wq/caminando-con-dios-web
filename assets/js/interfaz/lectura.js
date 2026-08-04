@@ -260,14 +260,17 @@ function mostrarTextoBiblico(html){
  * CREAR HTML DEL CAPÍTULO
  ************************************************/
 function crearHTMLCapitulo(capitulo){
+
     let html = `
         <h2>${capitulo.referencia}</h2>
     `;
+
     if(capitulo.titulo){
         html += `
             <h3>${capitulo.titulo}</h3>
         `;
     }
+
     capitulo.versiculos.forEach(function(versiculo){
         html += `
             <p class="versiculo">
@@ -276,23 +279,26 @@ function crearHTMLCapitulo(capitulo){
             </p>
         `;
     });
+
     html += `
-    <div class="atribucion-biblia">
-        <hr>
+        <div class="atribucion-biblia">
+            <hr>
 
-        <h4>📖 Fuente del texto bíblico</h4>
+            <h4>📖 Fuente del texto bíblico</h4>
 
-        <p>
-            Los pasajes bíblicos son proporcionados por 
-            <strong>API.Bible</strong>.
-        </p>
+            <p>
+                Los pasajes bíblicos mostrados en esta página son obtenidos mediante
+                <strong>API.Bible</strong>.
+            </p>
 
-        <p id="atribucionVersion">
-            <!-- Las traducciones pertenecen a sus respectivos propietarios 
-            y se muestran conforme a las licencias correspondientes.
-                 https://bible-api.com -->
-        </p>
-    </div>
-`;
+            <p>
+                Las traducciones bíblicas pertenecen a sus respectivos titulares de derechos
+                y se utilizan conforme a sus licencias y condiciones de uso.
+            </p>
+
+            <p id="atribucionVersion"></p>
+        </div>
+    `;
+
     return html;
 }
