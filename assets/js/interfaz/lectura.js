@@ -276,5 +276,23 @@ function crearHTMLCapitulo(capitulo){
             </p>
         `;
     });
+    html += `
+    <div class="atribucion-biblia">
+        <hr>
+
+        <h4>📖 Fuente del texto bíblico</h4>
+
+        <p>
+            Los pasajes bíblicos son proporcionados por 
+            <strong>API.Bible</strong>.
+        </p>
+
+        <p id="atribucionVersion">
+            <!-- Las traducciones pertenecen a sus respectivos propietarios 
+            y se muestran conforme a las licencias correspondientes.
+                 https://bible-api.com -->
+        </p>
+    </div>
+`;
     return html;
 }
