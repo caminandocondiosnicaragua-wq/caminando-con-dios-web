@@ -42,20 +42,17 @@ async function iniciarAplicacion(){
  * que le da márgenes a los lados.
  ************************************************/
 function construirAplicacion(devocional){
-
     const app = document.getElementById("app");
+    app.innerHTML = `
+        ${crearHeader()}
+        ${crearHero()}
+        <div class="contenedor">
+            ${crearDevocional(devocional)}
 
-    const contenido = `
-        ${crearDevocional(devocional)}
-
-        ${CONFIG.DEVOCIONAL.mostrarComentarios
-            ? crearComentarios()
-            : ""
-        }
+            ${CONFIG.DEVOCIONAL.mostrarComentarios ? crearComentarios() : ""}
+        </div>
+        ${crearFooter()}
     `;
-
-    app.innerHTML = crearLayout(contenido);
-
 }
 /************************************************
  * INICIALIZAR TODOS LOS MÓDULOS
