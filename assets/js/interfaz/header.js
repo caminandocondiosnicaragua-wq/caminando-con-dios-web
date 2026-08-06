@@ -27,7 +27,7 @@ function crearHeader() {
             ☰
         </button>
         <nav id="menuPrincipal" class="menu">
-            <a href="#">Inicio</a>
+            <a href="index.html">Inicio</a>
             <a href="#">Devocionales</a>
             <a href="biblioteca.html">Biblioteca</a>
             <a href="#">Estudios</a>
