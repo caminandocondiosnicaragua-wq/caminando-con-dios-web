@@ -3,22 +3,36 @@
  * BIBLIOTECA
  ************************************************/
 
-function iniciarBiblioteca() {
+document.addEventListener("DOMContentLoaded", iniciarBiblioteca);
+
+function iniciarBiblioteca(){
 
     const app = document.getElementById("app");
 
     app.innerHTML = `
-        <h1 style="color:white">BIBLIOTECA FUNCIONANDO</h1>
+        ${crearHeader()}
+
+        ${crearHero()}
+
+        <div class="contenedor">
+
+            ${crearBiblioteca()}
+
+        </div>
+
+        ${crearFooter()}
     `;
+
+    iniciarHeader();
+    iniciarFooter();
+
 }
 
-document.addEventListener("DOMContentLoaded", iniciarBiblioteca);
-
 /************************************************
- * CREAR BIBLIOTECA
+ * CONTENIDO BIBLIOTECA
  ************************************************/
 
-function crearBiblioteca() {
+function crearBiblioteca(){
 
     return `
 
@@ -27,9 +41,7 @@ function crearBiblioteca() {
     <h2>📚 Biblioteca Bíblica</h2>
 
     <p>
-
-        Explora las Escrituras por categorías y profundiza en el conocimiento de la Palabra de Dios.
-
+        Explora la Biblia por categorías.
     </p>
 
 </section>
@@ -37,8 +49,3 @@ function crearBiblioteca() {
 `;
 
 }
-/************************************************
- * INICIAR
- ************************************************/
-
-document.addEventListener("DOMContentLoaded", iniciarBiblioteca);
