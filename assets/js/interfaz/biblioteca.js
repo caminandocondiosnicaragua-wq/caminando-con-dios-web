@@ -8,22 +8,12 @@ function iniciarBiblioteca() {
     const app = document.getElementById("app");
 
     app.innerHTML = `
-        ${crearHeader()}
-
-        ${crearHero()}
-
-        <div class="contenedor">
-
-            ${crearBiblioteca()}
-
-        </div>
-
-        ${crearFooter()}
+        <h1 style="color:white">BIBLIOTECA FUNCIONANDO</h1>
     `;
-
-    iniciarHeader();
-
 }
+
+document.addEventListener("DOMContentLoaded", iniciarBiblioteca);
+
 /************************************************
  * CREAR BIBLIOTECA
  ************************************************/
