@@ -1067,5 +1067,44 @@ BIBLIOTECA
 .sugerencias button:hover{
     background:var(--dorado);
     color:#10233F;
+}
+/************************************************
+ * BIBLIOTECA
+ ************************************************/
 
+.categoria-biblioteca{
+    margin-top:50px;
+}
+.categoria-biblioteca h2{
+    color:#F5D87C;
+    margin-bottom:25px;
+    font-size:32px;
+}
+.grid-tarjetas{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:22px;
+}
+.tarjeta-biblioteca{
+    background:#18304D;
+    border-radius:18px;
+    padding:28px;
+    cursor:pointer;
+    transition:.30s;
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+.tarjeta-biblioteca:hover{
+    transform:translateY(-6px);
+    background:#21496F;
+    box-shadow:0 15px 35px rgba(0,0,0,.30);
+}
+.tarjeta-icono{
+    font-size:36px;
+}
+.tarjeta-titulo{
+    font-size:20px;
+    font-weight:700;
 }
