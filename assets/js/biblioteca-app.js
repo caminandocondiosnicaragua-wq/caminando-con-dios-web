@@ -155,17 +155,18 @@ function crearCategorias(){
                 <div class="grid-tarjetas">
         `;
 
-        categoria.tarjetas.forEach(tarjeta => {
-
-            html += `
-                <div class="tarjeta-biblioteca">
-
-                    ${tarjeta}
-
-                </div>
-            `;
-
-        });
+       categoria.tarjetas.forEach(tarjeta => {
+    html += `
+        <div class="tarjeta-biblioteca">
+            <div class="tarjeta-icono">
+                📚
+            </div>
+            <div class="tarjeta-titulo">
+                ${tarjeta}
+            </div>
+        </div>
+    `;
+});
 
         html += `
                 </div>
