@@ -167,13 +167,10 @@ function crearCategorias(){
         </div>
     `;
 });
-
         html += `
                 </div>
-
             </section>
         `;
-
     });
 
     return html;
