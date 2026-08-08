@@ -33,7 +33,59 @@ function iniciarBiblioteca(){
     iniciarFooter();
 
 }
+/************************************************
+ * CATEGORÍAS DE LA BIBLIOTECA
+ ************************************************/
 
+const CATEGORIAS_BIBLIOTECA = [
+
+    {
+        titulo: "📖 Libros y Literatura",
+        tarjetas: [
+            "Libros de la Biblia",
+            "Poesía y Sabiduría"
+        ]
+    },
+
+    {
+        titulo: "🏛 Historia y Contexto",
+        tarjetas: [
+            "Historia Bíblica",
+            "Geografía Bíblica",
+            "Línea de Tiempo"
+        ]
+    },
+
+    {
+        titulo: "✝ Enseñanza",
+        tarjetas: [
+            "Enseñanza de Jesús",
+            "Enseñanza de los Apóstoles",
+            "Escatología"
+        ]
+    },
+
+    {
+        titulo: "👤 Personajes Bíblicos",
+        tarjetas: [
+            "Personajes Bíblicos",
+            "Patriarcas",
+            "Jueces",
+            "Reyes",
+            "Profetas",
+            "Mujeres de la Biblia",
+            "Genealogías Bíblicas"
+        ]
+    },
+
+    {
+        titulo: "🧰 Recursos",
+        tarjetas: [
+            "Monedas, Pesas y Medidas"
+        ]
+    }
+
+];
 /************************************************
  * CREAR BIBLIOTECA
  ************************************************/
@@ -74,9 +126,55 @@ function crearBiblioteca(){
         <button>Pablo</button>
 
     </div>
+    <div id="contenedorCategorias">
 
+        ${crearCategorias()}
+
+    </div>
 </section>
 
 `;
+
+}
+
+/************************************************
+ * CREAR CATEGORÍAS
+ ************************************************/
+
+function crearCategorias(){
+
+    let html = "";
+
+    CATEGORIAS_BIBLIOTECA.forEach(categoria => {
+
+        html += `
+            <section class="categoria-biblioteca">
+
+                <h2>${categoria.titulo}</h2>
+
+                <div class="grid-tarjetas">
+        `;
+
+        categoria.tarjetas.forEach(tarjeta => {
+
+            html += `
+                <div class="tarjeta-biblioteca">
+
+                    ${tarjeta}
+
+                </div>
+            `;
+
+        });
+
+        html += `
+                </div>
+
+            </section>
+        `;
+
+    });
+
+    return html;
 
 }
