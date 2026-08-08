@@ -1134,3 +1134,20 @@ BIBLIOTECA
     color:#F5D87C;
     transition:.30s;
 }
+/************************************************
+ * ESTUDIO CANVA
+ ************************************************/
+
+.canva-estudio {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.canva-estudio iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+}
