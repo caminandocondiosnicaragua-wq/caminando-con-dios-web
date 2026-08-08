@@ -116,6 +116,7 @@ const CATEGORIAS_BIBLIOTECA = [
         {
         icono:"👑",
         titulo:"Reyes"
+        enlace:"reyes.html"
         },
 
         {
@@ -218,21 +219,43 @@ function crearCategorias(){
                 <div class="grid-tarjetas">
         `;
 
-       categoria.tarjetas.forEach(tarjeta => {
+categoria.tarjetas.forEach(tarjeta => {
 
-    html += `
-        <div class="tarjeta-biblioteca">
+    if(tarjeta.enlace){
 
-            <div class="tarjeta-icono">
-                ${tarjeta.icono}
+        html += `
+            <a
+                href="${tarjeta.enlace}"
+                class="tarjeta-biblioteca">
+
+                <div class="tarjeta-icono">
+                    ${tarjeta.icono}
+                </div>
+
+                <div class="tarjeta-titulo">
+                    ${tarjeta.titulo}
+                </div>
+
+            </a>
+        `;
+
+    } else {
+
+        html += `
+            <div class="tarjeta-biblioteca">
+
+                <div class="tarjeta-icono">
+                    ${tarjeta.icono}
+                </div>
+
+                <div class="tarjeta-titulo">
+                    ${tarjeta.titulo}
+                </div>
+
             </div>
+        `;
 
-            <div class="tarjeta-titulo">
-                ${tarjeta.titulo}
-            </div>
-
-        </div>
-    `;
+    }
 
 });
         html += `
