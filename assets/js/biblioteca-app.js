@@ -137,13 +137,17 @@ const CATEGORIAS_BIBLIOTECA = [
   },
 
         {
-        titulo: "🧰 Recursos",
-        tarjetas: [
-            "Monedas, Pesas y Medidas"
-        ]
-    }
+    titulo:"🧰 Recursos",
 
-];
+    tarjetas:[
+
+        {
+            icono:"⚖️",
+            titulo:"Monedas, Pesas y Medidas"
+        }
+
+    ]
+ }
 /************************************************
  * CREAR BIBLIOTECA
  ************************************************/
@@ -219,11 +223,11 @@ function crearCategorias(){
         <div class="tarjeta-biblioteca">
 
             <div class="tarjeta-icono">
-                📚
+                ${tarjeta.icono}
             </div>
 
             <div class="tarjeta-titulo">
-                ${tarjeta}
+                ${tarjeta.titulo}
             </div>
 
         </div>
