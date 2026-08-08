@@ -1140,10 +1140,11 @@ BIBLIOTECA
 
 .canva-estudio {
     position: relative;
-    width: 100%;
+    width: 80%;
+    max-width: 900px;
     height: 0;
-    padding-top: 100%;
-    margin: 1.6em 0 0.9em;
+    padding-top: 80%;
+    margin: 30px auto;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16);
