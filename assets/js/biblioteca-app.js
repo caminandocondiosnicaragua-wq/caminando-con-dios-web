@@ -214,16 +214,21 @@ function crearCategorias(){
         `;
 
        categoria.tarjetas.forEach(tarjeta => {
+
     html += `
         <div class="tarjeta-biblioteca">
+
             <div class="tarjeta-icono">
                 📚
             </div>
+
             <div class="tarjeta-titulo">
                 ${tarjeta}
             </div>
+
         </div>
     `;
+
 });
         html += `
                 </div>
