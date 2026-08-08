@@ -42,43 +42,101 @@ const CATEGORIAS_BIBLIOTECA = [
     {
         titulo: "📖 Libros y Literatura",
         tarjetas: [
-            "Libros de la Biblia",
-            "Poesía y Sabiduría"
+           {
+        icono:"📖",
+        titulo:"Libros de la Biblia"
+            },
+
+            {
+        icono:"📜",
+        titulo:"Poesía y Sabiduría"
+            }
         ]
     },
 
     {
         titulo: "🏛 Historia y Contexto",
-        tarjetas: [
-            "Historia Bíblica",
-            "Geografía Bíblica",
-            "Línea de Tiempo"
-        ]
-    },
+       tarjetas:[
+        {
+        icono:"🏛",
+        titulo:"Historia Bíblica"
+        },
+        {
+        icono:"🗺",
+        titulo:"Geografía Bíblica"
+        },
+        {
+        icono:"⏳",
+        titulo:"Línea de Tiempo"
+        }
+    ]
+ },
 
     {
         titulo: "✝ Enseñanza",
-        tarjetas: [
-            "Enseñanza de Jesús",
-            "Enseñanza de los Apóstoles",
-            "Escatología"
-        ]
-    },
+       tarjetas:[
+
+        {
+        icono:"✝️",
+        titulo:"Enseñanza de Jesús"
+        },
+
+        {
+        icono:"🕊️",
+        titulo:"Enseñanza de los Apóstoles"
+        },
+
+        {
+        icono:"👑",
+        titulo:"Escatología"
+        }
+
+    ]
+  },
 
     {
         titulo: "👤 Personajes Bíblicos",
-        tarjetas: [
-            "Personajes Bíblicos",
-            "Patriarcas",
-            "Jueces",
-            "Reyes",
-            "Profetas",
-            "Mujeres de la Biblia",
-            "Genealogías Bíblicas"
-        ]
-    },
+        tarjetas:[
 
-    {
+        {
+        icono:"👤",
+        titulo:"Personajes Bíblicos"
+        },
+
+        {
+        icono:"👥",
+        titulo:"Patriarcas"
+        },
+
+        {
+        icono:"⚖️",
+        titulo:"Jueces"
+         },
+
+        {
+        icono:"👑",
+        titulo:"Reyes"
+        },
+
+        {
+        icono:"📣",
+        titulo:"Profetas"
+        },
+
+        {
+        icono:"👩",
+        titulo:"Mujeres de la Biblia"
+ },
+
+        {
+        icono:"🌳",
+        titulo:"Genealogías Bíblicas"
+        }
+
+        ]
+  },
+
+        {
         titulo: "🧰 Recursos",
         tarjetas: [
             "Monedas, Pesas y Medidas"
