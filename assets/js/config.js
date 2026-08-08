@@ -8,7 +8,7 @@ const CONFIG = {
     APP:{
         nombre:"Caminando con Dios",
         subtitulo:"Biblia y Fe",
-        version:"3.0"
+        version:"3.2"
     },
 
     TEMA:{
