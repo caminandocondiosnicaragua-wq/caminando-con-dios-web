@@ -16,7 +16,7 @@ function iniciarUzias(){
 
     app.innerHTML = `
 
-        ${crearHeader()}
+        
 
         <main class="estudio-uzias">
 
@@ -32,13 +32,13 @@ function iniciarUzias(){
 
         </main>
 
-        ${crearFooter()}
+        
 
     `;
 
     app.style.display = "block";
 
-    iniciarHeader();
-    iniciarFooter();
+    
+    
 
 }
