@@ -115,7 +115,7 @@ const CATEGORIAS_BIBLIOTECA = [
 
         {
         icono:"👑",
-        titulo:"Reyes"
+        titulo:"Reyes",
         enlace:"reyes.html"
         },
 
