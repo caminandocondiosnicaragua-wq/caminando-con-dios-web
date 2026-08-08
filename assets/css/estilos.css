@@ -1134,30 +1134,4 @@ BIBLIOTECA
     color:#F5D87C;
     transition:.30s;
 }
-/************************************************
- * ESTUDIO CANVA
- ************************************************/
 
-.canva-estudio {
-    position: relative;
-    width: 80%;
-    max-width: 900px;
-    height: 0;
-    padding-top: 80%;
-    margin: 30px auto;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16);
-}
-
-.canva-estudio iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    border: none;
-    padding: 0;
-    margin: 0;
-    display: block;
-}
