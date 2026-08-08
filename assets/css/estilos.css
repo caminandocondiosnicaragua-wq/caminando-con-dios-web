@@ -1108,3 +1108,29 @@ BIBLIOTECA
     font-size:20px;
     font-weight:700;
 }
+/************************************************
+ * TARJETAS BIBLIOTECA
+ ************************************************/
+
+.tarjeta-biblioteca{
+    cursor:pointer;
+    transition:
+        .30s ease;
+}
+.tarjeta-biblioteca:hover{
+    transform:translateY(-6px);
+    border:1px solid #D4AF37;
+    box-shadow:
+        0 0 18px rgba(212,175,55,.35),
+        0 10px 25px rgba(0,0,0,.25);
+}
+/* Icono */
+.tarjeta-biblioteca:hover .tarjeta-icono{
+    transform:scale(1.15);
+    transition:.30s;
+}
+/* Título */
+.tarjeta-biblioteca:hover .tarjeta-titulo{
+    color:#F5D87C;
+    transition:.30s;
+}
