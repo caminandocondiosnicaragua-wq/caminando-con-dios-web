@@ -108,6 +108,7 @@ const REYES_BIBLICOS = [
             { icono: "👑", nombre: "Josafat" },
             { icono: "👑", nombre: "Joram" },
             { icono: "👑", nombre: "Ocozías" },
+            { icono: "👑", nombre: "Atalía" },
             { icono: "👑", nombre: "Joás" },
             { icono: "👑", nombre: "Amasías" },
 
