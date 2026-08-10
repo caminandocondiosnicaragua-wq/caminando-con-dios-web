@@ -84,11 +84,6 @@ const CATEGORIAS_BIBLIOTECA = [
         {
         icono:"🕊️",
         titulo:"Enseñanza de los Apóstoles"
-        },
-
-        {
-        icono:"👑",
-        titulo:"Escatología"
         }
 
     ]
