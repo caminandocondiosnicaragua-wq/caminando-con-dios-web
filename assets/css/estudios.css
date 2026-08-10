@@ -1,0 +1,145 @@
+/************************************************
+ * CAMINANDO CON DIOS
+ * ESTUDIOS BÍBLICOS
+ ************************************************/
+
+.estudios-pagina{
+    padding:42px 0 60px;
+}
+
+.estudios-cabecera{
+    text-align:center;
+    max-width:900px;
+    margin:0 auto 35px;
+    padding:0 20px;
+}
+
+.estudios-cabecera h1{
+    color:var(--dorado-claro);
+    font-size:42px;
+    margin-bottom:16px;
+}
+
+.estudios-cabecera p{
+    color:var(--texto-sec);
+    font-size:18px;
+    line-height:1.8;
+}
+
+.estudios-aviso{
+    margin-top:12px;
+    color:#f5d87c !important;
+    font-size:16px !important;
+}
+
+.grid-estudios{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:25px;
+    margin-bottom:35px;
+}
+
+.tarjeta-estudio{
+    background:rgba(19,40,69,.96);
+    border:1px solid rgba(212,175,55,.25);
+    border-radius:24px;
+    padding:30px 28px;
+    text-align:center;
+    box-shadow:0 18px 40px rgba(0,0,0,.28);
+    transition:.25s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.tarjeta-estudio:hover{
+    transform:translateY(-5px);
+    border-color:var(--dorado);
+    box-shadow:0 22px 45px rgba(0,0,0,.38);
+}
+
+.tarjeta-estudio-icono{
+    font-size:44px;
+    margin-bottom:12px;
+}
+
+.tarjeta-estudio h2{
+    color:#ffe29a;
+    font-size:24px;
+    line-height:1.3;
+    margin-bottom:6px;
+}
+
+.tarjeta-estudio h3{
+    color:var(--dorado);
+    font-size:16px;
+    font-weight:600;
+    margin-bottom:14px;
+}
+
+.tarjeta-estudio p{
+    color:var(--texto-sec);
+    font-size:16px;
+    line-height:1.7;
+    margin-bottom:22px;
+    max-width:540px;
+}
+
+.estado-estudio{
+    display:inline-block;
+    margin-top:auto;
+    padding:8px 16px;
+    border:1px solid rgba(212,175,55,.35);
+    border-radius:20px;
+    color:#f5d87c;
+    font-size:14px;
+    font-weight:600;
+}
+
+.estudios-pendiente{
+    max-width:850px;
+    margin:0 auto;
+    text-align:center;
+    padding:28px 25px;
+    background:rgba(212,175,55,.08);
+    border:1px solid rgba(212,175,55,.28);
+    border-radius:20px;
+}
+
+.estudios-pendiente .pendiente-icono{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.estudios-pendiente h2{
+    color:var(--dorado-claro);
+    font-size:24px;
+    margin-bottom:10px;
+}
+
+.estudios-pendiente p{
+    color:var(--texto-sec);
+    font-size:16px;
+    line-height:1.7;
+    margin-bottom:8px;
+}
+
+.estudios-pendiente strong{
+    color:#f5d87c;
+}
+
+@media(max-width:700px){
+
+    .grid-estudios{
+        grid-template-columns:1fr;
+    }
+
+    .estudios-cabecera h1{
+        font-size:34px;
+    }
+
+    .tarjeta-estudio{
+        padding:27px 22px;
+    }
+
+}
