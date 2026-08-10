@@ -1,0 +1,92 @@
+/************************************************
+ * CAMINANDO CON DIOS
+ * ACERCA DE
+ ************************************************/
+
+.acerca-pagina {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 35px 20px 60px;
+}
+
+.acerca-cabecera {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.acerca-cabecera h1 {
+    margin-bottom: 18px;
+}
+
+.acerca-frase {
+    max-width: 820px;
+    margin: 0 auto;
+    font-size: 1.18rem;
+    line-height: 1.8;
+}
+
+.acerca-seccion {
+    margin-bottom: 32px;
+    padding: 28px;
+    border-radius: 18px;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.acerca-seccion h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.acerca-seccion p,
+.acerca-invitacion p {
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.acerca-destacado {
+    margin: 42px 0;
+    padding: 35px 28px;
+    text-align: center;
+    border-radius: 20px;
+    border: 2px solid rgba(212, 175, 55, 0.65);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.13), rgba(255, 255, 255, 0.035));
+}
+
+.destacado-texto {
+    font-size: 1.35rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0 0 12px;
+}
+
+.acerca-invitacion {
+    text-align: center;
+    padding: 35px 25px 10px;
+}
+
+.acerca-invitacion h2 {
+    margin-bottom: 20px;
+}
+
+.invitacion-final {
+    font-size: 1.15rem;
+    margin-top: 25px;
+}
+
+@media (max-width: 700px) {
+
+    .acerca-pagina {
+        padding: 25px 15px 45px;
+    }
+
+    .acerca-seccion {
+        padding: 22px 18px;
+    }
+
+    .acerca-frase,
+    .destacado-texto {
+        font-size: 1.05rem;
+    }
+
+}
