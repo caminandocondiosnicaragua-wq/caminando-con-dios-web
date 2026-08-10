@@ -121,7 +121,6 @@ function iniciarEstudios(){
  ************************************************/
 
 function crearPaginaEstudios(){
-
     return `
 
 <section class="estudios-pagina">
