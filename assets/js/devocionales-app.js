@@ -17,15 +17,15 @@ const PLANES_YOUVERSION = [
     {
         icono: "🌅",
         titulo: "Día a Día con Dios",
-        descripcion: "Un espacio para acercarte cada día a Dios y fortalecer tu caminar con Él.",
-        enlace: "https://www.bible.com/"
+        descripcion: "Un plan de 7 días para acercarte cada día a Dios y fortalecer tu caminar con Él.",
+        enlace: "https://www.bible.com/reading-plans/71833"
     },
 
     {
         icono: "❤️",
         titulo: "Sanando la identidad en Cristo",
-        descripcion: "Un plan para reflexionar sobre nuestra identidad y recordar quiénes somos en Cristo.",
-        enlace: "https://www.bible.com/"
+        descripcion: "Un plan de 7 días para descubrir quién eres, sanar tu corazón y vivir tu verdadera identidad en Cristo.",
+        enlace: "https://www.bible.com/reading-plans/74913"
     }
 
 ];
