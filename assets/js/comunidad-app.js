@@ -18,7 +18,7 @@ const SECCIONES_COMUNIDAD = [
         icono: "✝️",
         titulo: "Las Buenas Nuevas de Salvación",
         descripcion: "Conoce el mensaje del evangelio y descubre la esperanza de salvación que encontramos en Jesucristo.",
-        accion: "Abrir enseñanza",
+        accion: "Próximamente",
         tipo: "salvacion"
     },
 
@@ -145,34 +145,13 @@ function crearTarjetasComunidad(){
 
             <button
                 type="button"
-                class="btn-comunidad ${seccion.tipo === "salvacion" ? "btn-activo" : "btn-pendiente"}"
-                ${seccion.tipo === "salvacion" ? "onclick=\"abrirBuenasNuevas()\"" : "disabled"}>
+                class="btn-comunidad btn-pendiente"
+                disabled>
                 ${seccion.accion}
             </button>
 
         </article>
 
     `).join("");
-
-}
-
-/************************************************
- * BUENAS NUEVAS
- *
- * La ventana emergente quedará preparada para
- * cargar posteriormente el contenido desde Notion.
- ************************************************/
-
-function abrirBuenasNuevas(){
-
-    const modal = document.getElementById("modalBuenasNuevas");
-    if(modal) modal.classList.add("activo");
-
-}
-
-function cerrarBuenasNuevas(){
-
-    const modal = document.getElementById("modalBuenasNuevas");
-    if(modal) modal.classList.remove("activo");
 
 }
