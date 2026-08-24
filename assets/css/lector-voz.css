@@ -1,0 +1,168 @@
+/* ==========================================================
+   CAMINANDO CON DIOS | LECTOR DE VOZ - PRUEBA
+   Solo afecta al lector automático del navegador.
+========================================================== */
+
+.lector-voz{
+    position:fixed;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    width:min(920px, calc(100% - 28px));
+    z-index:9999;
+    padding:14px 16px;
+    background:rgba(8,17,29,.97);
+    border:1px solid rgba(212,175,55,.65);
+    border-radius:16px;
+    box-shadow:0 14px 38px rgba(0,0,0,.45);
+    color:#eef4ff;
+    backdrop-filter:blur(8px);
+}
+
+.lector-voz-cabecera{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:10px;
+}
+
+.lector-voz-cabecera strong{
+    display:block;
+    color:#f5d87c;
+    font-size:15px;
+}
+
+#lectorEstado{
+    display:block;
+    margin-top:2px;
+    color:#d9e4f7;
+    font-size:12px;
+}
+
+#lectorCerrar{
+    border:0;
+    background:transparent;
+    color:#eef4ff;
+    font-size:25px;
+    line-height:1;
+    cursor:pointer;
+    padding:4px 8px;
+}
+
+.lector-voz-controles{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.lector-btn,
+.lector-voz-select select,
+.lector-velocidad select{
+    min-height:40px;
+    border:1px solid rgba(212,175,55,.45);
+    border-radius:9px;
+    background:#132845;
+    color:#eef4ff;
+    padding:7px 11px;
+    font:inherit;
+}
+
+.lector-btn{
+    cursor:pointer;
+}
+
+.lector-btn:hover:not(:disabled){
+    border-color:#f5d87c;
+    background:#193657;
+}
+
+.lector-btn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.lector-principal{
+    border-color:#d4af37;
+}
+
+.lector-voz-select,
+.lector-velocidad{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#d9e4f7;
+    font-size:12px;
+}
+
+.lector-voz-select select{
+    max-width:270px;
+}
+
+.lector-progreso{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:11px;
+}
+
+.lector-progreso-barra{
+    flex:1;
+    height:5px;
+    overflow:hidden;
+    border-radius:999px;
+    background:#243a55;
+}
+
+.lector-progreso-avance{
+    width:0;
+    height:100%;
+    background:#d4af37;
+    transition:width .2s ease;
+}
+
+#lectorContador{
+    min-width:58px;
+    text-align:right;
+    color:#d9e4f7;
+    font-size:12px;
+}
+
+.lector-frase{
+    border-radius:4px;
+    transition:background-color .2s ease, box-shadow .2s ease;
+}
+
+.lector-frase-activa{
+    background:rgba(245,216,124,.22);
+    box-shadow:0 0 0 2px rgba(212,175,55,.18);
+}
+
+@media (max-width:700px){
+    .lector-voz{
+        bottom:10px;
+        width:calc(100% - 16px);
+        padding:12px;
+    }
+
+    .lector-voz-controles{
+        align-items:stretch;
+    }
+
+    .lector-btn{
+        flex:1 1 auto;
+    }
+
+    .lector-voz-select,
+    .lector-velocidad{
+        flex:1 1 100%;
+        justify-content:space-between;
+    }
+
+    .lector-voz-select select,
+    .lector-velocidad select{
+        flex:1;
+        max-width:none;
+    }
+}
