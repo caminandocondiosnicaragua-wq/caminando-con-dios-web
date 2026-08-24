@@ -1,7 +1,11 @@
 /************************************************
  * CAMINANDO CON DIOS
- * LECTOR DE VOZ DEL NAVEGADOR - PRUEBA
- * Solo se activa cuando el devocional NO tiene AUDIO.
+ * LECTOR DE VOZ DEL NAVEGADOR - PRUEBA REAL
+ *
+ * IMPORTANTE:
+ * - Solo funciona cuando el devocional NO tiene AUDIO.
+ * - No cambia la carga del devocional ni la API.
+ * - Se conecta directamente al DOM real de crearDevocional().
  ************************************************/
 
 let lectorVoz = {
@@ -24,6 +28,7 @@ function iniciarLectorVoz(){
 
     if(!devocionalActual) return;
 
+    // Si existe audio propio, NO hacemos absolutamente nada.
     const audioExistente = String(devocionalActual.AUDIO || "").trim();
     if(audioExistente) return;
 
@@ -35,9 +40,13 @@ function iniciarLectorVoz(){
     speechSynthesis.addEventListener("voiceschanged", cargarVoces);
 }
 
+/* ==========================================================
+   TOMAR EL TEXTO DEL DEVOCIONAL REAL
+   Solo contenido editorial, no botones ni citas bíblicas.
+========================================================== */
 function prepararFrasesLector(){
     const zonas = document.querySelectorAll(
-        ".titulo-devocional, .contenido-seccion, .palabra-vida blockquote"
+        ".contenido-seccion, .palabra-vida blockquote"
     );
 
     let indice = 0;
@@ -49,7 +58,7 @@ function prepararFrasesLector(){
             {
                 acceptNode(node){
                     if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-                    if(node.parentElement && node.parentElement.closest("button,script,style")){
+                    if(node.parentElement && node.parentElement.closest("button,script,style,select")){
                         return NodeFilter.FILTER_REJECT;
                     }
                     return NodeFilter.FILTER_ACCEPT;
@@ -71,17 +80,31 @@ function prepararFrasesLector(){
                 const contenido = parte.trim();
                 if(!contenido) return;
 
-                const span = document.createElement("span");
-                span.className = "lector-frase";
-                span.dataset.lectorIndice = indice;
-                span.textContent = contenido + " ";
-                fragmento.appendChild(span);
+                const frase = document.createElement("span");
+                frase.className = "lector-frase";
+                frase.dataset.lectorIndice = indice;
+
+                const palabras = contenido.match(/\S+\s*/g) || [contenido];
+                let posicion = 0;
+
+                palabras.forEach(function(palabraTexto){
+                    const palabra = document.createElement("span");
+                    palabra.className = "lector-palabra";
+                    palabra.dataset.posicion = posicion;
+                    palabra.textContent = palabraTexto;
+                    frase.appendChild(palabra);
+                    posicion += palabraTexto.length;
+                });
+
+                fragmento.appendChild(frase);
 
                 lectorVoz.frases.push({
                     indice: indice,
-                    elemento: span,
-                    texto: contenido
+                    elemento: frase,
+                    texto: contenido,
+                    palabras: [...frase.querySelectorAll(".lector-palabra")]
                 });
+
                 indice++;
             });
 
@@ -106,14 +129,17 @@ function crearLectorVoz(){
             </div>
             <button type="button" id="lectorCerrar" aria-label="Cerrar lector">×</button>
         </div>
+
         <div class="lector-voz-controles">
             <button type="button" id="lectorReproducir" class="lector-btn lector-principal">▶ Reproducir</button>
             <button type="button" id="lectorPausa" class="lector-btn" disabled>⏸ Pausar</button>
             <button type="button" id="lectorDetener" class="lector-btn" disabled>⏹ Detener</button>
+
             <label class="lector-voz-select">
                 <span>Voz</span>
                 <select id="lectorVozSelect" aria-label="Seleccionar voz"></select>
             </label>
+
             <label class="lector-velocidad">
                 <span>Velocidad</span>
                 <select id="lectorVelocidad" aria-label="Seleccionar velocidad">
@@ -125,8 +151,11 @@ function crearLectorVoz(){
                 </select>
             </label>
         </div>
+
         <div class="lector-progreso">
-            <div class="lector-progreso-barra"><div id="lectorProgreso" class="lector-progreso-avance"></div></div>
+            <div class="lector-progreso-barra">
+                <div id="lectorProgreso" class="lector-progreso-avance"></div>
+            </div>
             <span id="lectorContador">1 / ${lectorVoz.frases.length}</span>
         </div>
     `;
@@ -146,9 +175,9 @@ function cargarVoces(){
     const voces = speechSynthesis.getVoices()
         .filter(function(voz){ return /^es(-|_|$)/i.test(voz.lang); })
         .sort(function(a,b){
-            const aLatam = /es-(MX|US|419|CO|AR|CL|PE)/i.test(a.lang) ? 0 : 1;
-            const bLatam = /es-(MX|US|419|CO|AR|CL|PE)/i.test(b.lang) ? 0 : 1;
-            return aLatam - bLatam || a.name.localeCompare(b.name);
+            const aPreferida = /Google español de Estados Unidos/i.test(a.name) || /es-US/i.test(a.lang) ? 0 : 1;
+            const bPreferida = /Google español de Estados Unidos/i.test(b.name) || /es-US/i.test(b.lang) ? 0 : 1;
+            return aPreferida - bPreferida || a.name.localeCompare(b.name);
         });
 
     lectorVoz.voces = voces;
@@ -173,8 +202,7 @@ function cargarVoces(){
     if(anterior && [...selector.options].some(op => op.value === anterior)){
         selector.value = anterior;
     }else{
-        const preferida = voces.findIndex(function(voz){ return /es-(MX|US|419)/i.test(voz.lang); });
-        selector.value = String(preferida >= 0 ? preferida : 0);
+        selector.value = "0";
     }
 }
 
@@ -214,11 +242,12 @@ function hablarFraseActual(){
 
     const utterance = new SpeechSynthesisUtterance(frase.texto);
     const voz = obtenerVozSeleccionada();
+
     if(voz){
         utterance.voice = voz;
         utterance.lang = voz.lang;
     }else{
-        utterance.lang = "es-ES";
+        utterance.lang = "es-US";
     }
 
     const velocidad = document.getElementById("lectorVelocidad");
@@ -229,6 +258,32 @@ function hablarFraseActual(){
         lectorVoz.hablando = true;
         actualizarControlesLector();
         actualizarEstadoLector("Leyendo…");
+    };
+
+    utterance.onboundary = function(evento){
+        if(evento.name !== "word") return;
+
+        const posicion = Number(evento.charIndex || 0);
+        const siguiente = posicion + Math.max(Number(evento.charLength || 1), 1);
+        let palabraActual = null;
+
+        for(const palabra of frase.palabras){
+            const inicio = Number(palabra.dataset.posicion || 0);
+            const fin = inicio + palabra.textContent.length;
+
+            if(posicion < fin && siguiente > inicio){
+                palabraActual = palabra;
+                break;
+            }
+        }
+
+        if(!palabraActual) return;
+
+        frase.palabras.forEach(function(palabra){
+            palabra.classList.remove("lector-palabra-activa");
+        });
+
+        palabraActual.classList.add("lector-palabra-activa");
     };
 
     utterance.onend = function(){
@@ -284,13 +339,13 @@ function resaltarFraseLector(indice){
     if(!frase) return;
 
     frase.elemento.classList.add("lector-frase-activa");
-    frase.elemento.scrollIntoView({ behavior:"smooth", block:"center" });
+    frase.elemento.scrollIntoView({behavior:"smooth", block:"center"});
     actualizarProgresoLector();
 }
 
 function limpiarResaltadoLector(){
-    document.querySelectorAll(".lector-frase-activa").forEach(function(elemento){
-        elemento.classList.remove("lector-frase-activa");
+    document.querySelectorAll(".lector-frase-activa, .lector-palabra-activa").forEach(function(elemento){
+        elemento.classList.remove("lector-frase-activa", "lector-palabra-activa");
     });
 }
 
@@ -302,6 +357,7 @@ function actualizarProgresoLector(){
     const total = lectorVoz.frases.length || 1;
     const actual = Math.min(lectorVoz.indice + 1, total);
     const porcentaje = lectorVoz.indice >= total ? 100 : (lectorVoz.indice / total) * 100;
+
     barra.style.width = `${porcentaje}%`;
     contador.textContent = `${actual} / ${total}`;
 }
@@ -326,8 +382,10 @@ function actualizarControlesLector(){
 function cerrarLectorVoz(){
     speechSynthesis.cancel();
     limpiarResaltadoLector();
+
     const lector = document.getElementById("lectorVoz");
     if(lector) lector.remove();
+
     lectorVoz.detenido = true;
     lectorVoz.hablando = false;
 }
