@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba — Lector de voz | Caminando con Dios</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#0D1B2A;color:#F5F7FA;line-height:1.75}
+main{max-width:900px;margin:40px auto;padding:24px}
+.card{background:#1B365D;border:1px solid #D4AF37;border-radius:16px;padding:26px}
+h1{color:#D4AF37} .texto{font-size:20px;background:#10263f;padding:24px;border-radius:12px}
+.lector{position:sticky;bottom:15px;margin-top:25px;background:#111c29;border:1px solid #D4AF37;border-radius:14px;padding:16px;box-shadow:0 8px 25px rgba(0,0,0,.35)}
+button,select{font-size:16px;padding:10px 14px;border-radius:8px;border:0;margin:4px;cursor:pointer}
+button{background:#D4AF37;color:#102030;font-weight:bold}button:disabled{opacity:.45;cursor:not-allowed}
+select{background:white;color:#222;max-width:100%}
+.controles{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.estado{display:block;color:#ddd;font-size:14px;margin-bottom:8px}
+.frase{padding:2px 3px;border-radius:4px}.activa{background:#D4AF37;color:#102030}
+.barra{height:8px;background:#30445a;border-radius:8px;overflow:hidden;margin:12px 0}.avance{height:100%;width:0;background:#D4AF37;transition:width .2s}
+small{color:#cfd8e3}
+</style>
+</head>
+<body>
+<main>
+<div class="card">
+<h1>🔊 Prueba del lector de voz</h1>
+<p>Esta página es una prueba aislada. No modifica la página principal ni la configuración de GitHub Pages.</p>
+<p><small>Prueba especialmente la pausa, continuación, voces en español y velocidad.</small></p>
+<div id="texto" class="texto"></div>
+<div class="lector">
+<strong>Lectura del devocional</strong>
+<span id="estado" class="estado">Listo</span>
+<div class="controles">
+<button id="reproducir">▶ Reproducir</button>
+<button id="pausar" disabled>⏸ Pausar</button>
+<button id="detener" disabled>⏹ Detener</button>
+<label> Voz: <select id="voz"></select></label>
+<label> Velocidad: <select id="velocidad"><option>0.8</option><option>0.9</option><option selected>1</option><option>1.1</option><option>1.2</option></select></label>
+</div>
+<div class="barra"><div id="avance" class="avance"></div></div>
+<div id="contador">0 / 0</div>
+</div>
+</div>
+</main>
+<script>
+const textoPrueba=`Cuando todo cambia, permanece firme en la verdad. Hay momentos en los que nuestra vida parece cambiar de un día para otro. Cambian las circunstancias, cambian las personas, cambian las oportunidades y, en ocasiones, también cambian nuestros planes. Sin embargo, en medio de todos esos cambios existe una verdad que permanece: Dios sigue siendo Dios y su Palabra continúa siendo digna de confianza.
+
+La fe no significa que nunca tendremos preguntas, temor o momentos de incertidumbre. Significa que, aun cuando no comprendemos todo lo que está ocurriendo, podemos decidir dónde colocar nuestra confianza. Cuando nuestros ojos solamente miran las circunstancias, el corazón puede llenarse de ansiedad. Pero cuando volvemos nuestra mirada hacia Dios, recordamos que nuestra seguridad no depende de que todo permanezca igual.
+
+La Palabra de Dios nos llama a permanecer firmes. No porque tengamos todas las respuestas, sino porque conocemos a Aquel que tiene el control. Job atravesó pérdidas profundas y momentos que no podía explicar. Aun así, su historia nos recuerda que Dios no abandona a sus hijos en medio de la prueba. La perseverancia de la fe se construye precisamente cuando aprendemos a confiar en Dios aun cuando no vemos el resultado.
+
+Tal vez hoy estás enfrentando un cambio que no esperabas. Puede ser una situación familiar, económica, laboral o espiritual. Quizá sientes que algo que antes era seguro ahora se ha vuelto incierto. No permitas que ese cambio determine tu identidad ni tu esperanza. Tu circunstancia puede cambiar, pero el carácter de Dios no cambia.
+
+Permanece en la verdad. Vuelve a la Escritura. Ora antes de tomar decisiones. Recuerda lo que Dios ya ha hecho en tu vida. La memoria de la fidelidad de Dios fortalece nuestra confianza para enfrentar el presente. No necesitas conocer todos los detalles del mañana para dar el siguiente paso con fe.
+
+Hoy puedes decir: Señor, aunque mi situación cambie, mi confianza permanece en ti. Aunque no comprenda lo que sucede, seguiré caminando contigo. Aunque tenga preguntas, no abandonaré tu Palabra. Esa decisión puede parecer pequeña, pero tiene un enorme valor espiritual.
+
+La verdadera estabilidad no consiste en tener una vida sin cambios. Consiste en tener un fundamento que no cambia cuando llegan los cambios. Jesucristo sigue siendo el mismo. Su Palabra sigue siendo verdadera. Sus promesas siguen siendo dignas de confianza. Por eso, cuando todo cambie, permanece firme en la verdad.`;
+
+const frases=textoPrueba.match(/[^.!?¡¿]+[.!?]+|[^.!?¡¿]+$/g).map(x=>x.trim());
+const cont=document.getElementById('texto');
+frases.forEach((f,i)=>{const s=document.createElement('span');s.className='frase';s.dataset.i=i;s.textContent=f+' ';cont.appendChild(s);});
+const synth=window.speechSynthesis;let voces=[];let indice=0;let detenido=true;let hablando=false;
+function cargarVoces(){const sel=document.getElementById('voz');voces=synth.getVoices().filter(v=>/^es(-|_|$)/i.test(v.lang)).sort((a,b)=>a.name.localeCompare(b.name));sel.innerHTML='';if(!voces.length){sel.innerHTML='<option>No hay voces en español</option>';return;}voces.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.name+' — '+v.lang;sel.appendChild(o)});const p=voces.findIndex(v=>/es-(MX|US|419|CO|AR|CL|PE)/i.test(v.lang));sel.value=String(p>=0?p:0)}
+cargarVoces();if('onvoiceschanged' in synth)synth.onvoiceschanged=cargarVoces;
+function resaltar(){document.querySelectorAll('.activa').forEach(e=>e.classList.remove('activa'));if(frases[indice]){const els=cont.querySelectorAll('.frase');els[indice].classList.add('activa');els[indice].scrollIntoView({behavior:'smooth',block:'center'})}document.getElementById('avance').style.width=(indice/frases.length*100)+'%';document.getElementById('contador').textContent=Math.min(indice+1,frases.length)+' / '+frases.length}
+function actualizar(){document.getElementById('reproducir').disabled=hablando;document.getElementById('pausar').disabled=detenido||!hablando;document.getElementById('detener').disabled=detenido;document.getElementById('reproducir').textContent=!hablando&&!detenido?'▶ Continuar':'▶ Reproducir'}
+function hablar(){if(detenido){detenido=false;}if(indice>=frases.length){indice=0}resaltar();const u=new SpeechSynthesisUtterance(frases[indice]);const v=voces[Number(document.getElementById('voz').value)];if(v){u.voice=v;u.lang=v.lang}else u.lang='es-ES';u.rate=Number(document.getElementById('velocidad').value);u.onstart=()=>{hablando=true;actualizar();document.getElementById('estado').textContent='Leyendo…'};u.onend=()=>{if(detenido)return;indice++;if(indice<frases.length)hablar();else{detenido=true;hablando=false;document.getElementById('estado').textContent='Lectura terminada';actualizar()}};u.onerror=e=>{if(e.error==='canceled'||e.error==='interrupted')return;hablando=false;document.getElementById('estado').textContent='Error de voz';actualizar()};synth.cancel();synth.speak(u);}
+document.getElementById('reproducir').onclick=()=>{if(!detenido&&!hablando){synth.resume();hablando=true;document.getElementById('estado').textContent='Continuando…';actualizar()}else hablar()};
+document.getElementById('pausar').onclick=()=>{synth.pause();hablando=false;document.getElementById('estado').textContent='En pausa';actualizar()};
+document.getElementById('detener').onclick=()=>{synth.cancel();detenido=true;hablando=false;indice=0;document.querySelectorAll('.activa').forEach(e=>e.classList.remove('activa'));document.getElementById('estado').textContent='Listo desde el principio';actualizar();resaltar()};
+actualizar();resaltar();
+</script>
+</body>
+</html>
