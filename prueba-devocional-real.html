@@ -6,23 +6,21 @@
 <title>Prueba | Devocional real + lector de voz</title>
 <style>
 body{font-family:Arial,sans-serif;margin:0;background:#0D1B2A;color:#F5F7FA;line-height:1.75}
-main{max-width:920px;margin:30px auto;padding:24px}
-.card{background:#1B365D;border:1px solid #D4AF37;border-radius:16px;padding:26px}
+main{max-width:920px;margin:30px auto;padding:24px}.card{background:#1B365D;border:1px solid #D4AF37;border-radius:16px;padding:26px}
 h1,h2{color:#D4AF37}.seccion{background:#102030;border-radius:14px;padding:18px;margin:14px 0}.seccion h2{margin-top:0;font-size:20px}.texto{font-size:18px}.estado-carga{padding:14px;border-radius:10px;background:#102030;color:#ddd}
 .lector{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:min(920px,calc(100% - 28px));z-index:9999;padding:14px 16px;background:rgba(8,17,29,.97);border:1px solid rgba(212,175,55,.65);border-radius:16px;box-shadow:0 14px 38px rgba(0,0,0,.45);color:#eef4ff;backdrop-filter:blur(8px)}
-.controles{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.btn,select{min-height:40px;border:1px solid rgba(212,175,55,.45);border-radius:9px;background:#132845;color:#eef4ff;padding:7px 11px;font:inherit}.btn{cursor:pointer}.btn:hover:not(:disabled){border-color:#f5d87c;background:#193657}.btn:disabled{opacity:.45;cursor:not-allowed}.principal{border-color:#d4af37}.selects{display:flex;align-items:center;gap:8px;color:#ddd;font-size:12px}.selects select{max-width:270px}.progreso{display:flex;align-items:center;gap:10px;margin-top:11px}.barra{flex:1;height:5px;overflow:hidden;border-radius:999px;background:#243a55}.avance{width:0;height:100%;background:#D4AF37;transition:width .2s ease}.frase{border-radius:4px;transition:background-color .2s ease,box-shadow .2s ease}.activa{background:rgba(245,216,124,.30);box-shadow:0 0 0 2px rgba(212,175,55,.18)}#contador{min-width:58px;text-align:right;color:#d9e4f7;font-size:12px}
+.controles{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.btn,select{min-height:40px;border:1px solid rgba(212,175,55,.45);border-radius:9px;background:#132845;color:#eef4ff;padding:7px 11px;font:inherit}.btn{cursor:pointer}.btn:hover:not(:disabled){border-color:#f5d87c;background:#193657}.btn:disabled{opacity:.45;cursor:not-allowed}.principal{border-color:#d4af37}.selects{display:flex;align-items:center;gap:8px;color:#ddd;font-size:12px}.selects select{max-width:270px}.progreso{display:flex;align-items:center;gap:10px;margin-top:11px}.barra{flex:1;height:5px;overflow:hidden;border-radius:999px;background:#243a55}.avance{width:0;height:100%;background:#D4AF37;transition:width .2s ease}
+.frase{border-radius:5px;transition:background-color .12s ease,box-shadow .12s ease}.frase-activa{background:rgba(212,175,55,.12);border-radius:5px}.palabra-activa{background:#D4AF37;color:#101820;border-radius:4px;padding:1px 3px;box-shadow:0 1px 5px rgba(212,175,55,.35)}#contador{min-width:58px;text-align:right;color:#d9e4f7;font-size:12px}
 @media(max-width:700px){.lector{bottom:10px;width:calc(100% - 16px);padding:12px}.btn{flex:1 1 auto}.selects{flex:1 1 100%;justify-content:space-between}.selects select{flex:1;max-width:none}}
 </style>
 </head>
 <body>
-<main>
-<div class="card">
+<main><div class="card">
 <h1>🔊 Prueba con el devocional real</h1>
 <p>Esta página es una prueba aislada. No modifica la página principal ni GitHub Pages.</p>
 <div id="estadoCarga" class="estado-carga">Cargando el devocional de hoy...</div>
 <div id="contenido"></div>
-</div>
-</main>
+</div></main>
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbxpCZ00WGFhINXrmOEs2NmVWOXIw_-_mmO0Da_XGfrWzLzuZyki2kzercmR14I7HlkNAw/exec';
 let frases=[],indice=0,detenido=true,hablando=false,voces=[];
@@ -31,20 +29,37 @@ function esc(t){return String(t??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&l
 function render(d){
  const campos=[['ENSEÑANZA','📖 Enseñanza'],['IDEA CENTRAL','💡 Idea Central'],['EXPLICACION','📚 Explicación'],['REFLEXION','❤️ Reflexión'],['PREGUNTAS','❓ Preguntas'],['ORACION','🙏 Oración'],['PALABRA DE VIDA','✨ Palabra de Vida']];
  document.getElementById('contenido').innerHTML=`<h2>${esc(d['TíTULO']||'')}</h2><p>📅 ${esc(d.FECHA||fechaHoy())}</p>${campos.map(([k,t])=>`<section class="seccion"><h2>${t}</h2><div class="texto">${esc(d[k]||'')}</div></section>`).join('')}`;
- prepararFrases(); crearLector(); cargarVoces();
+ prepararFrases();crearLector();cargarVoces();
 }
 function prepararFrases(){
  frases=[];const zonas=document.querySelectorAll('.texto');let i=0;
- zonas.forEach(z=>{const walker=document.createTreeWalker(z,NodeFilter.SHOW_TEXT);const nodos=[];let n;while(n=walker.nextNode())if(n.nodeValue.trim())nodos.push(n);nodos.forEach(txt=>{const partes=txt.nodeValue.match(/[^.!?¡¿]+[.!?]+|[^.!?¡¿]+$/g);if(!partes)return;const frag=document.createDocumentFragment();partes.forEach(p=>{const s=p.trim();if(!s)return;const span=document.createElement('span');span.className='frase';span.dataset.i=i;span.textContent=s+' ';frag.appendChild(span);frases.push({elemento:span,texto:s});i++});txt.parentNode.replaceChild(frag,txt)})});}
+ zonas.forEach(z=>{const walker=document.createTreeWalker(z,NodeFilter.SHOW_TEXT);const nodos=[];let n;while(n=walker.nextNode())if(n.nodeValue.trim())nodos.push(n);nodos.forEach(txt=>{
+  const partes=txt.nodeValue.match(/[^.!?¡¿]+[.!?]+|[^.!?¡¿]+$/g);if(!partes)return;const frag=document.createDocumentFragment();
+  partes.forEach(p=>{const s=p.trim();if(!s)return;const span=document.createElement('span');span.className='frase';span.dataset.i=i;
+   const palabras=s.match(/\S+\s*/g)||[s];let posicion=0;
+   palabras.forEach((pal)=>{const w=document.createElement('span');w.className='palabra';w.textContent=pal;w.dataset.posicion=posicion;span.appendChild(w);posicion+=pal.length});
+   frag.appendChild(span);frases.push({elemento:span,texto:s,palabras:[...span.querySelectorAll('.palabra')]});i++;
+  });txt.parentNode.replaceChild(frag,txt)
+ })});
+}
 function crearLector(){document.body.insertAdjacentHTML('beforeend',`<section class="lector"><strong>🔊 Lectura del devocional</strong><span id="estado"> Listo</span><div class="controles"><button class="btn principal" id="reproducir">▶ Reproducir</button><button class="btn" id="pausar" disabled>⏸ Pausar</button><button class="btn" id="detener" disabled>⏹ Detener</button><label class="selects">Voz <select id="voz"></select></label><label class="selects">Velocidad <select id="vel"><option value="0.8">0.8×</option><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option></select></label></div><div class="progreso"><div class="barra"><div id="avance" class="avance"></div></div><span id="contador">1 / ${frases.length}</span></div></section>`);document.getElementById('reproducir').onclick=reproducir;document.getElementById('pausar').onclick=pausar;document.getElementById('detener').onclick=detener;}
 function cargarVoces(){voces=speechSynthesis.getVoices().filter(v=>/^es(-|_|$)/i.test(v.lang)).sort((a,b)=>a.name.localeCompare(b.name));const s=document.getElementById('voz');if(!s)return;s.innerHTML='';voces.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${v.name} — ${v.lang}`;s.appendChild(o)});const preferida=voces.findIndex(v=>/es-US/i.test(v.lang)&&/Google/i.test(v.name));s.value=String(preferida>=0?preferida:0)}
 if(window.speechSynthesis)speechSynthesis.addEventListener('voiceschanged',cargarVoces);
 function reproducir(){if(!frases.length)return;if(!detenido&&!hablando){speechSynthesis.resume();hablando=true;estado('Continuando…');controles();return}if(hablando)return;detenido=false;hablar()}
-function hablar(){if(detenido)return;if(indice>=frases.length){finalizar();return}const f=frases[indice];document.querySelectorAll('.activa').forEach(x=>x.classList.remove('activa'));f.elemento.classList.add('activa');f.elemento.scrollIntoView({behavior:'smooth',block:'center'});const u=new SpeechSynthesisUtterance(f.texto);const v=voces[Number(document.getElementById('voz').value)];if(v){u.voice=v;u.lang=v.lang}else u.lang='es-US';u.rate=Number(document.getElementById('vel').value);u.onstart=()=>{hablando=true;estado('Leyendo…');controles()};u.onend=()=>{if(!detenido){indice++;actualizar();hablar()}};u.onerror=e=>{if(!['canceled','interrupted'].includes(e.error)){hablando=false;estado('Error con la voz');controles()}};speechSynthesis.cancel();speechSynthesis.speak(u);actualizar()}
+function limpiarMarcado(){document.querySelectorAll('.frase-activa,.palabra-activa').forEach(x=>x.classList.remove('frase-activa','palabra-activa'))}
+function hablar(){
+ if(detenido)return;if(indice>=frases.length){finalizar();return}
+ const f=frases[indice];limpiarMarcado();f.elemento.classList.add('frase-activa');f.elemento.scrollIntoView({behavior:'smooth',block:'center'});
+ const u=new SpeechSynthesisUtterance(f.texto);const v=voces[Number(document.getElementById('voz').value)];if(v){u.voice=v;u.lang=v.lang}else u.lang='es-US';u.rate=Number(document.getElementById('vel').value);
+ u.onstart=()=>{hablando=true;estado('Leyendo…');controles()};
+ u.onboundary=(e)=>{if(e.name!=='word')return;const pos=e.charIndex;let palabra=null;for(const w of f.palabras){const inicio=Number(w.dataset.posicion),fin=inicio+w.textContent.length;if(pos>=inicio&&pos<fin){palabra=w;break}}if(palabra){f.palabras.forEach(x=>x.classList.remove('palabra-activa'));palabra.classList.add('palabra-activa')}};
+ u.onend=()=>{if(!detenido){indice++;actualizar();hablar()}};
+ u.onerror=e=>{if(!['canceled','interrupted'].includes(e.error)){hablando=false;estado('Error con la voz');controles()}};
+ speechSynthesis.cancel();speechSynthesis.speak(u);actualizar();
+}
 function pausar(){speechSynthesis.pause();hablando=false;estado('En pausa');controles()}
-function detener(){speechSynthesis.cancel();detenido=true;hablando=false;indice=0;limpiar();actualizar();estado('Listo para comenzar');controles()}
-function finalizar(){speechSynthesis.cancel();detenido=true;hablando=false;indice=frases.length;limpiar();actualizar();estado('Lectura terminada');controles()}
-function limpiar(){document.querySelectorAll('.activa').forEach(x=>x.classList.remove('activa'))}
+function detener(){speechSynthesis.cancel();detenido=true;hablando=false;indice=0;limpiarMarcado();actualizar();estado('Listo para comenzar');controles()}
+function finalizar(){speechSynthesis.cancel();detenido=true;hablando=false;indice=frases.length;limpiarMarcado();actualizar();estado('Lectura terminada');controles()}
 function actualizar(){const total=frases.length||1;document.getElementById('avance').style.width=(indice/total*100)+'%';document.getElementById('contador').textContent=`${Math.min(indice+1,total)} / ${total}`}
 function estado(t){const e=document.getElementById('estado');if(e)e.textContent=' '+t}
 function controles(){const r=document.getElementById('reproducir'),p=document.getElementById('pausar'),d=document.getElementById('detener');r.disabled=hablando;p.disabled=detenido||!hablando;d.disabled=detenido;r.textContent=!hablando&&!detenido?'▶ Continuar':'▶ Reproducir'}
