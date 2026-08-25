@@ -53,7 +53,47 @@ function iniciarHeader() {
     const boton = document.getElementById("btnMenu");
     const menu = document.getElementById("menuPrincipal");
     if (!boton || !menu) return;
+
     boton.addEventListener("click", () => {
         menu.classList.toggle("activo");
     });
+
+    /************************************************
+     * IDIOMAS EN TODAS LAS PÁGINAS
+     *
+     * El selector se carga desde aquí porque este
+     * header es compartido por las páginas del sitio.
+     * Así no tenemos que repetir el <script> en cada
+     * HTML y cualquier página nueva que use el header
+     * recibe automáticamente el selector.
+     ************************************************/
+    cargarSelectorIdiomas();
+}
+
+function cargarSelectorIdiomas() {
+
+    // Si index.html ya cargó idiomas.js, no volver a cargarlo.
+    if (window.__ccdIdiomasScriptCargado ||
+        document.querySelector('script[data-ccd-idiomas="true"]')) {
+        return;
+    }
+
+    window.__ccdIdiomasScriptCargado = true;
+
+    const script = document.createElement("script");
+
+    script.src = "assets/js/utilidades/idiomas.js";
+    script.dataset.ccdIdiomas = "true";
+    script.async = false;
+
+    script.onload = () => {
+        console.log("Selector de idiomas cargado en la página.");
+    };
+
+    script.onerror = () => {
+        window.__ccdIdiomasScriptCargado = false;
+        console.error("No fue posible cargar assets/js/utilidades/idiomas.js");
+    };
+
+    document.body.appendChild(script);
 }
