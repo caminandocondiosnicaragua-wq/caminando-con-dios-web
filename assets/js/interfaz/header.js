@@ -60,39 +60,42 @@ function iniciarHeader() {
 
     /************************************************
      * IDIOMAS EN TODAS LAS PÁGINAS
-     *
-     * El selector se carga desde aquí porque este
-     * header es compartido por las páginas del sitio.
-     * Así no tenemos que repetir el <script> en cada
-     * HTML y cualquier página nueva que use el header
-     * recibe automáticamente el selector.
      ************************************************/
     cargarSelectorIdiomas();
 }
 
 function cargarSelectorIdiomas() {
 
-    // Si index.html ya cargó idiomas.js, no volver a cargarlo.
-    if (window.__ccdIdiomasScriptCargado ||
-        document.querySelector('script[data-ccd-idiomas="true"]')) {
+    cargarScriptUnaVez(
+        "assets/js/utilidades/idiomas.js",
+        "ccd-idiomas"
+    );
+
+    // El traductor global se carga aparte porque las páginas
+    // internas pueden no contener un bloque .devocional.
+    cargarScriptUnaVez(
+        "assets/js/utilidades/idiomas-global.js",
+        "ccd-idiomas-global"
+    );
+}
+
+function cargarScriptUnaVez(src, marca) {
+
+    if(document.querySelector(`script[data-${marca}="true"]`)){
         return;
     }
 
-    window.__ccdIdiomasScriptCargado = true;
-
     const script = document.createElement("script");
-
-    script.src = "assets/js/utilidades/idiomas.js";
-    script.dataset.ccdIdiomas = "true";
+    script.src = src;
+    script.dataset[marca] = "true";
     script.async = false;
 
     script.onload = () => {
-        console.log("Selector de idiomas cargado en la página.");
+        console.log("Cargado:", src);
     };
 
     script.onerror = () => {
-        window.__ccdIdiomasScriptCargado = false;
-        console.error("No fue posible cargar assets/js/utilidades/idiomas.js");
+        console.error("No fue posible cargar:", src);
     };
 
     document.body.appendChild(script);
