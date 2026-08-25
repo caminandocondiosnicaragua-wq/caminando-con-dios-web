@@ -59,6 +59,17 @@
             iniciarElemento();
         };
 
+        // Si idiomas.js ya está cargando Google Translate,
+        // esperamos ese mismo cargador en lugar de crear otro.
+        const googleScript = Array.from(document.scripts).find(script =>
+            script.src && script.src.indexOf("translate.google.com/translate_a/element.js") !== -1
+        );
+
+        if(googleScript){
+            esperar(60);
+            return;
+        }
+
         if(document.querySelector("script[data-ccd-google-global='true']")){
             esperar(60);
             return;
