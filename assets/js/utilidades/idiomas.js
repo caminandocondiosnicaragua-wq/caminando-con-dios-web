@@ -76,7 +76,7 @@
 
     function crearSelector(){
         const boton = document.getElementById("btnIdioma");
-        if(!boton || document.querySelector(".selector-idioma")) return;
+        if(!boton || document.querySelector(".selector-idioma")) return false;
 
         const contenedor = document.createElement("div");
         contenedor.className = "selector-idioma notranslate";
@@ -96,9 +96,7 @@
             opcion.dataset.idioma = idioma.codigo;
             opcion.setAttribute("role", "menuitem");
             opcion.innerHTML = `<span class="bandera">${idioma.bandera}</span><span>${idioma.nombre}</span>`;
-            opcion.addEventListener("click", function(){
-                cambiarIdioma(idioma.codigo);
-            });
+            opcion.addEventListener("click", function(){ cambiarIdioma(idioma.codigo); });
             menu.appendChild(opcion);
         });
 
@@ -120,6 +118,30 @@
         });
 
         actualizarSeleccion();
+        return true;
+    }
+
+    function esperarBotonIdioma(intentos){
+        if(crearSelector()) return;
+
+        if(intentos >= 80){
+            console.warn("No se encontró #btnIdioma para inicializar el selector.");
+            return;
+        }
+
+        setTimeout(function(){ esperarBotonIdioma(intentos + 1); }, 250);
+    }
+
+    function observarHeader(){
+        const observer = new MutationObserver(function(){
+            if(document.getElementById("btnIdioma")){
+                crearSelector();
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {childList:true, subtree:true});
+        esperarBotonIdioma(0);
     }
 
     function actualizarSeleccion(){
@@ -152,6 +174,9 @@
     }
 
     function iniciarGoogle(){
+        if(window.__ccdGoogleTranslateIniciado) return;
+        window.__ccdGoogleTranslateIniciado = true;
+
         window.googleTranslateElementInit = function(){
             try{
                 new google.translate.TranslateElement({
@@ -173,10 +198,7 @@
 
     function esperarDevocional(){
         const app = document.getElementById("app");
-        if(!app){
-            setTimeout(esperarDevocional, 250);
-            return;
-        }
+        if(!app){ setTimeout(esperarDevocional, 250); return; }
 
         if(window.ccdIdiomaActual === ORIGEN){
             window.ccdIdiomaListo = true;
@@ -200,10 +222,6 @@
         if(combo){
             combo.value = window.ccdIdiomaActual;
             combo.dispatchEvent(new Event("change"));
-
-            // Damos tiempo a Google Translate para terminar de modificar
-            // los nodos de texto antes de permitir que el lector de voz
-            // prepare sus frases.
             setTimeout(function(){
                 window.ccdIdiomaListo = true;
                 document.dispatchEvent(new CustomEvent("ccd:idioma-listo"));
@@ -212,7 +230,6 @@
         }
 
         if(intentos >= 40){
-            // Si Google no responde, nunca bloqueamos la página.
             window.ccdIdiomaListo = true;
             document.dispatchEvent(new CustomEvent("ccd:idioma-listo"));
             return;
@@ -223,7 +240,7 @@
 
     function iniciar(){
         estilos();
-        crearSelector();
+        observarHeader();
         esperarDevocional();
     }
 
