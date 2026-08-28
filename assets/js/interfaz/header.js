@@ -32,7 +32,7 @@ function crearHeader() {
             <a href="biblioteca.html">Biblioteca</a>
             <a href="estudios.html">Estudios</a>
             <a href="comunidad.html">Comunidad</a>
-            <a href="acerca.html">Acerca</a>
+            <a href="acerca.html">Acerca de</a>
             <button
                 id="btnIdioma"
                 class="btn-idioma">
