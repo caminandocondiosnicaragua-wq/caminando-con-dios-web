@@ -32,7 +32,7 @@ function crearHeader() {
             <a href="biblioteca.html">Biblioteca</a>
             <a href="estudios.html">Estudios</a>
             <a href="comunidad.html">Comunidad</a>
-            <a href="acerca.html">Acerca de</a>
+            <a href="acerca.html">Acerca</a>
             <button
                 id="btnIdioma"
                 class="btn-idioma">
@@ -87,7 +87,7 @@ function cargarScriptUnaVez(src, marca) {
 
     const script = document.createElement("script");
     script.src = src;
-    script.dataset[marca] = "true";
+    script.setAttribute(`data-${marca}`, "true");
     script.async = false;
 
     script.onload = () => {
