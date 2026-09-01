@@ -5,14 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", iniciarComunidad);
 
-/************************************************
- * SECCIONES DE COMUNIDAD
- *
- * Cada objeto representa una tarjeta.
- ************************************************/
-
 const SECCIONES_COMUNIDAD = [
-
     {
         icono: "✝️",
         titulo: "Las Buenas Nuevas de Salvación",
@@ -21,7 +14,6 @@ const SECCIONES_COMUNIDAD = [
         tipo: "salvacion",
         activo: false
     },
-
     {
         icono: "🌱",
         titulo: "Los primeros pasos del creyente",
@@ -29,9 +21,8 @@ const SECCIONES_COMUNIDAD = [
         accion: "Comenzar estudio",
         tipo: "discipulado",
         activo: true,
-        enlace: "primeros-pasos.html"
+        enlace: "nueva-vida.html"
     },
-
     {
         icono: "🤝",
         titulo: "Sé parte de la comunidad",
@@ -40,7 +31,6 @@ const SECCIONES_COMUNIDAD = [
         tipo: "registro",
         activo: false
     },
-
     {
         icono: "💬",
         titulo: "Foro de la comunidad",
@@ -49,58 +39,36 @@ const SECCIONES_COMUNIDAD = [
         tipo: "foro",
         activo: false
     }
-
 ];
 
-/************************************************
- * INICIAR COMUNIDAD
- ************************************************/
-
 function iniciarComunidad(){
-
     const app = document.getElementById("app");
 
     app.innerHTML = `
-
         ${crearHeader()}
-
         ${crearHero()}
-
         <div class="contenedor">
             ${crearComunidad()}
         </div>
-
         ${crearFooter()}
-
     `;
 
     app.style.display = "block";
 
     iniciarHeader();
     iniciarFooter();
-
 }
 
-/************************************************
- * CREAR PÁGINA DE COMUNIDAD
- ************************************************/
-
 function crearComunidad(){
-
     return `
-
 <section class="comunidad-pagina">
-
     <div class="comunidad-cabecera">
-
         <h1>👥 Comunidad</h1>
-
         <p>
             Un espacio pensado para compartir las Buenas Nuevas de Salvación,
             crecer en la fe mediante el discipulado y, en el futuro,
             caminar juntos como comunidad en línea.
         </p>
-
     </div>
 
     <div class="grid-comunidad">
@@ -108,82 +76,43 @@ function crearComunidad(){
     </div>
 
     <div class="comunidad-pendiente">
-
         <div class="pendiente-icono">🔨</div>
-
         <h2>Estamos trabajando en esta sección</h2>
-
         <p>
             Estamos preparando nuevos recursos de evangelismo, discipulado
             y comunidad. Algunas funciones estarán disponibles más adelante,
             a medida que sigamos desarrollando este espacio.
         </p>
-
         <strong>Permanece pendiente.</strong>
-
     </div>
-
 </section>
-
 `;
-
 }
 
-/************************************************
- * CREAR TARJETAS
- ************************************************/
-
 function crearTarjetasComunidad(){
-
     return SECCIONES_COMUNIDAD.map(seccion => {
-
         if (seccion.activo && seccion.enlace) {
             return `
-
                 <article class="tarjeta-comunidad">
-
-                    <div class="tarjeta-comunidad-icono">
-                        ${seccion.icono}
-                    </div>
-
+                    <div class="tarjeta-comunidad-icono">${seccion.icono}</div>
                     <h2>${seccion.titulo}</h2>
-
                     <p>${seccion.descripcion}</p>
-
-                    <a
-                        href="${seccion.enlace}"
-                        class="btn-comunidad btn-activo">
+                    <a href="${seccion.enlace}" class="btn-comunidad btn-activo">
                         ${seccion.accion}
                     </a>
-
                 </article>
-
             `;
         }
 
         return `
-
             <article class="tarjeta-comunidad">
-
-                <div class="tarjeta-comunidad-icono">
-                    ${seccion.icono}
-                </div>
-
+                <div class="tarjeta-comunidad-icono">${seccion.icono}</div>
                 <h2>${seccion.titulo}</h2>
-
                 <p>${seccion.descripcion}</p>
-
-                <button
-                    type="button"
-                    class="btn-comunidad btn-pendiente"
-                    disabled>
+                <button type="button" class="btn-comunidad btn-pendiente" disabled>
                     ${seccion.accion}
                 </button>
-
             </article>
-
         `;
-
     }).join("");
-
 }
