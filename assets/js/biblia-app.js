@@ -21,7 +21,7 @@ function iniciarBiblia(){
     const app = document.getElementById("app");
     if(!app) return;
     app.style.display = "block";
-    app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido">${crearSelectorTestamentos()}</div></section></main>${crearFooter()}`;
+    app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="credito-biblia"><strong>📖 Fuente del texto bíblico</strong><p>Los pasajes bíblicos mostrados en esta página son obtenidos mediante <a href="https://api.bible" target="_blank" rel="noopener noreferrer">API.Bible</a>.</p><p>Las traducciones bíblicas pertenecen a sus respectivos titulares de derechos y se utilizan conforme a sus licencias y condiciones de uso.</p></div><div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido">${crearSelectorTestamentos()}</div></section></main>${crearFooter()}`;
     iniciarHeader();
     iniciarFooter();
     document.getElementById("btnBuscarBiblia").addEventListener("click", ejecutarBusquedaBiblia);
