@@ -34,7 +34,6 @@ const BIBLIAS_PAGINA = [
     {id:"74a986a9a183ae1c-01",idioma:"sl",idiomaNombre:"Slovenščina · Esloveno",nombre:"Slovenian Living New Testament",anio:"",titular:"Biblica, Inc.",alcance:"Nuevo Testamento"},
     {id:"7f996672a9b6d67a-01",idioma:"qu",idiomaNombre:"Quichua",nombre:"Quichua-Chimborazo New Testament",anio:"2016",titular:"Biblica, Inc.",alcance:"Nuevo Testamento"},
     {id:"c6229c708b3d1407-01",idioma:"",idiomaNombre:"Bette",nombre:"Bette Contemporary Bible",anio:"2025",titular:"Biblica, Inc."},
-    {id:"aee9474b4a88eefb-01",idioma:"pt",idiomaNombre:"Português · Portugués",nombre:"O Livro",anio:"",titular:"Biblica, Inc."},
     {id:"e1592fe262f26754-01",idioma:"en",idiomaNombre:"English · Inglés",nombre:"New Living Bible",anio:"",titular:"Biblica, Inc."},
     {id:"cf5534eebe2d744f-01",idioma:"",idiomaNombre:"Sumi",nombre:"Sumi New Generation Bible",anio:"",titular:"Biblica, Inc."}
 ];
