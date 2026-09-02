@@ -14,6 +14,16 @@
 .credito-biblia p{margin:4px 0;}
 .credito-biblia a{color:var(--dorado-claro);font-weight:700;text-decoration:none;}
 .credito-biblia a:hover{text-decoration:underline;}
+.selector-traduccion-biblia{max-width:900px;margin:0 auto 28px;padding:20px;border:1px solid rgba(212,175,55,.28);border-radius:18px;background:rgba(13,29,48,.72);box-shadow:0 10px 24px rgba(0,0,0,.16);}
+.selector-traduccion-cabecera{display:flex;align-items:center;gap:14px;margin-bottom:14px;color:white;}
+.selector-traduccion-icono{font-size:28px;line-height:1;}
+.selector-traduccion-cabecera strong{display:block;font-size:18px;color:var(--dorado-claro);}
+.selector-traduccion-cabecera small{display:block;color:#b9c8dd;margin-top:3px;}
+#selectorTraduccionBiblia{width:100%;padding:14px 16px;border:1px solid rgba(212,175,55,.35);border-radius:12px;background:#102238;color:white;font-size:16px;outline:none;cursor:pointer;}
+#selectorTraduccionBiblia:focus{border-color:var(--dorado);box-shadow:0 0 0 3px rgba(212,175,55,.12);}
+.datos-traduccion-biblia{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:13px;color:#d7e1ee;font-size:13px;}
+.datos-traduccion-biblia strong{color:#f5d87c;}
+.identificacion-traduccion{display:block;color:#9fb0c6;margin-top:8px;font-size:12px;}
 .biblia-buscador{display:flex;max-width:760px;margin:0 auto 35px;gap:10px;}
 .biblia-buscador input{flex:1;min-width:0;padding:15px 18px;border:1px solid rgba(212,175,55,.3);border-radius:12px;background:#0d1d30;color:white;font-size:16px;outline:none;}
 .biblia-buscador button,.ruta-biblia button,.navegacion-capitulo button{border:0;border-radius:12px;padding:13px 18px;background:#d4af37;color:#102238;font-weight:700;cursor:pointer;}
@@ -30,5 +40,5 @@
 .cargando-biblia,.error-biblia{text-align:center;padding:50px;color:var(--texto-sec)}
 .lector-biblia{max-width:980px;margin:0 auto}.lector-barra{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:10px 0 15px;background:#132845;}.lector-barra button,.tamano-letra button{border:1px solid rgba(212,175,55,.25);background:#193657;color:white;border-radius:9px;padding:9px 13px;cursor:pointer}.tamano-letra{display:flex;gap:5px}.tamano-letra button.activo{background:#d4af37;color:#102238;font-weight:700}
 .referencia-lectura{text-align:center;padding:20px 0}.referencia-lectura h2{color:var(--dorado-claro);font-size:30px}.referencia-lectura p{color:#b9c8dd;margin-top:5px}.texto-biblia{background:#f7f2e7;color:#1d2733;border-radius:4px;padding:35px 42px;box-shadow:0 15px 30px rgba(0,0,0,.28);font-family:Georgia,"Times New Roman",serif;line-height:1.85;font-size:19px;transition:.2s}.texto-biblia[data-size="small"]{font-size:16px}.texto-biblia[data-size="large"]{font-size:23px}.versiculo-biblia{margin:0 0 11px}.versiculo-biblia sup{font-family:Arial,sans-serif;font-size:.68em;font-weight:700;margin-right:7px;color:#735d22}.navegacion-capitulo{display:flex;justify-content:space-between;gap:15px;padding-top:25px}.navegacion-capitulo button:disabled{opacity:.35;cursor:not-allowed}
-@media(max-width:700px){.biblia-app{padding:18px 10px 35px}.biblia-portada{padding:22px 15px;border-radius:20px}.biblia-intro h2{font-size:28px}.credito-biblia{font-size:13px;padding:14px 15px}.biblia-buscador{flex-direction:column}.testamentos{grid-template-columns:1fr}.testamento{padding:17px}.libros-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.libro-card{min-height:88px}.ruta-biblia{flex-wrap:wrap}.ruta-biblia h2{order:-1;width:100%;text-align:center}.texto-biblia{padding:25px 20px;font-size:18px}.texto-biblia[data-size="large"]{font-size:21px}.lector-barra{top:0}.navegacion-capitulo button{flex:1}}
+@media(max-width:700px){.biblia-app{padding:18px 10px 35px}.biblia-portada{padding:22px 15px;border-radius:20px}.biblia-intro h2{font-size:28px}.credito-biblia{font-size:13px;padding:14px 15px}.selector-traduccion-biblia{padding:16px}.selector-traduccion-cabecera{align-items:flex-start}.datos-traduccion-biblia{flex-direction:column;gap:6px}.biblia-buscador{flex-direction:column}.testamentos{grid-template-columns:1fr}.testamento{padding:17px}.libros-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.libro-card{min-height:88px}.ruta-biblia{flex-wrap:wrap}.ruta-biblia h2{order:-1;width:100%;text-align:center}.texto-biblia{padding:25px 20px;font-size:18px}.texto-biblia[data-size="large"]{font-size:21px}.lector-barra{top:0}.navegacion-capitulo button{flex:1}}
 @media(max-width:400px){.libros-grid{grid-template-columns:1fr 1fr}.libro-nombre{font-size:14px}.biblia-simbolo{font-size:42px}}
