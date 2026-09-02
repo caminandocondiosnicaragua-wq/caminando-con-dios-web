@@ -8,7 +8,7 @@ const BIBLIAS_PAGINA = [
     {id:"01c25b8715dbb632-01",idioma:"es",idiomaNombre:"Español",nombre:"Nueva Versión Internacional",anio:"2025",titular:"Biblica, Inc."},
     {id:"2f416c6f03dd8090-02",idioma:"es",idiomaNombre:"Español",nombre:"Nueva Versión Internacional (Castilian)",anio:"",titular:"Biblica, Inc."},
     {id:"abc55ec4a92a291d-01",idioma:"es",idiomaNombre:"Español",nombre:"Nueva Versión Internacional",anio:"2015",titular:"Biblica, Inc."},
-    {id:"8676091b758f0d8d8-01",idioma:"ja",idiomaNombre:"日本語 · Japonés",nombre:"Japanese Contemporary Bible",anio:"",titular:"Biblica, Inc."},
+    {id:"8676091b758f0d8d-01",idioma:"ja",idiomaNombre:"日本語 · Japonés",nombre:"Japanese Contemporary Bible",anio:"",titular:"Biblica, Inc."},
     {id:"e959e47176271f18-01",idioma:"ko",idiomaNombre:"한국어 · Coreano",nombre:"Korean Living Bible",anio:"1985",titular:"Biblica, Inc."},
     {id:"35b94e98b2e3a01a-01",idioma:"pt",idiomaNombre:"Português · Portugués",nombre:"Nova Versão Internacional",anio:"",titular:"Biblica, Inc."},
     {id:"a47cbe7792801aa8-01",idioma:"pt",idiomaNombre:"Português · Portugués",nombre:"Nova Versão Internacional",anio:"2024",titular:"Biblica, Inc."},
