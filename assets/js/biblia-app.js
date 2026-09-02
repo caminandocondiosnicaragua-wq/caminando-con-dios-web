@@ -21,11 +21,33 @@ function iniciarBiblia(){
     const app = document.getElementById("app");
     if(!app) return;
     app.style.display = "block";
-    app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="credito-biblia"><strong>📖 Fuente del texto bíblico</strong><p>Los pasajes bíblicos mostrados en esta página son obtenidos mediante <a href="https://api.bible" target="_blank" rel="noopener noreferrer">API.Bible</a>.</p><p>Las traducciones bíblicas pertenecen a sus respectivos titulares de derechos y se utilizan conforme a sus licencias y condiciones de uso.</p></div><div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido">${crearSelectorTestamentos()}</div></section></main>${crearFooter()}`;
+    app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="credito-biblia"><strong>📖 Fuente del texto bíblico</strong><p>Los pasajes bíblicos mostrados en esta página son obtenidos mediante <a href="https://api.bible" target="_blank" rel="noopener noreferrer">API.Bible</a>.</p><p>Las traducciones bíblicas pertenecen a sus respectivos titulares de derechos y se utilizan conforme a sus licencias y condiciones de uso.</p></div>${crearSelectorTraduccionBiblia()}<div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido">${crearSelectorTestamentos()}</div></section></main>${crearFooter()}`;
     iniciarHeader();
     iniciarFooter();
     document.getElementById("btnBuscarBiblia").addEventListener("click", ejecutarBusquedaBiblia);
     document.getElementById("busquedaBiblia").addEventListener("keydown", e => { if(e.key === "Enter") ejecutarBusquedaBiblia(); });
+    const selector = document.getElementById("selectorTraduccionBiblia");
+    if(selector) selector.addEventListener("change", cambiarTraduccionBiblia);
+}
+
+function crearSelectorTraduccionBiblia(){
+    const seleccionada = obtenerBibliaSeleccionada();
+    const opciones = BIBLIAS_PAGINA.map(biblia => {
+        const etiqueta = obtenerEtiquetaBiblia(biblia);
+        const disabled = biblia.alcance === "Nuevo Testamento" ? "" : "";
+        return `<option value="${biblia.id}" ${biblia.id === seleccionada.id ? "selected" : ""} ${disabled}>${biblia.idiomaNombre} — ${etiqueta}</option>`;
+    }).join("");
+    return `<section class="selector-traduccion-biblia"><div class="selector-traduccion-cabecera"><span class="selector-traduccion-icono">🌐</span><div><strong>Versión de la Biblia</strong><small>Selecciona el idioma y la traducción del texto bíblico.</small></div></div><select id="selectorTraduccionBiblia" aria-label="Seleccionar versión de la Biblia">${opciones}</select><div class="datos-traduccion-biblia"><span><strong>Idioma:</strong> ${seleccionada.idiomaNombre}</span><span><strong>Traducción:</strong> ${obtenerEtiquetaBiblia(seleccionada)}</span><span><strong>Titular:</strong> ${seleccionada.titular}</span></div></section>`;
+}
+
+function cambiarTraduccionBiblia(evento){
+    const biblia = obtenerBibliaPorId(evento.target.value);
+    if(!biblia) return;
+    guardarBibliaSeleccionada(biblia.id);
+    const datos = document.querySelector(".datos-traduccion-biblia");
+    if(datos) datos.innerHTML = `<span><strong>Idioma:</strong> ${biblia.idiomaNombre}</span><span><strong>Traducción:</strong> ${obtenerEtiquetaBiblia(biblia)}</span><span><strong>Titular:</strong> ${biblia.titular}</span>`;
+    const contenido = document.getElementById("bibliaContenido");
+    if(contenido) contenido.innerHTML = crearSelectorTestamentos();
 }
 
 function crearSelectorTestamentos(){
@@ -114,7 +136,8 @@ async function leerCapituloBiblia(libro, capitulo, versiculoInicio = null, versi
     const contenido = document.getElementById("bibliaContenido");
     contenido.innerHTML = `<div class="cargando-biblia">Cargando ${libro} ${capitulo}…</div>`;
     try{
-        const datos = await obtenerCapituloBiblia(codigo, capitulo);
+        const biblia = obtenerBibliaSeleccionada();
+        const datos = await obtenerCapituloBiblia(codigo, capitulo, biblia.id);
         contenido.innerHTML = crearLectorBiblia(datos, libro, capitulo, versiculoInicio, versiculoFin);
         activarControlesLector(libro, capitulo);
         if(versiculoInicio) solicitarEnfoqueVersiculo(versiculoInicio);
@@ -130,7 +153,10 @@ function crearLectorBiblia(datos, libro, capitulo, versiculoInicio = null, versi
         const n = Number(v.numero);
         return n >= Number(versiculoInicio) && n <= Number(versiculoFin || versiculoInicio);
     }) : todos);
-    return `<div class="lector-biblia"><div class="lector-barra"><button id="volverCapitulos">← ${libro}</button><div class="tamano-letra" aria-label="Tamaño de letra"><button data-size="small">A−</button><button data-size="normal" class="activo">A</button><button data-size="large">A+</button></div></div><div class="referencia-lectura"><h2>${datos.referencia || `${libro} ${capitulo}`}</h2>${versiculoInicio ? `<p>Versículo${versiculoFin && versiculoFin !== versiculoInicio ? "s" : ""} ${versiculoInicio}${versiculoFin && versiculoFin !== versiculoInicio ? "–" + versiculoFin : ""}</p>` : (datos.titulo ? `<p>${datos.titulo}</p>` : "")}</div><article class="texto-biblia">${versiculos.map(v => `<p class="versiculo-biblia" id="versiculo-${v.numero}"><sup>${v.numero}</sup><span>${v.texto}</span></p>`).join("")}</article><div class="navegacion-capitulo"><button id="capAnterior" ${capitulo <= 1 ? "disabled" : ""}>← Anterior</button><button id="capSiguiente" ${capitulo >= obtenerCantidadCapitulos(obtenerCodigoLibro(libro)) ? "disabled" : ""}>Siguiente →</button></div></div>`;
+    const biblia = obtenerBibliaSeleccionada();
+    const referencia = datos.referencia || `${libro} ${capitulo}`;
+    const subtitulo = versiculoInicio ? `Versículo${versiculoFin && versiculoFin !== versiculoInicio ? "s" : ""} ${versiculoInicio}${versiculoFin && versiculoFin !== versiculoInicio ? "–" + versiculoFin : ""}` : (datos.titulo ? datos.titulo : "");
+    return `<div class="lector-biblia"><div class="lector-barra"><button id="volverCapitulos">← ${libro}</button><div class="tamano-letra" aria-label="Tamaño de letra"><button data-size="small">A−</button><button data-size="normal" class="activo">A</button><button data-size="large">A+</button></div></div><div class="referencia-lectura"><h2>${referencia}</h2><p>${subtitulo || obtenerEtiquetaBiblia(biblia)}</p><small class="identificacion-traduccion">${biblia.idiomaNombre} · ${obtenerEtiquetaBiblia(biblia)} · ${biblia.titular}</small></div><article class="texto-biblia">${versiculos.map(v => `<p class="versiculo-biblia" id="versiculo-${v.numero}"><sup>${v.numero}</sup><span>${v.texto}</span></p>`).join("")}</article><div class="navegacion-capitulo"><button id="capAnterior" ${capitulo <= 1 ? "disabled" : ""}>← Anterior</button><button id="capSiguiente" ${capitulo >= obtenerCantidadCapitulos(obtenerCodigoLibro(libro)) ? "disabled" : ""}>Siguiente →</button></div></div>`;
 }
 
 function solicitarEnfoqueVersiculo(numero){
