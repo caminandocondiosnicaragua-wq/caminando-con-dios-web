@@ -38,16 +38,17 @@ function obtenerAbreviaturaLibro(libro){
     return libro.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0,3).toUpperCase();
 }
 
+document.addEventListener("click", e => {
+    const testamento = e.target.closest(".testamento");
+    if(testamento){ seleccionarTestamento(testamento.dataset.testamento); return; }
+    const libro = e.target.closest(".libro-card");
+    if(libro) mostrarCapitulosBiblia(libro.dataset.libro);
+});
+
 function seleccionarTestamento(testamento){
     document.querySelectorAll(".testamento").forEach(b => b.classList.toggle("activo", b.dataset.testamento === testamento));
     document.getElementById("clasificacionesBiblia").innerHTML = crearClasificaciones(testamento);
-    document.querySelectorAll(".libro-card").forEach(b => b.addEventListener("click", () => mostrarCapitulosBiblia(b.dataset.libro)));
 }
-
-document.addEventListener("click", e => {
-    const boton = e.target.closest(".testamento");
-    if(boton) seleccionarTestamento(boton.dataset.testamento);
-});
 
 function ejecutarBusquedaBiblia(){
     const valor = document.getElementById("busquedaBiblia").value.trim();
