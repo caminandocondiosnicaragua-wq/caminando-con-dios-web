@@ -2,14 +2,8 @@
  * CAMINANDO CON DIOS
  * BIBLIA DINÁMICA POR BIBLIA ID
  *
- * La Biblia seleccionada es la fuente de verdad para:
- * - libros
- * - nombres localizados
- * - capítulos disponibles
- * - texto del capítulo
- *
- * No se traducen nombres manualmente ni se inventan
- * capítulos que la edición seleccionada no contiene.
+ * La edición seleccionada es la fuente de verdad para
+ * libros, nombres, capítulos y texto.
  ************************************************/
 
 const BIBLIA_DINAMICA_OT = new Set([
@@ -18,6 +12,15 @@ const BIBLIA_DINAMICA_OT = new Set([
     "LAM","EZK","DAN","HOS","JOL","AMO","OBA","JON","MIC","NAM","HAB","ZEP","HAG",
     "ZEC","MAL"
 ]);
+
+const BIBLIA_DINAMICA_ORDEN = [
+    "GEN","EXO","LEV","NUM","DEU","JOS","JDG","RUT","1SA","2SA","1KI","2KI",
+    "1CH","2CH","EZR","NEH","EST","JOB","PSA","PRO","ECC","SNG","ISA","JER",
+    "LAM","EZK","DAN","HOS","JOL","AMO","OBA","JON","MIC","NAM","HAB","ZEP","HAG",
+    "ZEC","MAL","MAT","MRK","LUK","JHN","ACT","ROM","1CO","2CO","GAL","EPH","PHP",
+    "COL","1TH","2TH","1TI","2TI","TIT","PHM","HEB","JAS","1PE","2PE","1JN","2JN",
+    "3JN","JUD","REV"
+];
 
 const BIBLIA_DINAMICA_GRUPOS_OT = [
     { titulo: "Pentateuco", ids: ["GEN","EXO","LEV","NUM","DEU"] },
@@ -78,12 +81,39 @@ function textoInterfazBiblia_(clave) {
 
 function normalizarLibroDinamico_(libro) {
     if (!libro) return null;
+    const id = String(libro.id || libro.abreviatura || libro.abbreviation || libro.code || "").trim();
+    const abreviatura = String(libro.abreviatura || libro.abbreviation || id).trim();
+    const nombre = String(libro.nombre || libro.name || libro.nameLong || id).trim();
     return {
-        id: libro.id || libro.abreviatura || libro.code,
-        nombre: libro.nombre || libro.name || libro.nameLong || libro.id,
-        abreviatura: libro.abreviatura || libro.abbreviation || libro.id,
-        capitulos: Array.isArray(libro.capitulos) ? libro.capitulos : (Array.isArray(libro.chapters) ? libro.chapters : [])
+        id,
+        nombre,
+        abreviatura,
+        capitulos: Array.isArray(libro.capitulos) ? libro.capitulos : (Array.isArray(libro.chapters) ? libro.chapters : []),
+        testamento: libro.testamento || libro.testament || null
     };
+}
+
+function codigoCanonicoLibroDinamico_(libro) {
+    if (!libro) return null;
+    const candidatos = [libro.id, libro.abreviatura].filter(Boolean).map(valor => String(valor).toUpperCase().trim());
+    for (const candidato of candidatos) {
+        if (BIBLIA_DINAMICA_ORDEN.includes(candidato)) return candidato;
+    }
+    return null;
+}
+
+function testamentoDeLibroDinamico_(libro, indice) {
+    if (libro && String(libro.testamento || "").toLowerCase().includes("nuevo")) return "nuevo";
+    if (libro && String(libro.testamento || "").toLowerCase().includes("new")) return "nuevo";
+    if (libro && String(libro.testamento || "").toLowerCase().includes("antiguo")) return "antiguo";
+    if (libro && String(libro.testamento || "").toLowerCase().includes("old")) return "antiguo";
+
+    const canonico = codigoCanonicoLibroDinamico_(libro);
+    if (canonico) return BIBLIA_DINAMICA_OT.has(canonico) ? "antiguo" : "nuevo";
+
+    // Fallback únicamente para ediciones con IDs no estándar: conservamos el libro
+    // y usamos su posición devuelta por API.Bible para no ocultarlo.
+    return Number(indice) < 39 ? "antiguo" : "nuevo";
 }
 
 function obtenerLibroDinamicoPorId_(id) {
@@ -92,7 +122,7 @@ function obtenerLibroDinamicoPorId_(id) {
 
 function normalizarCapituloDinamico_(capitulo) {
     if (!capitulo) return null;
-    const id = capitulo.id || capitulo.chapterId || capitulo.nombre;
+    const id = capitulo.id || capitulo.chapterId || capitulo.nombre || capitulo.reference;
     const numeroTexto = capitulo.numero ?? capitulo.number ?? String(id || "").split(".").pop();
     return {
         id,
@@ -114,7 +144,7 @@ async function cargarLibrosBibliaDinamica_() {
     try {
         const respuesta = await obtenerLibrosBiblia(biblia.id);
         const lista = Array.isArray(respuesta) ? respuesta : (respuesta.data || respuesta.libros || []);
-        BIBLIA_DINAMICA_ESTADO.libros = lista.map(normalizarLibroDinamico_).filter(libro => libro.id && libro.nombre);
+        BIBLIA_DINAMICA_ESTADO.libros = lista.map(normalizarLibroDinamico_).filter(libro => libro && libro.id && libro.nombre);
         renderizarInicioBibliaDinamica_();
     } catch (error) {
         contenido.innerHTML = `<div class="error-biblia"><h3>${textoInterfazBiblia_("error")}</h3><p>${error.message}</p></div>`;
@@ -123,23 +153,30 @@ async function cargarLibrosBibliaDinamica_() {
 
 function gruposDisponiblesBiblia_(testamento) {
     const grupos = testamento === "antiguo" ? BIBLIA_DINAMICA_GRUPOS_OT : BIBLIA_DINAMICA_GRUPOS_NT;
-    return grupos.map(grupo => ({
+    const resultado = grupos.map(grupo => ({
         titulo: grupo.titulo,
-        libros: grupo.ids.map(id => obtenerLibroDinamicoPorId_(id)).filter(Boolean)
+        libros: grupo.ids.map(id => BIBLIA_DINAMICA_ESTADO.libros.find(libro => codigoCanonicoLibroDinamico_(libro) === id)).filter(Boolean)
     })).filter(grupo => grupo.libros.length);
+
+    const usados = new Set(resultado.flatMap(grupo => grupo.libros.map(libro => libro.id)));
+    const otros = BIBLIA_DINAMICA_ESTADO.libros.filter((libro, indice) => testamentoDeLibroDinamico_(libro, indice) === testamento && !usados.has(libro.id));
+    if (otros.length) resultado.push({ titulo: "Otros libros", libros: otros });
+    return resultado;
 }
 
 function renderizarInicioBibliaDinamica_(testamento = null) {
     const contenido = document.getElementById("bibliaContenido");
     if (!contenido) return;
 
-    const tieneOT = BIBLIA_DINAMICA_ESTADO.libros.some(libro => BIBLIA_DINAMICA_OT.has(libro.id));
-    const tieneNT = BIBLIA_DINAMICA_ESTADO.libros.some(libro => !BIBLIA_DINAMICA_OT.has(libro.id));
+    const librosOT = BIBLIA_DINAMICA_ESTADO.libros.filter((libro, indice) => testamentoDeLibroDinamico_(libro, indice) === "antiguo");
+    const librosNT = BIBLIA_DINAMICA_ESTADO.libros.filter((libro, indice) => testamentoDeLibroDinamico_(libro, indice) === "nuevo");
+    const tieneOT = librosOT.length > 0;
+    const tieneNT = librosNT.length > 0;
     const activo = testamento || (tieneOT ? "antiguo" : "nuevo");
 
     const botones = [];
-    if (tieneOT) botones.push(`<button class="testamento ${activo === "antiguo" ? "activo" : ""}" data-testamento="antiguo"><span>📜</span><strong>${etiquetaTestamentoBiblia_("antiguo")}</strong><small>${BIBLIA_DINAMICA_ESTADO.libros.filter(l => BIBLIA_DINAMICA_OT.has(l.id)).length} libros</small></button>`);
-    if (tieneNT) botones.push(`<button class="testamento ${activo === "nuevo" ? "activo" : ""}" data-testamento="nuevo"><span>✝️</span><strong>${etiquetaTestamentoBiblia_("nuevo")}</strong><small>${BIBLIA_DINAMICA_ESTADO.libros.filter(l => !BIBLIA_DINAMICA_OT.has(l.id)).length} libros</small></button>`);
+    if (tieneOT) botones.push(`<button class="testamento ${activo === "antiguo" ? "activo" : ""}" data-testamento="antiguo"><span>📜</span><strong>${etiquetaTestamentoBiblia_("antiguo")}</strong><small>${librosOT.length} libros</small></button>`);
+    if (tieneNT) botones.push(`<button class="testamento ${activo === "nuevo" ? "activo" : ""}" data-testamento="nuevo"><span>✝️</span><strong>${etiquetaTestamentoBiblia_("nuevo")}</strong><small>${librosNT.length} libros</small></button>`);
 
     contenido.innerHTML = `<div class="testamentos">${botones.join("")}</div><div id="clasificacionesBiblia">${crearClasificacionesDinamicas_(activo)}</div>`;
 }
@@ -199,15 +236,13 @@ async function leerCapituloBibliaDinamica_(libroId, capituloId, capituloNumero, 
 
     try {
         const datos = await obtenerCapituloBiblia(libro.id, capituloId, biblia.id);
-
-        // Seguridad: jamás mostrar texto de otra Biblia bajo la etiqueta seleccionada.
         if (datos.bibleId && datos.bibleId !== biblia.id) {
             throw new Error(`La respuesta pertenece a otra Biblia (${datos.bibleId}). Se canceló la lectura para evitar mostrar una traducción incorrecta.`);
         }
 
         contenido.innerHTML = crearLectorBibliaDinamico_(datos, libro, capituloNumero, versiculoInicio, versiculoFin);
         activarControlesLectorDinamico_(libro.id, capituloNumero);
-        if (versiculoInicio) solicitarEnfoqueVersiculo(versiculoInicio);
+        if (versiculoInicio && typeof solicitarEnfoqueVersiculo === "function") solicitarEnfoqueVersiculo(versiculoInicio);
     } catch (error) {
         contenido.innerHTML = `<div class="error-biblia"><h3>${textoInterfazBiblia_("error")}</h3><p>${error.message}</p><button id="volverCapitulos">← ${libro.nombre}</button></div>`;
         document.getElementById("volverCapitulos").addEventListener("click", () => mostrarCapitulosBibliaDinamica_(libro.id));
@@ -244,7 +279,6 @@ function activarControlesLectorDinamico_(libroId, capituloNumero) {
     const indice = BIBLIA_DINAMICA_ESTADO.capitulosActuales.findIndex(c => c.numero === Number(capituloNumero));
     const anterior = indice > 0 ? BIBLIA_DINAMICA_ESTADO.capitulosActuales[indice - 1] : null;
     const siguiente = indice >= 0 && indice < BIBLIA_DINAMICA_ESTADO.capitulosActuales.length - 1 ? BIBLIA_DINAMICA_ESTADO.capitulosActuales[indice + 1] : null;
-
     const botonAnterior = document.getElementById("capAnterior");
     const botonSiguiente = document.getElementById("capSiguiente");
     if (botonAnterior && anterior) botonAnterior.addEventListener("click", () => leerCapituloBibliaDinamica_(libroId, anterior.id, anterior.numero));
@@ -252,8 +286,11 @@ function activarControlesLectorDinamico_(libroId, capituloNumero) {
 }
 
 function buscarLibroBibliaDinamico_(nombre) {
-    const buscado = normalizarTextoBiblia(nombre);
-    return BIBLIA_DINAMICA_ESTADO.libros.find(libro => normalizarTextoBiblia(libro.nombre) === buscado) || null;
+    const buscado = typeof normalizarTextoBiblia === "function" ? normalizarTextoBiblia(nombre) : String(nombre).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return BIBLIA_DINAMICA_ESTADO.libros.find(libro => {
+        const texto = typeof normalizarTextoBiblia === "function" ? normalizarTextoBiblia(libro.nombre) : String(libro.nombre).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return texto === buscado;
+    }) || null;
 }
 
 function interpretarBusquedaBibliaDinamica_(referencia) {
@@ -306,8 +343,10 @@ function crearSelectorTraduccionBibliaDinamico_() {
 }
 
 function iniciarBiblia() {
+    if (window.__bibliaDinamicaIniciada) return;
     const app = document.getElementById("app");
     if (!app) return;
+    window.__bibliaDinamicaIniciada = true;
     app.style.display = "block";
     app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="credito-biblia"><strong>📖 Fuente del texto bíblico</strong><p>Los pasajes bíblicos mostrados en esta página son obtenidos mediante <a href="https://api.bible" target="_blank" rel="noopener noreferrer">API.Bible</a>.</p><p>Las traducciones bíblicas pertenecen a sus respectivos titulares de derechos y se utilizan conforme a sus licencias y condiciones de uso.</p></div>${crearSelectorTraduccionBibliaDinamico_()}<div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido"></div></section></main>${crearFooter()}`;
     iniciarHeader();
@@ -316,7 +355,6 @@ function iniciarBiblia() {
     document.getElementById("btnBuscarBiblia").addEventListener("click", ejecutarBusquedaBibliaDinamica_);
     document.getElementById("busquedaBiblia").addEventListener("keydown", e => { if (e.key === "Enter") ejecutarBusquedaBibliaDinamica_(); });
     document.getElementById("selectorTraduccionBiblia").addEventListener("change", cambiarTraduccionBibliaDinamica_);
-
     cargarLibrosBibliaDinamica_();
 }
 
