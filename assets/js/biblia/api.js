@@ -66,9 +66,17 @@ async function obtenerCapitulosBiblia(version, libro) {
 }
 
 async function obtenerCapituloBiblia(libro, capitulo, version = CONFIG.BIBLIA.traduccion) {
+    // API.Bible entrega IDs como GEN.1. El backend también conserva
+    // compatibilidad con solicitudes antiguas que reciben solamente "1".
+    // Enviar el número evita que un backend anterior forme GEN.GEN.1.
+    const textoCapitulo = String(capitulo || "").trim();
+    const numeroCapitulo = textoCapitulo.includes(".")
+        ? textoCapitulo.split(".").pop()
+        : textoCapitulo;
+
     return consultarApiBiblia_("capitulo", {
         biblia: libro,
-        capitulo,
+        capitulo: numeroCapitulo,
         version
     });
 }
