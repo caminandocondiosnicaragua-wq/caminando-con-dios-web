@@ -19,11 +19,19 @@ const GRUPOS_BIBLIA = {
 
 function iniciarBiblia(){
     const app = document.getElementById("app");
+    if(!app) return;
+
+    app.style.display = "block";
+
     app.innerHTML = `${crearHeader()}<main class="biblia-app"><section class="biblia-portada"><div class="biblia-intro"><span class="biblia-simbolo">📖</span><h2>La Biblia</h2><p>Explora la Palabra de Dios, libro por libro y capítulo por capítulo.</p></div><div class="biblia-buscador"><input id="busquedaBiblia" type="text" placeholder="🔍 Buscar una referencia, por ejemplo: Juan 3:16"><button id="btnBuscarBiblia">Buscar</button></div><div id="bibliaContenido">${crearSelectorTestamentos()}</div></section></main>${crearFooter()}`;
+
     iniciarHeader();
     iniciarFooter();
+
     document.getElementById("btnBuscarBiblia").addEventListener("click", ejecutarBusquedaBiblia);
-    document.getElementById("busquedaBiblia").addEventListener("keydown", e => { if(e.key === "Enter") ejecutarBusquedaBiblia(); });
+    document.getElementById("busquedaBiblia").addEventListener("keydown", e => {
+        if(e.key === "Enter") ejecutarBusquedaBiblia();
+    });
 }
 
 function crearSelectorTestamentos(){
@@ -38,17 +46,21 @@ function obtenerAbreviaturaLibro(libro){
     return libro.replace(/[^A-Za-zÁÉÍÓÚÑ]/g, "").slice(0,3).toUpperCase();
 }
 
-document.addEventListener("click", e => {
-    const testamento = e.target.closest(".testamento");
-    if(testamento){ seleccionarTestamento(testamento.dataset.testamento); return; }
-    const libro = e.target.closest(".libro-card");
-    if(libro) mostrarCapitulosBiblia(libro.dataset.libro);
-});
-
 function seleccionarTestamento(testamento){
     document.querySelectorAll(".testamento").forEach(b => b.classList.toggle("activo", b.dataset.testamento === testamento));
     document.getElementById("clasificacionesBiblia").innerHTML = crearClasificaciones(testamento);
+    document.querySelectorAll(".libro-card").forEach(b => b.addEventListener("click", () => mostrarCapitulosBiblia(b.dataset.libro)));
 }
+
+document.addEventListener("click", e => {
+    const boton = e.target.closest(".testamento");
+    if(boton) seleccionarTestamento(boton.dataset.testamento);
+});
+
+document.addEventListener("click", e => {
+    const boton = e.target.closest(".libro-card");
+    if(boton) mostrarCapitulosBiblia(boton.dataset.libro);
+});
 
 function ejecutarBusquedaBiblia(){
     const valor = document.getElementById("busquedaBiblia").value.trim();
