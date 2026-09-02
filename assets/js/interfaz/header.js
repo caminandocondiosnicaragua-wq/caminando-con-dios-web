@@ -29,6 +29,7 @@ function crearHeader() {
         <nav id="menuPrincipal" class="menu">
             <a href="index.html">Inicio</a>
             <a href="devocionales.html">Devocionales</a>
+            <a href="biblia.html">Biblia</a>
             <a href="biblioteca.html">Biblioteca</a>
             <a href="estudios.html">Estudios</a>
             <a href="comunidad.html">Comunidad</a>
