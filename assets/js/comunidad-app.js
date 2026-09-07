@@ -58,6 +58,10 @@ function iniciarComunidad(){
     app.style.display = "block";
     iniciarHeader();
     iniciarFooter();
+
+    if(typeof iniciarAutenticacionComunidad === "function"){
+        iniciarAutenticacionComunidad();
+    }
 }
 
 function crearComunidad(){
@@ -71,9 +75,19 @@ function crearComunidad(){
             caminar juntos como comunidad en línea.
         </p>
     </div>
-    <div class="grid-comunidad">
+
+    <div id="acceso-comunidad" class="acceso-comunidad">
+        <div class="acceso-comunidad-icono">🔐</div>
+        <div class="acceso-comunidad-texto">
+            <strong>Preparando el acceso...</strong>
+            <span>Un momento, por favor.</span>
+        </div>
+    </div>
+
+    <div id="contenido-comunidad-protegido" class="grid-comunidad comunidad-bloqueada">
         ${crearTarjetasComunidad()}
     </div>
+
     <div class="comunidad-pendiente">
         <div class="pendiente-icono">🔨</div>
         <h2>Estamos trabajando en esta sección</h2>
@@ -96,7 +110,10 @@ function crearTarjetasComunidad(){
                     <div class="tarjeta-comunidad-icono">${seccion.icono}</div>
                     <h2>${seccion.titulo}</h2>
                     <p>${seccion.descripcion}</p>
-                    <a href="${seccion.enlace}" class="btn-comunidad btn-activo">
+                    <a
+                        href="${seccion.enlace}"
+                        class="btn-comunidad btn-activo enlace-comunidad-protegido"
+                    >
                         ${seccion.accion}
                     </a>
                 </article>
