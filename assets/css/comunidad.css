@@ -26,20 +26,22 @@
     line-height:1.8;
 }
 
-.acceso-comunidad{
+.comunidad-acceso{
     max-width:900px;
     margin:0 auto 30px;
-    padding:22px 25px;
+    padding:24px 28px;
     border:1px solid rgba(212,175,55,.32);
     border-radius:20px;
     background:rgba(13,27,42,.88);
     box-shadow:0 14px 30px rgba(0,0,0,.22);
+}
+
+.acceso-comunidad-contenido{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:18px;
     flex-wrap:wrap;
-    text-align:left;
 }
 
 .acceso-comunidad-icono{
@@ -56,31 +58,77 @@
 }
 
 .acceso-comunidad-texto{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-    flex:1 1 300px;
+    flex:1 1 400px;
+    text-align:left;
 }
 
-.acceso-comunidad-texto strong{
+.acceso-comunidad-texto h2{
     color:#ffe29a;
-    font-size:17px;
+    font-size:22px;
+    margin-bottom:7px;
 }
 
-.acceso-comunidad-texto span{
+.acceso-comunidad-texto p{
     color:var(--texto-sec);
-    font-size:14px;
-    line-height:1.5;
+    font-size:15px;
+    line-height:1.6;
+    margin:0;
 }
 
 .google-login-comunidad{
     min-width:280px;
     min-height:44px;
+    margin:20px auto 0;
     display:flex;
     justify-content:center;
 }
 
-.btn-salir-comunidad{
+.estado-acceso-comunidad{
+    display:none;
+    color:var(--texto-sec);
+    font-size:14px;
+    text-align:center;
+    margin-top:12px;
+}
+
+.estado-acceso-comunidad.visible{
+    display:block;
+}
+
+.estado-acceso-comunidad.error{
+    color:#f3b0b0;
+}
+
+.estado-acceso-comunidad.exito{
+    color:#b9e6c5;
+}
+
+.usuario-acceso-comunidad{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.usuario-comunidad-info{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    text-align:center;
+}
+
+.usuario-comunidad-info strong{
+    color:#ffe29a;
+}
+
+.usuario-comunidad-info span{
+    color:var(--texto-sec);
+    font-size:13px;
+}
+
+.btn-cerrar-sesion-comunidad{
     border:1px solid rgba(212,175,55,.35);
     background:rgba(212,175,55,.10);
     color:#f5d87c;
@@ -92,25 +140,8 @@
     cursor:pointer;
 }
 
-.btn-salir-comunidad:hover{
+.btn-cerrar-sesion-comunidad:hover{
     background:rgba(212,175,55,.18);
-}
-
-.estado-acceso-comunidad{
-    display:none;
-    flex-basis:100%;
-    color:var(--texto-sec);
-    font-size:14px;
-    text-align:center;
-    padding-top:4px;
-}
-
-.estado-acceso-comunidad.visible{
-    display:block;
-}
-
-.estado-acceso-comunidad.error{
-    color:#f3b0b0;
 }
 
 .grid-comunidad{
@@ -121,10 +152,17 @@
 }
 
 .comunidad-bloqueada .tarjeta-comunidad{
-    opacity:.78;
+    opacity:.72;
 }
 
-.comunidad-bloqueada .tarjeta-comunidad:first-child::after{
+.comunidad-bloqueada .enlace-comunidad-protegido{
+    pointer-events:none;
+    filter:grayscale(.45);
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.comunidad-bloqueada .tarjeta-comunidad::after{
     content:"🔒 Inicia sesión para acceder";
     display:block;
     margin-top:4px;
@@ -133,10 +171,8 @@
     font-weight:700;
 }
 
-.enlace-bloqueado{
-    filter:grayscale(.35);
-    opacity:.65;
-    cursor:not-allowed;
+.comunidad-desbloqueada .tarjeta-comunidad{
+    opacity:1;
 }
 
 .tarjeta-comunidad{
@@ -233,7 +269,6 @@
 }
 
 @media(max-width:700px){
-
     .grid-comunidad{
         grid-template-columns:1fr;
     }
@@ -246,19 +281,18 @@
         padding:27px 22px;
     }
 
-    .acceso-comunidad{
+    .comunidad-acceso{
         margin-left:15px;
         margin-right:15px;
-        text-align:center;
+        padding:22px 18px;
     }
 
     .acceso-comunidad-texto{
         flex-basis:100%;
-        align-items:center;
+        text-align:center;
     }
 
     .google-login-comunidad{
         min-width:100%;
     }
-
 }
