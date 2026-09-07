@@ -11,12 +11,38 @@ const PARTES_NUEVA_VIDA = [
 
 function iniciarNuevaVida(){
     const app = document.getElementById("app");
+    if(!app) return;
+
+    const usuario = typeof obtenerUsuarioComunidad === "function"
+        ? obtenerUsuarioComunidad()
+        : null;
+
+    // Las subpáginas de Comunidad requieren una sesión válida.
+    if(!usuario){
+        window.location.href = "comunidad.html";
+        return;
+    }
+
+    const nombre = escaparHTMLNuevaVida_(usuario.nombre || "hermano/a");
+    const correo = escaparHTMLNuevaVida_(usuario.correo || "");
 
     app.innerHTML = `
         ${crearHeader()}
         ${crearHero()}
         <div class="contenedor">
             <section class="comunidad-pagina">
+                <div class="comunidad-subpagina-usuario">
+                    <div class="comunidad-subpagina-usuario-icono">👋</div>
+                    <div class="comunidad-subpagina-usuario-texto">
+                        <strong>Hola, ${nombre}</strong>
+                        <span>Estás en tu recorrido de discipulado.</span>
+                    </div>
+                    <div class="comunidad-subpagina-usuario-acciones">
+                        <span class="comunidad-subpagina-correo">${correo}</span>
+                        <button type="button" class="btn-cerrar-sesion-comunidad" onclick="cerrarSesionNuevaVida_()">Cerrar sesión</button>
+                    </div>
+                </div>
+
                 <div class="comunidad-cabecera">
                     <h1>🌱 Nueva Vida en Cristo</h1>
                     <p>
@@ -45,4 +71,23 @@ function iniciarNuevaVida(){
     app.style.display = "block";
     iniciarHeader();
     iniciarFooter();
+}
+
+function cerrarSesionNuevaVida_(){
+    if(typeof cerrarSesionComunidad === "function"){
+        cerrarSesionComunidad();
+    }else{
+        localStorage.removeItem("caminando_con_dios_comunidad_usuario");
+    }
+
+    window.location.href = "comunidad.html";
+}
+
+function escaparHTMLNuevaVida_(valor){
+    return String(valor)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
