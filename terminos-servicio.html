@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Condiciones de Uso | Caminando con Dios</title>
+
+    <meta
+        name="description"
+        content="Condiciones de Uso de la plataforma Caminando con Dios."
+    >
+
+    <link rel="stylesheet" href="assets/css/estilos.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/legal.css">
+</head>
+
+<body>
+
+    <main id="app"></main>
+
+    <!-- CONFIG -->
+    <script src="assets/js/config.js"></script>
+
+    <!-- UTILIDADES -->
+    <script src="assets/js/utilidades/helpers.js"></script>
+    <script src="assets/js/utilidades/idiomas.js"></script>
+
+    <!-- INTERFAZ -->
+    <script src="assets/js/interfaz/header.js"></script>
+    <script src="assets/js/interfaz/hero.js"></script>
+    <script src="assets/js/interfaz/footer.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            const app = document.getElementById("app");
+
+            app.innerHTML = `
+                ${crearHeader()}
+                ${crearHero()}
+
+                <div class="contenedor">
+                    <main class="legal-pagina">
+
+                        <div class="legal-cabecera">
+                            <h1>📋 Condiciones de Uso</h1>
+                            <p>Reglas básicas para utilizar Caminando con Dios.</p>
+                        </div>
+
+                        <section class="legal-seccion">
+                            <h2>1. Sobre Caminando con Dios</h2>
+                            <p>
+                                Caminando con Dios es una plataforma de contenido cristiano orientada a compartir
+                                la Biblia, las Buenas Nuevas de salvación, recursos de estudio y herramientas de
+                                discipulado y crecimiento espiritual.
+                            </p>
+                            <p>
+                                El acceso y uso de la plataforma implica aceptar estas Condiciones de Uso.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>2. Uso de la plataforma</h2>
+                            <p>
+                                El usuario se compromete a utilizar Caminando con Dios de manera responsable,
+                                respetuosa y conforme a la legislación aplicable.
+                            </p>
+                            <p>
+                                No se permite utilizar la plataforma para actividades ilícitas, para intentar
+                                obtener acceso no autorizado a sistemas o información, ni para interferir con el
+                                funcionamiento normal del sitio.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>3. Cuenta del usuario</h2>
+                            <p>
+                                Algunas funciones de la Comunidad requieren iniciar sesión mediante una cuenta de
+                                Google. El usuario es responsable de utilizar una cuenta que le pertenezca y de
+                                mantener el control de sus credenciales de Google.
+                            </p>
+                            <p>
+                                Caminando con Dios no solicita ni almacena la contraseña de la cuenta de Google.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>4. Contenido y materiales</h2>
+                            <p>
+                                Los contenidos publicados en Caminando con Dios tienen como propósito servir al
+                                evangelismo, discipulado, enseñanza y crecimiento espiritual. Algunos materiales
+                                pueden pertenecer a sus respectivos autores o titulares de derechos.
+                            </p>
+                            <p>
+                                El usuario no debe copiar, redistribuir, vender o modificar materiales protegidos
+                                por derechos de autor de una manera que infrinja los derechos de sus titulares.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>5. Participación en la Comunidad</h2>
+                            <p>
+                                Las funciones comunitarias pueden incluir actividades, respuestas y espacios de
+                                participación. El usuario debe mantener una conducta respetuosa y evitar publicar
+                                información personal sensible propia o de otras personas.
+                            </p>
+                            <p>
+                                Caminando con Dios podrá retirar contenido o limitar el acceso cuando sea necesario
+                                para proteger la plataforma, a sus usuarios o el propósito de la Comunidad.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>6. Progreso y respuestas</h2>
+                            <p>
+                                Cuando el usuario participa en recorridos de discipulado o estudios interactivos,
+                                la plataforma puede guardar su progreso y las respuestas que proporcione para
+                                permitirle continuar posteriormente.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>7. Disponibilidad del servicio</h2>
+                            <p>
+                                Procuramos mantener disponible la plataforma, pero no podemos garantizar que el
+                                sitio permanezca libre de interrupciones, errores o cambios. Las funciones pueden
+                                modificarse, actualizarse o retirarse cuando sea necesario.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>8. Servicios de terceros</h2>
+                            <p>
+                                Algunas funciones dependen de servicios externos, como Google, Notion u otros
+                                proveedores tecnológicos. El uso de esos servicios puede estar sujeto a sus propias
+                                condiciones y políticas.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>9. Cambios en estas condiciones</h2>
+                            <p>
+                                Estas Condiciones de Uso pueden actualizarse cuando evolucionen las funciones o
+                                servicios de Caminando con Dios. La versión vigente estará disponible en esta página.
+                            </p>
+                        </section>
+
+                        <section class="legal-seccion">
+                            <h2>10. Contacto</h2>
+                            <p>
+                                Si tienes preguntas sobre estas condiciones o sobre el funcionamiento de la plataforma,
+                                puedes comunicarte con nosotros mediante:
+                            </p>
+                            <p class="legal-contacto"><strong>caminandocondiosnicaragua@gmail.com</strong></p>
+                        </section>
+
+                        <div class="legal-regreso">
+                            <a href="acerca.html">← Volver a Acerca de Caminando con Dios</a>
+                        </div>
+
+                    </main>
+                </div>
+
+                ${crearFooter()}
+            `;
+
+            app.style.display = "block";
+            iniciarHeader();
+            iniciarFooter();
+        });
+    </script>
+
+    <script src="assets/js/utilidades/idiomas-global.js"></script>
+
+</body>
+
+</html>
