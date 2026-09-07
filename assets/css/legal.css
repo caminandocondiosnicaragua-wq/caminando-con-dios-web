@@ -1,0 +1,87 @@
+/************************************************
+ * CAMINANDO CON DIOS
+ * PÁGINAS LEGALES
+ ************************************************/
+
+.legal-pagina {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 35px 20px 60px;
+}
+
+.legal-cabecera {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.legal-cabecera h1 {
+    margin-bottom: 14px;
+}
+
+.legal-cabecera p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.legal-seccion {
+    margin-bottom: 24px;
+    padding: 26px 28px;
+    border-radius: 18px;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.legal-seccion h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.legal-seccion p,
+.legal-seccion li {
+    line-height: 1.8;
+}
+
+.legal-seccion p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-seccion ul {
+    margin: 12px 0 0 22px;
+    padding: 0;
+}
+
+.legal-seccion li {
+    margin-bottom: 8px;
+}
+
+.legal-contacto {
+    font-size: 1.05rem;
+}
+
+.legal-regreso {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.legal-regreso a {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+}
+
+@media (max-width: 700px) {
+
+    .legal-pagina {
+        padding: 25px 15px 45px;
+    }
+
+    .legal-seccion {
+        padding: 22px 18px;
+    }
+
+    .legal-cabecera p {
+        font-size: 1rem;
+    }
+
+}
