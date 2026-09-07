@@ -43,6 +43,8 @@ const SECCIONES_COMUNIDAD = [
 
 function iniciarComunidad(){
     const app = document.getElementById("app");
+    if(!app) return;
+
     app.innerHTML = `
         ${crearHeader()}
         ${crearHero()}
@@ -132,60 +134,4 @@ function crearTarjetasComunidad(){
             </article>
         `;
     }).join("");
-}
-
-function actualizarEstadoComunidad(){
-    const usuario = typeof obtenerUsuarioComunidad === "function"
-        ? obtenerUsuarioComunidad()
-        : null;
-
-    const bloque = document.getElementById("contenido-comunidad-protegido");
-    const login = document.getElementById("google-login-comunidad");
-    const usuarioBox = document.getElementById("usuario-acceso-comunidad");
-    const estado = document.getElementById("estado-acceso-comunidad");
-    const mensaje = document.getElementById("mensaje-acceso-comunidad");
-
-    if(!bloque) return;
-
-    if(usuario){
-        bloque.classList.remove("comunidad-bloqueada");
-        bloque.classList.add("comunidad-desbloqueada");
-
-        if(login) login.innerHTML = "";
-        if(estado){
-            estado.textContent = "Sesión iniciada correctamente.";
-            estado.className = "estado-acceso-comunidad visible exito";
-        }
-        if(mensaje){
-            mensaje.textContent = "Ya tienes acceso a la Comunidad. Tu avance podrá asociarse a tu cuenta.";
-        }
-        if(usuarioBox){
-            usuarioBox.innerHTML = `
-                <div class="usuario-comunidad-info">
-                    <strong>Hola, ${escaparHTMLComunidad_(usuario.nombre || usuario.correo)}</strong>
-                    <span>${escaparHTMLComunidad_(usuario.correo || "")}</span>
-                </div>
-                <button type="button" class="btn-cerrar-sesion-comunidad" onclick="cerrarSesionComunidad()">
-                    Cerrar sesión
-                </button>
-            `;
-        }
-        return;
-    }
-
-    bloque.classList.remove("comunidad-desbloqueada");
-    bloque.classList.add("comunidad-bloqueada");
-    if(usuarioBox) usuarioBox.innerHTML = "";
-    if(mensaje){
-        mensaje.textContent = "Inicia sesión con Google para acceder al contenido de la Comunidad, guardar tu avance y continuar desde donde lo dejaste.";
-    }
-}
-
-function escaparHTMLComunidad_(valor){
-    return String(valor)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
