@@ -1,0 +1,87 @@
+/* CAMINANDO CON DIOS · PARTE 1 · RECORRIDO POR SECCIONES
+ * Solo una sección se muestra a la vez.
+ */
+(function(){
+  const TOTAL_SECCIONES=6;
+  let root=null,menu=null,screen=null,sections=[],current=0,rows=[],user=null;
+  let examIndex=0,examSelected=null,examCorrect=0,examWrong=0,examSeconds=180,examTimer=null,examStarted=false,audioCtx=null;
+
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(init,250));
+  function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
+  function getUser(){return typeof obtenerUsuarioComunidad==='function'?obtenerUsuarioComunidad():null;}
+
+  function init(){
+    root=document.querySelector('.nv1-wrap'); user=getUser(); if(!root||!user)return;
+    document.querySelectorAll('#nv1-step-menu-real,.nv1-step1-view').forEach(e=>e.remove());
+    document.querySelectorAll('.nv1-progress,.nv1-section,#nv1-wizard-nav').forEach(e=>e.classList.add('nv1-control-hidden'));
+    crearMenu();
+  }
+
+  function crearMenu(){
+    menu=document.createElement('section'); menu.className='nv1-step-menu-real'; menu.id='nv1-step-menu-wizard';
+    menu.innerHTML=`<div class="nv1-step-menu-head-real"><span class="nv1-badge">Tu recorrido</span><h2>Parte 1 · Nueva Vida en Cristo</h2><p>Esta parte tiene <strong>13 pasos</strong>. Comenzaremos por <strong>¡Salvo!</strong> y avanzaremos juntos, uno a uno.</p></div><div class="nv1-step-grid-real">${Array.from({length:13},(_,i)=>{let n=i+1,a=n===1;return `<button type="button" class="nv1-step-card-real ${a?'available':'locked'}" data-n="${n}" ${a?'':'disabled'}>${a?'<img class="nv1-step-card-image-real" src="assets/img/hero.png" alt="">':'<span class="nv1-step-number-real">🔒</span>'}<span class="nv1-step-copy-real"><small>PARTE 1 · PASO ${n}</small><strong>${a?'¡Salvo!':'Próximamente'}</strong><em>${a?'Comenzar este paso':'Se habilitará al completar el paso anterior'}</em></span><span class="nv1-step-state-real">${a?'Comenzar':'Bloqueado'}</span></button>`;}).join('')}</div><div class="nv1-menu-companion-real"><span>🤝</span><div><strong>No estás solo en este camino</strong><p>Vamos paso a paso. Cada sección se abre cuando avanzas, sin saturarte de contenido.</p></div></div>`;
+    root.appendChild(menu); menu.querySelector('[data-n="1"]').onclick=abrirPaso1;
+  }
+
+  async function abrirPaso1(){
+    menu.remove();
+    screen=document.createElement('section'); screen.className='nv1-wizard-review'; screen.innerHTML='<div class="nv1-wiz-loading"><div class="nv1-wiz-spinner"></div><strong>Preparando tu recorrido...</strong><p>Estoy cargando solamente lo necesario para comenzar.</p></div>';
+    root.appendChild(screen);
+    try{const r=await fetch(CONFIG.API.url+'?coleccion=contenidoNuevaVida');if(!r.ok)throw new Error('No se pudo consultar el contenido.');const d=await r.json();rows=d.filter(x=>String(x.Parte||'').trim()==='Parte 1'&&Number(x.Paso)===1).sort((a,b)=>Number(a.Orden||0)-Number(b.Orden||0));if(!rows.length)throw new Error('No hay contenido de Paso 1 en Notion.');construirSecciones();current=0;render();}catch(e){screen.innerHTML=`<div class="nv1-wiz-error"><strong>No pudimos cargar Paso 1.</strong><p>${esc(e.message)}</p><button class="nv1-wiz-btn nv1-wiz-btn-primary" id="nv1-retry">Reintentar</button></div>`;screen.querySelector('#nv1-retry').onclick=abrirPaso1;}
+  }
+
+  function construirSecciones(){
+    const groups=[]; const map={};
+    rows.forEach(r=>{const k=String(r.Seccion||'Contenido').trim()||'Contenido';if(!map[k]){map[k]=[];groups.push({title:k,items:[]});}map[k].items.push(r);});
+    sections=[{type:'vf',title:'Antes de comenzar',intro:'Haz una pausa y piensa con sinceridad. No buscamos perfección; queremos comenzar juntos.'},...groups.map(g=>({type:'content',title:g.title,items:g.items})),{type:'exam',title:'Reto de comprensión',intro:'Una pequeña prueba para comprobar cuánto has comprendido. Tienes 3 minutos y puedes volver a intentarlo.'}];
+  }
+
+  function render(){
+    if(!sections.length)return;
+    const s=sections[current];
+    screen.innerHTML=`<div class="nv1-wizard-toolbar"><button type="button" class="nv1-wiz-btn" id="wiz-home">⌂ Inicio</button><div class="nv1-wiz-center"><small>PARTE 1 · PASO 1</small><strong>¡Salvo!</strong></div><span class="nv1-wiz-status">${current===sections.length-1?'Reto final':'En progreso'}</span></div><div class="nv1-wizard-progress"><div class="nv1-wizard-progress-track"><div class="nv1-wizard-progress-bar" style="width:${Math.round((current/(sections.length-1))*100)}%"></div></div><span class="nv1-wizard-count">Sección ${current+1} de ${sections.length}</span></div><div class="nv1-wizard-screen">${renderSection(s)}</div><div class="nv1-wizard-nav"><button type="button" class="nv1-wiz-btn" id="wiz-back" ${current===0?'disabled':''}>← Atrás</button><div class="nv1-wizard-dots">${sections.map((_,i)=>`<button type="button" class="nv1-wizard-dot ${i===current?'active':''} ${i<current?'done':''}" data-i="${i}" title="Sección ${i+1}">${i+1}</button>`).join('')}</div><button type="button" class="nv1-wiz-btn nv1-wiz-btn-primary" id="wiz-next">${current===sections.length-1?'Terminar':'Siguiente →'}</button></div>`;
+    screen.querySelector('#wiz-home').onclick=volverMenu;
+    screen.querySelector('#wiz-back').onclick=()=>{if(current>0){current--;render();}};
+    screen.querySelector('#wiz-next').onclick=()=>{if(current<sections.length-1){current++;render();window.scrollTo({top:screen.offsetTop-80,behavior:'smooth'});}else finalizarPaso();};
+    screen.querySelectorAll('.nv1-wizard-dot').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.i);if(i<=current){current=i;render();}});
+    instalarCitas(screen); instalarAudio(screen); instalarVF(screen); instalarRelleno(screen); instalarFecha(screen); instalarExam(screen);
+  }
+
+  function renderSection(s){
+    if(s.type==='vf')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Haz una pausa y piensa</h2><p>${s.intro}</p></div><div id="wiz-vf"><div class="nv1-vf-item"><div class="nv1-vf-statement">Para ser salvo sólo necesito creer que Dios existe.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div><div class="nv1-vf-item"><div class="nv1-vf-statement">El pecado causa una separación entre Dios y el hombre.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div><div class="nv1-vf-item"><div class="nv1-vf-statement">Soy salvo por asistir a la iglesia y hacer cosas buenas.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div></div><div class="nv1-wiz-companion"><span>🌱</span><div><strong>Este es tu punto de partida</strong><p>No importa si alguna respuesta no la conoces todavía. Aquí vamos a aprender juntos.</p></div></div>`;
+    if(s.type==='exam')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Desafío final · modo juego</span><h2>Reto de comprensión</h2><p>${s.intro}</p></div><div class="nv1-exam-wiz" id="wiz-exam"></div><div class="nv1-wiz-companion"><span>💬</span><div><strong>Ánimo, ${esc(user.nombre||'hermano/a')}</strong><p>Esto no es una competencia. Es una oportunidad para ver cuánto has comprendido.</p></div></div>`;
+    return `<div class="nv1-wizard-heading"><span class="nv1-badge">Momento de tu recorrido</span><h2>${esc(s.title)}</h2><p>Tómate tu tiempo. Lee, piensa y avanza cuando estés listo.</p></div><div>${s.items.map(crearItem).join('')}</div><div class="nv1-wiz-companion"><span>💬</span><div><strong>Estoy aquí contigo</strong><p>Avanza a tu ritmo. Puedes volver atrás para repasar cuando lo necesites.</p></div></div>`;
+  }
+
+  function crearItem(r){const t=String(r.Tipo||'').trim().toLowerCase(),text=String(r.Texto||'').trim(),ref=String(r['Cita Bíblica']||'').trim(),num=r.Número==null?'':String(r.Número).trim();
+    if(t==='versiculo')return `<article class="nv1-wiz-card"><div class="nv1-wiz-label">📖 Palabra de Dios</div><p>${esc(text)}</p>${ref?`<button type="button" class="nv1-bible-ref" data-ref="${esc(ref)}">📖 ${esc(ref)}</button>`:''}<button type="button" class="nv1-audio-control nv1-wiz-audio">🔊 Escuchar</button></article>`;
+    if(t==='pregunta'){if(/Somos salvos por/i.test(text))return `<article class="nv1-wizard-question nv1-wiz-card nv1-fill-question"><div class="nv1-wiz-label">✍️ Completa la enseñanza</div><div class="nv1-fill-line">Somos salvos por <input class="nv1-blank-input" data-answer="gracia" aria-label="gracia"> por medio de la <input class="nv1-blank-input" data-answer="fe" aria-label="fe">.</div>${ref?`<button type="button" class="nv1-bible-ref" data-ref="${esc(ref)}">📖 ${esc(ref)}</button>`:''}<div class="nv1-fill-feedback"></div><button type="button" class="nv1-audio-control nv1-wiz-audio">🔊 Escuchar</button></article>`;return `<article class="nv1-wizard-question nv1-wiz-card"><div class="nv1-wiz-label">✍️ Pregunta ${esc(num)}</div><h3 class="nv1-wiz-q-title">${esc(text)}</h3>${ref?`<button type="button" class="nv1-bible-ref" data-ref="${esc(ref)}">📖 ${esc(ref)}</button>`:''}<textarea class="nv1-wiz-answer" data-q="${esc(num)}" placeholder="Escribe aquí lo que piensas..."></textarea><button type="button" class="nv1-audio-control nv1-wiz-audio">🔊 Escuchar</button></article>`;}
+    let label=t==='bienvenida'?'🌱 Bienvenida':t==='enseñanza'?'💡 Enseñanza':t==='ejercicio'?'🎯 Ejercicio':t==='reflexion'?'💭 Reflexión':'✨ Contenido';
+    return `<article class="nv1-wiz-card"><div class="nv1-wiz-label">${label}</div><p>${esc(text)}</p>${ref?`<button type="button" class="nv1-bible-ref" data-ref="${esc(ref)}">📖 ${esc(ref)}</button>`:''}${/fecha\s*:/i.test(text)?'<label class="nv1-date-wiz">📅 Fecha de mi compromiso <input type="date"></label>':''}${t==='ejercicio'?'<button type="button" class="nv1-wiz-btn nv1-wiz-btn-primary">✓ Lo hice</button>':''}<button type="button" class="nv1-audio-control nv1-wiz-audio">🔊 Escuchar</button></article>`;
+  }
+
+  function instalarVF(r){r.querySelectorAll('.nv1-vf-item').forEach(item=>item.querySelectorAll('.nv1-vf-button').forEach(b=>b.onclick=()=>{item.querySelectorAll('.nv1-vf-button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');}));}
+  function instalarRelleno(r){r.querySelectorAll('.nv1-fill-question').forEach(card=>card.querySelectorAll('.nv1-blank-input').forEach(input=>input.oninput=()=>{const v=[...card.querySelectorAll('.nv1-blank-input')].map(x=>x.value.trim().toLowerCase());const ok=v[0]==='gracia'&&v[1]==='fe';const partial=v.some(Boolean);const f=card.querySelector('.nv1-fill-feedback');f.className='nv1-fill-feedback '+(ok?'correct':partial?'partial':'wrong');f.textContent=ok?'✓ ¡Muy bien! Has completado correctamente la frase.':partial?'Casi. Revisa las dos respuestas.':'Completa los dos espacios y comprueba lo aprendido.';}));}
+  function instalarCitas(r){r.querySelectorAll('.nv1-bible-ref').forEach(b=>b.onclick=()=>typeof abrirBibliaNV1_==='function'&&abrirBibliaNV1_(b.dataset.ref));}
+  function instalarFecha(r){r.querySelectorAll('input[type=date]').forEach(i=>i.value=localStorage.getItem('nv1_date_'+(user.idUsuario||user.correo))||'');}
+  function instalarAudio(r){r.querySelectorAll('.nv1-audio-control').forEach(b=>b.onclick=()=>{const card=b.closest('article');const c=card.cloneNode(true);c.querySelectorAll('button,input,textarea').forEach(x=>x.remove());const text=(c.innerText||'').replace(/\s+/g,' ').trim();if(!window.speechSynthesis){b.textContent='🔊 Audio no disponible';return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='es-ES';u.rate=.9;u.volume=1;const vs=speechSynthesis.getVoices();const v=vs.find(x=>/^es(-|_)/i.test(x.lang));if(v)u.voice=v;b.textContent='⏸ Detener';u.onend=()=>b.textContent='🔊 Escuchar';u.onerror=()=>b.textContent='🔊 Reintentar';speechSynthesis.speak(u);});}
+
+  function instalarExam(r){if(!r.querySelector('#wiz-exam'))return;examIndex=0;examSelected=null;examCorrect=0;examWrong=0;examSeconds=180;examStarted=false;clearInterval(examTimer);drawExam();}
+  const EQ=[
+    ['Según Efesios 2:1, ¿cuál era nuestra condición antes de recibir la vida eterna?',['Éramos hijos maduros de Dios','Ya habíamos alcanzado la vida eterna','No teníamos ninguna necesidad espiritual','Estábamos muertos en delitos y pecados'],3],
+    ['Según Romanos 3:23, ¿ha pecado toda persona?',['Sí','No','Solo quienes no asisten a una iglesia','Solo quienes no conocen la Biblia'],0],
+    ['Según Efesios 2:4-5, ¿qué hizo Dios por nosotros?',['Nos pidió que primero hiciéramos suficientes obras','Nos dejó resolver solos nuestra condición','Nos dio vida juntamente con Cristo','Nos dio salvación por asistir a la iglesia'],2],
+    ['Según Romanos 5:8, ¿cómo muestra Dios su amor?',['Nos dio riquezas materiales','Cristo murió por nosotros siendo aún pecadores','Nos evitó todas las dificultades','Nos permitió salvarnos por nuestros propios méritos'],1],
+    ['Según Efesios 2:8-9, la salvación es por...',['Obras y asistencia religiosa','Conocimiento humano','Gracia por medio de la fe','Esfuerzo personal'],2],
+    ['Según Gálatas 3:26, ¿en quién debemos tener fe para ser hijos de Dios?',['En nuestras buenas obras','En nuestra propia capacidad','En una tradición religiosa','En Cristo Jesús'],3],
+    ['Según Juan 1:12, ¿qué recibe quien recibe a Cristo?',['El derecho de ser hijo de Dios','Una vida sin problemas','La obligación de salvarse por obras','Una promesa de riqueza'],0],
+    ['Según 2 Corintios 5:17, quien está en Cristo es...',['La misma persona sin ningún cambio posible','Una persona sin necesidad de crecer','Una nueva criatura','Una persona que ya no necesita obedecer a Dios'],2]
+  ];
+  function drawExam(){const b=screen.querySelector('#wiz-exam'),q=EQ[examIndex];b.innerHTML=`<div class="nv1-exam-top-wiz"><div><strong>Pregunta ${examIndex+1} de 8</strong><p>Selecciona una sola respuesta.</p></div><div id="wiz-timer" class="nv1-exam-timer-wiz">03:00</div></div><h3>${esc(q[0])}</h3><div>${q[1].map((x,i)=>`<button type="button" class="nv1-exam-option-wiz" data-i="${i}">${String.fromCharCode(65+i)}. ${esc(x)}</button>`).join('')}</div><div style="margin-top:14px"><span id="wiz-exam-note">Elige una respuesta para continuar.</span><button type="button" class="nv1-wiz-btn nv1-wiz-btn-primary" id="wiz-exam-next" disabled style="float:right">${examIndex===7?'Ver resultado':'Siguiente'}</button></div><div style="clear:both"></div>`;b.querySelectorAll('.nv1-exam-option-wiz').forEach(x=>x.onclick=()=>{examSelected=Number(x.dataset.i);b.querySelectorAll('.nv1-exam-option-wiz').forEach(y=>y.classList.remove('selected'));x.classList.add('selected');startExamClock();b.querySelector('#wiz-exam-next').disabled=false;});b.querySelector('#wiz-exam-next').onclick=()=>{if(examSelected===null)return;if(examSelected===q[2])examCorrect++;else examWrong++;if(examIndex===7){finishExam();}else{examIndex++;examSelected=null;drawExam();}};}
+  function startExamClock(){if(examStarted)return;examStarted=true;clearInterval(examTimer);examTimer=setInterval(()=>{examSeconds--;updateExamClock();if(examSeconds<=0)finishExam();},1000);}
+  function updateExamClock(){const e=screen.querySelector('#wiz-timer');if(!e)return;const m=Math.floor(examSeconds/60).toString().padStart(2,'0'),s=(examSeconds%60).toString().padStart(2,'0');e.textContent=m+':'+s;if(examSeconds<=10){e.classList.add('danger');beep(examSeconds);}}
+  function finishExam(){clearInterval(examTimer);examTimer=null;const blank=Math.max(0,8-examCorrect-examWrong),name=esc(user.nombre||'hermano/a'),b=screen.querySelector('#wiz-exam');b.innerHTML=`<div class="nv1-exam-result-wiz"><div class="nv1-exam-score-wiz">${examCorrect} / 8</div><p><strong>Correctas:</strong> ${examCorrect} · <strong>Incorrectas:</strong> ${examWrong} · <strong>Sin responder:</strong> ${blank}</p><div class="nv1-exam-message">${examCorrect===8?`<strong>¡Felicidades, ${name}!</strong><p>Has respondido correctamente. <b>¡Sigue así!</b> Cada paso que das fortalece tu crecimiento.</p>`:`<strong>Ánimo, ${name}.</strong><p>Este resultado no te define. Vuelve a revisar lo aprendido y prueba nuevamente. <b>¡No te detengas!</b></p>`}</div><button type="button" class="nv1-wiz-btn nv1-wiz-btn-primary" id="wiz-exam-retry">Volver a intentarlo</button></div>`;b.querySelector('#wiz-exam-retry').onclick=()=>{examIndex=0;examSelected=null;examCorrect=0;examWrong=0;examSeconds=180;examStarted=false;drawExam();};}
+  function beep(f){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=f%2?760:520;g.gain.value=.06;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.12);}catch(_){} }
+  function finalizarPaso(){clearInterval(examTimer);if(window.speechSynthesis)speechSynthesis.cancel();localStorage.setItem('nv1_step1_started_'+(user.idUsuario||user.correo),'true');alert('¡Muy bien! Has recorrido Paso 1. El progreso definitivo se conectará a tu cuenta cuando terminemos la integración con RESPUESTA-NUEVA VIDA.');volverMenu();}
+  function volverMenu(){clearInterval(examTimer);if(window.speechSynthesis)speechSynthesis.cancel();screen?.remove();crearMenu();window.scrollTo({top:0,behavior:'smooth'});}
+})();
