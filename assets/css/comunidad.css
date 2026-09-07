@@ -26,11 +26,117 @@
     line-height:1.8;
 }
 
+.acceso-comunidad{
+    max-width:900px;
+    margin:0 auto 30px;
+    padding:22px 25px;
+    border:1px solid rgba(212,175,55,.32);
+    border-radius:20px;
+    background:rgba(13,27,42,.88);
+    box-shadow:0 14px 30px rgba(0,0,0,.22);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+    text-align:left;
+}
+
+.acceso-comunidad-icono{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(212,175,55,.13);
+    color:#f5d87c;
+    font-size:24px;
+    flex-shrink:0;
+}
+
+.acceso-comunidad-texto{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    flex:1 1 300px;
+}
+
+.acceso-comunidad-texto strong{
+    color:#ffe29a;
+    font-size:17px;
+}
+
+.acceso-comunidad-texto span{
+    color:var(--texto-sec);
+    font-size:14px;
+    line-height:1.5;
+}
+
+.google-login-comunidad{
+    min-width:280px;
+    min-height:44px;
+    display:flex;
+    justify-content:center;
+}
+
+.btn-salir-comunidad{
+    border:1px solid rgba(212,175,55,.35);
+    background:rgba(212,175,55,.10);
+    color:#f5d87c;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:700;
+    padding:10px 16px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.btn-salir-comunidad:hover{
+    background:rgba(212,175,55,.18);
+}
+
+.estado-acceso-comunidad{
+    display:none;
+    flex-basis:100%;
+    color:var(--texto-sec);
+    font-size:14px;
+    text-align:center;
+    padding-top:4px;
+}
+
+.estado-acceso-comunidad.visible{
+    display:block;
+}
+
+.estado-acceso-comunidad.error{
+    color:#f3b0b0;
+}
+
 .grid-comunidad{
     display:grid;
     grid-template-columns:repeat(2, minmax(0, 1fr));
     gap:25px;
     margin-bottom:35px;
+}
+
+.comunidad-bloqueada .tarjeta-comunidad{
+    opacity:.78;
+}
+
+.comunidad-bloqueada .tarjeta-comunidad:first-child::after{
+    content:"🔒 Inicia sesión para acceder";
+    display:block;
+    margin-top:4px;
+    color:#d9c27b;
+    font-size:13px;
+    font-weight:700;
+}
+
+.enlace-bloqueado{
+    filter:grayscale(.35);
+    opacity:.65;
+    cursor:not-allowed;
 }
 
 .tarjeta-comunidad{
@@ -138,6 +244,21 @@
 
     .tarjeta-comunidad{
         padding:27px 22px;
+    }
+
+    .acceso-comunidad{
+        margin-left:15px;
+        margin-right:15px;
+        text-align:center;
+    }
+
+    .acceso-comunidad-texto{
+        flex-basis:100%;
+        align-items:center;
+    }
+
+    .google-login-comunidad{
+        min-width:100%;
     }
 
 }
