@@ -166,6 +166,38 @@ function crearPaginaAcerca(){
 
     </section>
 
+    <section class="acerca-seccion acerca-legal">
+
+        <h2>🔐 Información legal</h2>
+
+        <p>
+            Para quienes utilizan las funciones de la plataforma que requieren una cuenta,
+            ponemos a disposición nuestra información sobre privacidad y las condiciones
+            básicas de uso de Caminando con Dios.
+        </p>
+
+        <div class="acerca-legal-enlaces">
+
+            <a href="politica-privacidad.html" class="acerca-legal-enlace">
+                <span class="acerca-legal-icono">🔒</span>
+                <span>
+                    <strong>Política de Privacidad</strong>
+                    <small>Cómo manejamos la información de los usuarios.</small>
+                </span>
+            </a>
+
+            <a href="terminos-servicio.html" class="acerca-legal-enlace">
+                <span class="acerca-legal-icono">📋</span>
+                <span>
+                    <strong>Condiciones de Uso</strong>
+                    <small>Reglas básicas para utilizar la plataforma.</small>
+                </span>
+            </a>
+
+        </div>
+
+    </section>
+
 </section>
 
 `;
