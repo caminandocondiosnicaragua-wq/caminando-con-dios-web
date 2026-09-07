@@ -47,9 +47,7 @@ function cerrarSesionComunidad(){
         google.accounts.id.disableAutoSelect();
     }
 
-    if(typeof actualizarEstadoComunidad === "function"){
-        actualizarEstadoComunidad();
-    }
+    actualizarEstadoComunidad();
 }
 
 function iniciarAutenticacionComunidad(){
@@ -164,6 +162,64 @@ async function recibirCredencialGoogleComunidad_(respuesta){
     }
 }
 
+function actualizarEstadoComunidad(){
+    const usuario = obtenerUsuarioComunidad();
+    const acceso = document.getElementById("acceso-comunidad");
+    const tarjetas = document.getElementById("contenido-comunidad-protegido");
+
+    if(!acceso || !tarjetas) return;
+
+    if(usuario){
+        acceso.className = "acceso-comunidad acceso-comunidad-autenticado";
+        acceso.innerHTML = `
+            <div class="acceso-comunidad-icono">✓</div>
+            <div class="acceso-comunidad-texto">
+                <strong>Bienvenido, ${escaparHtmlComunidad_(usuario.nombre || "hermano/a")}.</strong>
+                <span>Ya tienes acceso al contenido de la comunidad.</span>
+            </div>
+            <button type="button" class="btn-salir-comunidad" onclick="cerrarSesionComunidad()">
+                Cerrar sesión
+            </button>
+        `;
+        tarjetas.classList.remove("comunidad-bloqueada");
+        activarEnlacesComunidad_();
+        return;
+    }
+
+    acceso.className = "acceso-comunidad";
+    acceso.innerHTML = `
+        <div class="acceso-comunidad-icono">🔐</div>
+        <div class="acceso-comunidad-texto">
+            <strong>Inicia sesión para entrar a la comunidad</strong>
+            <span>El acceso con Google te permitirá continuar tu recorrido y reconocer tu progreso.</span>
+        </div>
+        <div id="google-login-comunidad" class="google-login-comunidad"></div>
+    `;
+
+    tarjetas.classList.add("comunidad-bloqueada");
+    bloquearEnlacesComunidad_();
+
+    prepararGoogleComunidad_();
+}
+
+function activarEnlacesComunidad_(){
+    document.querySelectorAll("#contenido-comunidad-protegido a.enlace-comunidad-protegido")
+        .forEach(enlace => {
+            enlace.classList.remove("enlace-bloqueado");
+            enlace.removeAttribute("aria-disabled");
+            enlace.style.pointerEvents = "auto";
+        });
+}
+
+function bloquearEnlacesComunidad_(){
+    document.querySelectorAll("#contenido-comunidad-protegido a.enlace-comunidad-protegido")
+        .forEach(enlace => {
+            enlace.classList.add("enlace-bloqueado");
+            enlace.setAttribute("aria-disabled", "true");
+            enlace.style.pointerEvents = "none";
+        });
+}
+
 function mostrarEstadoAccesoComunidad_(mensaje){
     const estado = document.getElementById("estado-acceso-comunidad");
     if(estado){
@@ -178,4 +234,13 @@ function mostrarErrorAccesoComunidad_(mensaje){
         estado.textContent = mensaje;
         estado.className = "estado-acceso-comunidad visible error";
     }
+}
+
+function escaparHtmlComunidad_(texto){
+    return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
