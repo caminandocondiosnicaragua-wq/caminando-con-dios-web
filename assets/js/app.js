@@ -16,11 +16,6 @@ async function iniciarAplicacion(){
         console.log(devocionalActual);
         construirAplicacion(devocionalActual);
         iniciarModulos();
-
-        /********************************************
-         * CARGAR COMENTARIOS DEL DEVOCIONAL
-         ********************************************/
-        await cargarComentarios();
     }
    catch(error){
     alert(
@@ -48,8 +43,6 @@ function construirAplicacion(devocional){
         ${crearHero()}
         <div class="contenedor">
             ${crearDevocional(devocional)}
-
-            ${CONFIG.DEVOCIONAL.mostrarComentarios ? crearComentarios() : ""}
         </div>
         ${crearFooter()}
     `;
@@ -61,8 +54,6 @@ function iniciarModulos(){
     iniciarHeader();
     iniciarNavegacion();
     activarModoLectura(); 
-
-    iniciarComentarios();
     iniciarFooter();
 }
 /************************************************
