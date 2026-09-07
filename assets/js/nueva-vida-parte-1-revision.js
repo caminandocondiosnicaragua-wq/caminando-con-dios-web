@@ -109,12 +109,26 @@
       if(!card.querySelector('.nv1-fill-feedback')){const f=document.createElement('div');f.className='nv1-fill-feedback';card.appendChild(f);}
       card.querySelectorAll('.nv1-blank-input').forEach(inp=>inp.addEventListener('input',()=>evaluarCompletar_(card)));
     }});
-    instalarAudioDelegado_(); instalarFecha_(); aplicarEscala_();
+    instalarAudioDelegado_(); agregarBotonesAudio_(); instalarFecha_(); aplicarEscala_();
   }
 
   function evaluarCompletar_(card){const inputs=[...card.querySelectorAll('.nv1-blank-input')];const values=inputs.map(i=>i.value.trim().toLowerCase());const feedback=card.querySelector('.nv1-fill-feedback');if(!values.some(Boolean)){feedback.textContent='';return;}const ok=values[0]==='gracia'&&values[1]==='fe';const parcial=values[0]==='gracia'||values[1]==='fe';feedback.className='nv1-fill-feedback '+(ok?'correct':parcial?'partial':'wrong');feedback.textContent=ok?'✓ ¡Muy bien! Has completado correctamente la frase.':parcial?'Casi. Revisa ambas respuestas y vuelve a intentarlo.':'Revisa la frase y piensa en lo que enseña Efesios 2:8.';inputs.forEach(i=>i.classList.toggle('correct',ok));}
 
   function instalarFecha_(){document.querySelectorAll('.nv1-db-exercise').forEach(card=>{if(card.querySelector('.nv1-date-input'))return;if(/fecha\s*:/i.test(card.textContent||'')){const wrap=document.createElement('label');wrap.className='nv1-date-wrap';wrap.innerHTML='📅 <span>Fecha de mi compromiso</span><input class="nv1-date-input" type="date">';const action=card.querySelector('.nv1-exercise-action');action?action.before(wrap):card.appendChild(wrap);}});}
+
+  function agregarBotonesAudio_(){
+    document.querySelectorAll('.nv1-section, .nv1-db-item, .nv1-question').forEach(card=>{
+      if(card.closest('.nv1-game'))return;
+      if(card.querySelector(':scope > .nv1-audio-control, :scope > .nv1-audio-placeholder'))return;
+      const clone=card.cloneNode(true);
+      clone.querySelectorAll('button,input,textarea,.nv1-audio-control,.nv1-audio-placeholder,.nv1-actions,.nv1-wizard-nav').forEach(x=>x.remove());
+      const contenido=(clone.innerText||'').replace(/\s+/g,' ').trim();
+      if(contenido.length<12)return;
+      const b=document.createElement('button');b.type='button';b.className='nv1-audio-control';b.innerHTML='🔊 Escuchar';
+      const actions=card.querySelector(':scope > .nv1-actions');
+      if(actions)actions.before(b);else card.appendChild(b);
+    });
+  }
 
   function instalarAudioDelegado_(){
     if(window.__nv1AudioInstalled)return;window.__nv1AudioInstalled=true;
