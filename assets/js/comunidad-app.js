@@ -72,7 +72,7 @@ function crearComunidad(){
         </p>
     </div>
 
-    <section class="comunidad-acceso" aria-labelledby="titulo-acceso-comunidad">
+    <section id="acceso-comunidad" class="comunidad-acceso" aria-labelledby="titulo-acceso-comunidad">
         <div class="acceso-comunidad-contenido">
             <div class="acceso-comunidad-icono">🔐</div>
             <div class="acceso-comunidad-texto">
