@@ -30,7 +30,7 @@ const CONFIG = {
     DEVOCIONAL:{
         bloquearDiasFuturos:true,
         mostrarVideo:true,
-        mostrarComentarios:true,
+        mostrarComentarios:false,
         mostrarLecturaBiblica:true
     },
 
