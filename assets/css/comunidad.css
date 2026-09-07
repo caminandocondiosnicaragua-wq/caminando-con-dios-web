@@ -144,6 +144,59 @@
     background:rgba(212,175,55,.18);
 }
 
+/* Identidad del usuario dentro de las subpáginas de Comunidad */
+.comunidad-subpagina-usuario{
+    max-width:900px;
+    margin:0 auto 28px;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    border:1px solid rgba(212,175,55,.30);
+    border-radius:18px;
+    background:rgba(13,27,42,.78);
+    box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+
+.comunidad-subpagina-usuario-icono{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(212,175,55,.12);
+    font-size:21px;
+    flex-shrink:0;
+}
+
+.comunidad-subpagina-usuario-texto{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    flex:1 1 280px;
+}
+
+.comunidad-subpagina-usuario-texto strong{
+    color:#ffe29a;
+    font-size:17px;
+}
+
+.comunidad-subpagina-usuario-texto span,
+.comunidad-subpagina-correo{
+    color:var(--texto-sec);
+    font-size:13px;
+}
+
+.comunidad-subpagina-usuario-acciones{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+}
+
 .grid-comunidad{
     display:grid;
     grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -294,5 +347,20 @@
 
     .google-login-comunidad{
         min-width:100%;
+    }
+
+    .comunidad-subpagina-usuario{
+        margin-left:15px;
+        margin-right:15px;
+        justify-content:center;
+        text-align:center;
+    }
+
+    .comunidad-subpagina-usuario-texto{
+        flex-basis:100%;
+    }
+
+    .comunidad-subpagina-usuario-acciones{
+        justify-content:center;
     }
 }
