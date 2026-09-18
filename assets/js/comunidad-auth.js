@@ -166,6 +166,20 @@ function actualizarEstadoComunidad(){
         tarjetas.classList.add("comunidad-desbloqueada");
         activarEnlacesComunidad_();
         personalizarComunidad_();
+
+        // El selector aparece únicamente después de iniciar sesión.
+        // Si el usuario ya eligió un avatar, se muestra su selección.
+        if(typeof iniciarSelectorAvatarComunidad_ === "function"){
+            let selector = document.getElementById("selector-avatar-comunidad");
+            if(!selector){
+                selector = document.createElement("section");
+                selector.id = "selector-avatar-comunidad";
+                selector.setAttribute("aria-label", "Compañero de estudio");
+                tarjetas.parentNode.insertBefore(selector, tarjetas);
+            }
+            iniciarSelectorAvatarComunidad_();
+        }
+
         return;
     }
 
