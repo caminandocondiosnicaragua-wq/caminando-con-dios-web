@@ -76,6 +76,7 @@ function iniciarNuevaVidaParte1(){
 
         ${renderVerdaderoFalso_()}
         ${renderContenido_()}
+        ${renderResumenNV1_()}
         ${renderExamen_()}
         ${renderCierre_()}
       </div>
@@ -181,6 +182,27 @@ function renderContenido_(){
   html+=`<div class="nv1-section-guide-end"><span>✓</span><div><strong>Cuando termines las preguntas</strong><p>Revisa tus respuestas y guarda tu avance antes de continuar.</p></div></div><div class="nv1-actions"><button class="nv1-btn nv1-btn-secondary" onclick="guardarRespuestasNV1_(${bi+2})">Guardar mi avance</button></div></section>`;
  });
  return html;
+}
+
+function renderResumenNV1_(){
+ const avatar=typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null;
+ const companion=avatar?'<aside class="nv1-avatar-companion nv1-avatar-right nv1-avatar-moving nv1-avatar-summary" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te invita a pensar...</strong><p>Ahora mira hacia atrás: ¿qué aprendiste sobre tu vida sin Cristo, lo que Él hizo por ti y cómo quieres vivir esta nueva vida?</p></div><div class="nv1-avatar-figure"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+' acompañando el resumen"></div></aside>':'';
+ return `<section class="nv1-section nv1-summary-section" data-step="6">
+   <div class="nv1-accessibility" aria-label="Herramientas de lectura">
+     <span>Texto</span><button type="button" onclick="cambiarTamanoNV1_(-1)" aria-label="Reducir letra">A−</button><button type="button" onclick="cambiarTamanoNV1_(1)" aria-label="Aumentar letra">A+</button>
+     <button type="button" class="nv1-audio-control" onclick="escucharSeccionNV1_(this)">🔊 Escuchar</button>
+   </div>
+   <span class="nv1-badge">Paso 5 de estudio</span>
+   <h2>Resumamos</h2>
+   <p class="nv1-section-intro">Con sus propias palabras, resume el contenido de lo estudiado.</p>
+   ${companion}
+   <div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">1</div><div><h3>¿Cómo era mi vida sin Cristo?</h3></div></div><textarea class="nv1-answer" data-q="resumen1" placeholder="Escribe con tus propias palabras..."></textarea></div>
+   <div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">2</div><div><h3>¿Qué hizo Cristo por mí?</h3></div></div><textarea class="nv1-answer" data-q="resumen2" placeholder="Escribe con tus propias palabras..."></textarea></div>
+   <div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">3</div><div><h3>¿Cómo se debe mostrar, en mi andar diario, la nueva vida que Dios me dio?</h3></div></div><textarea class="nv1-answer" data-q="resumen3" placeholder="Escribe con tus propias palabras..."></textarea></div>
+   <div class="nv1-summary-grow"><span class="nv1-badge">Para crecer</span><h3>Esta semana: Juan 1–7</h3><p>Lee un capítulo por día. Ora antes de leer, preparando tu corazón para recibir lo que Dios te diga por medio de su Palabra. Después de leer, vuelve a orar y comenta con Dios lo leído.</p><label class="nv1-choice"><input type="checkbox" id="nv1-compromiso"> Me comprometo a leer un capítulo diario en mi Biblia.</label><p class="nv1-memory-note"><strong>Memoriza:</strong> Efesios 2:8-9.</p></div>
+   <div class="nv1-section-guide-end"><span>✓</span><div><strong>Cuando termines</strong><p>Revisa tus respuestas y guarda tu avance antes de continuar.</p></div></div>
+   <div class="nv1-actions"><button class="nv1-btn nv1-btn-primary" onclick="guardarRespuestasNV1_(6)">Guardar mi avance</button></div>
+ </section>`;
 }
 
 function renderExamen_(){
