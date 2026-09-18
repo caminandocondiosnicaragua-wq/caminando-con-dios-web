@@ -162,7 +162,15 @@ function renderContenido_(){
   if(avatar && bi===2){
     companion='<aside class="nv1-avatar-companion nv1-avatar-right nv1-avatar-moving" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te pregunta...</strong><p>Antes de responder, piensa: ¿en quién debes confiar para ser parte de la familia de Dios? Lee la cita bíblica y encuentra la respuesta en ella.</p></div><div class="nv1-avatar-figure"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+' acompañando la sección"></div></aside>';
   }
-  html+=`<section class="nv1-section" data-step="${bi+2}"><span class="nv1-badge">Paso ${bi+1} de estudio</span><h2>${b.titulo}</h2><p class="nv1-section-intro">${b.intro}</p>${companion}`;
+  if(avatar && bi===3){
+    companion='<aside class="nv1-avatar-companion nv1-avatar-right nv1-avatar-moving nv1-avatar-guiding" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te anima...</strong><p>Lee cada cita con atención y piensa: ¿qué cambia en una persona que comienza una nueva vida con Cristo? Escribe lo que comprendas con tus propias palabras.</p></div><div class="nv1-avatar-figure"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+' acompañando la sección"></div></aside>';
+  }
+  html+=`<section class="nv1-section nv1-content-section" data-step="${bi+2}">
+    <div class="nv1-accessibility" aria-label="Herramientas de lectura">
+      <span>Texto</span><button type="button" onclick="cambiarTamanoNV1_(-1)" aria-label="Reducir letra">A−</button><button type="button" onclick="cambiarTamanoNV1_(1)" aria-label="Aumentar letra">A+</button>
+      <button type="button" class="nv1-audio-control" onclick="escucharSeccionNV1_(this)">🔊 Escuchar</button>
+    </div>
+    <span class="nv1-badge">Paso ${bi+1} de estudio</span><h2>${b.titulo}</h2><p class="nv1-section-intro">${b.intro}</p>${companion}`;
   b.preguntas.forEach(p=>{
     if(Number(p[0])===8){
       html+=`<div class="nv1-question nv1-fill-question"><div class="nv1-q-head"><div class="nv1-q-num">${p[0]}</div><div><h3>Completa</h3><p class="nv1-fill-sentence">Somos salvos por <span class="nv1-fill-inline-label">escribe aquí</span> por medio de la <span class="nv1-fill-inline-label">escribe aquí</span>.</p><button class="nv1-ref" data-ref="${p[2]}">📖 ${p[2]} · leer cita</button></div></div><div class="nv1-fill-boxes"><label><span>Somos salvos por</span><input type="text" class="nv1-answer nv1-fill-input" data-q="8a" placeholder="Escribe aquí..."></label><label><span>por medio de la</span><input type="text" class="nv1-answer nv1-fill-input" data-q="8b" placeholder="Escribe aquí..."></label></div></div>`;
