@@ -240,3 +240,25 @@
         max-width:100%;
     }
 }
+
+/* Avatares reales de Caminando con Dios */
+.avatar-card-figura{
+    overflow:hidden;
+}
+.avatar-card-figura img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    filter:drop-shadow(0 8px 10px rgba(0,0,0,.25));
+}
+.avatar-seleccionado-figura{
+    overflow:hidden;
+}
+.avatar-seleccionado-figura img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    filter:drop-shadow(0 8px 10px rgba(0,0,0,.25));
+}
