@@ -95,7 +95,7 @@ function renderVerdaderoFalso_(){
   ["Soy salvo por asistir a la iglesia y hacer cosas buenas.","Efesios 2:8-9","false"]
  ];
  const avatar=typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null;
- const companion=avatar?'<div class="nv1-avatar-thought"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+'"><div class="nv1-thought-bubble"><strong>'+escaparNV1_(avatar.nombre)+' piensa...</strong><p>Antes de responder, lee cada afirmación con calma. No tienes que saberlo todo todavía; este es el punto de partida para aprender juntos.</p></div></div>':'<div class="nv1-section-companion"><span>💬</span><div><strong>Un momento para pensar</strong><p>Lee cada afirmación con calma antes de responder.</p></div></div>';
+ const companion=avatar?'<aside class="nv1-avatar-companion" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' piensa...</strong><p>Lee cada afirmación con calma. Este es tu punto de partida para aprender.</p></div><div class="nv1-avatar-figure"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+'"></div></aside>':'<aside class="nv1-avatar-companion nv1-avatar-companion-fallback" aria-label="Acompañamiento"><div class="nv1-avatar-bubble"><strong>Un momento para pensar</strong><p>Lee cada afirmación con calma antes de responder.</p></div></aside>';
  return `<section class="nv1-section nv1-vf-section" data-step="1">
    <div class="nv1-accessibility" aria-label="Herramientas de lectura">
      <span>Texto</span><button type="button" onclick="cambiarTamanoNV1_(-1)" aria-label="Reducir letra">A−</button><button type="button" onclick="cambiarTamanoNV1_(1)" aria-label="Aumentar letra">A+</button>
