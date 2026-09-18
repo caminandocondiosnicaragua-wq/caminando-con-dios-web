@@ -65,19 +65,30 @@
   }
 
   function construirSecciones(rows){
+    const vfKeys=new Set([
+      "Falso o Verdadero — Creo que Dios existe",
+      "Falso o Verdadero — El pecado separa",
+      "Falso o Verdadero — Iglesia y buenas obras"
+    ]);
+    const gruposDefinidos=[
+      "Bienvenida a la Familia de Dios",
+      "Ejercicios Espirituales",
+      "Para decidir",
+      "Para recibir a Cristo",
+      "Para reflexionar",
+      "La vida pasada",
+      "La obra de Dios",
+      "La nueva vida",
+      "Resumamos",
+      "Para crecer"
+    ];
     const groups=[];
-    const map=Object.create(null);
-    rows.forEach(r=>{
-      const key=String(r.Seccion||'Contenido').trim()||'Contenido';
-      if(!map[key]){
-        const group={title:key,items:[]};
-        map[key]=group;
-        groups.push(group);
-      }
-      map[key].items.push(r);
+    gruposDefinidos.forEach(title=>{
+      const items=rows.filter(r=>String(r.Seccion||'').trim()===title);
+      if(items.length)groups.push({title,items});
     });
     sections=[
-      {type:'vf',title:'Antes de comenzar'},
+      {type:'vf',title:'Falso o Verdadero',intro:'Antes de continuar, responde las tres afirmaciones. Debes responder las tres: en cada una elige Verdadero o Falso.'},
       ...groups.map(g=>({type:'content',title:g.title,items:g.items})),
       {type:'exam',title:'Reto de comprensión'}
     ];
@@ -100,7 +111,7 @@
 
   function renderSection(s){
     const acomp=(tipo,mensaje)=>typeof crearAcompanamientoAvatarNV_==='function'?crearAcompanamientoAvatarNV_(tipo,mensaje):'';
-    if(s.type==='vf')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Haz una pausa y piensa</h2><p>${s.intro}</p></div><div id="wiz-vf"><div class="nv1-vf-item"><div class="nv1-vf-statement">Para ser salvo sólo necesito creer que Dios existe.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div><div class="nv1-vf-item"><div class="nv1-vf-statement">El pecado causa una separación entre Dios y el hombre.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div><div class="nv1-vf-item"><div class="nv1-vf-statement">Soy salvo por asistir a la iglesia y hacer cosas buenas.</div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V</button><button class="nv1-vf-button" data-v="F">F</button></div></div></div>${acomp("Antes de comenzar","Vamos a empezar con lo que ya sabes. No te preocupes por acertar todo; este momento es para descubrir y aprender.")}`;
+    if(s.type==='vf')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Falso o Verdadero</h2><p>${s.intro}</p></div><div id="wiz-vf"><div class="nv1-vf-item"><div><div class="nv1-vf-statement">Para ser salvo sólo necesito creer que Dios existe.</div><button class="nv1-bible-ref" type="button" data-ref="Efesios 2:8-9">📖 Efesios 2:8-9 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div><div class="nv1-vf-item"><div><div class="nv1-vf-statement">El pecado causa una separación entre Dios y el hombre.</div><button class="nv1-bible-ref" type="button" data-ref="Romanos 6:23">📖 Romanos 6:23 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div><div class="nv1-vf-item"><div><div class="nv1-vf-statement">Soy salvo por asistir a la iglesia y hacer cosas buenas.</div><button class="nv1-bible-ref" type="button" data-ref="Efesios 2:8-9">📖 Efesios 2:8-9 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div></div>${acomp("Falso o Verdadero","Las tres afirmaciones deben responderse. La cita bíblica es una ayuda para estudiar; primero elige Verdadero o Falso en cada una.")}`;
     if(s.type==='exam')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Desafío final · modo juego</span><h2>Reto de comprensión</h2><p>${s.intro}</p></div><div class="nv1-exam-wiz" id="wiz-exam"></div>${acomp("Reto de comprensión","Llegaste al reto. Recuerda lo que aprendiste y, si una pregunta te cuesta, vuelve a la Palabra.")}`;
     return `<div class="nv1-wizard-heading"><span class="nv1-badge">Momento de tu recorrido</span><h2>${esc(s.title)}</h2><p>Tómate tu tiempo. Lee, piensa y avanza cuando estés listo.</p></div><div>${s.items.map(crearItem).join('')}</div>${acomp(s.title,"Estoy aquí contigo. Lee con calma y piensa cómo esta enseñanza se relaciona con tu caminar con Dios.")}`;
   }
