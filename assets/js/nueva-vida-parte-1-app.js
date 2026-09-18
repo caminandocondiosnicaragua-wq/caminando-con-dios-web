@@ -65,30 +65,19 @@
   }
 
   function construirSecciones(rows){
-    const vfKeys=new Set([
-      "Falso o Verdadero — Creo que Dios existe",
-      "Falso o Verdadero — El pecado separa",
-      "Falso o Verdadero — Iglesia y buenas obras"
-    ]);
-    const gruposDefinidos=[
-      "Bienvenida a la Familia de Dios",
-      "Ejercicios Espirituales",
-      "Para decidir",
-      "Para recibir a Cristo",
-      "Para reflexionar",
-      "La vida pasada",
-      "La obra de Dios",
-      "La nueva vida",
-      "Resumamos",
-      "Para crecer"
-    ];
     const groups=[];
-    gruposDefinidos.forEach(title=>{
-      const items=rows.filter(r=>String(r.Seccion||'').trim()===title);
-      if(items.length)groups.push({title,items});
+    const map=Object.create(null);
+    rows.forEach(r=>{
+      const key=String(r.Seccion||'Contenido').trim()||'Contenido';
+      if(!map[key]){
+        const group={title:key,items:[]};
+        map[key]=group;
+        groups.push(group);
+      }
+      map[key].items.push(r);
     });
     sections=[
-      {type:'vf',title:'Falso o Verdadero',intro:'Antes de continuar, responde las tres afirmaciones. Debes responder las tres: en cada una elige Verdadero o Falso.'},
+      {type:'vf',title:'Antes de comenzar'},
       ...groups.map(g=>({type:'content',title:g.title,items:g.items})),
       {type:'exam',title:'Reto de comprensión'}
     ];
@@ -110,10 +99,69 @@
   }
 
   function renderSection(s){
-    const acomp=(tipo,mensaje)=>typeof crearAcompanamientoAvatarNV_==='function'?crearAcompanamientoAvatarNV_(tipo,mensaje):'';
-    if(s.type==='vf')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Falso o Verdadero</h2><p>${s.intro}</p></div><div id="wiz-vf"><div class="nv1-vf-item"><div><div class="nv1-vf-statement">Para ser salvo sólo necesito creer que Dios existe.</div><button class="nv1-bible-ref" type="button" data-ref="Efesios 2:8-9">📖 Efesios 2:8-9 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div><div class="nv1-vf-item"><div><div class="nv1-vf-statement">El pecado causa una separación entre Dios y el hombre.</div><button class="nv1-bible-ref" type="button" data-ref="Romanos 6:23">📖 Romanos 6:23 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div><div class="nv1-vf-item"><div><div class="nv1-vf-statement">Soy salvo por asistir a la iglesia y hacer cosas buenas.</div><button class="nv1-bible-ref" type="button" data-ref="Efesios 2:8-9">📖 Efesios 2:8-9 · apoyo bíblico</button></div><div class="nv1-vf-actions"><button class="nv1-vf-button" data-v="V">V<span>Verdadero</span></button><button class="nv1-vf-button" data-v="F">F<span>Falso</span></button></div></div></div>${acomp("Falso o Verdadero","Las tres afirmaciones deben responderse. La cita bíblica es una ayuda para estudiar; primero elige Verdadero o Falso en cada una.")}`;
-    if(s.type==='exam')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Desafío final · modo juego</span><h2>Reto de comprensión</h2><p>${s.intro}</p></div><div class="nv1-exam-wiz" id="wiz-exam"></div>${acomp("Reto de comprensión","Llegaste al reto. Recuerda lo que aprendiste y, si una pregunta te cuesta, vuelve a la Palabra.")}`;
-    return `<div class="nv1-wizard-heading"><span class="nv1-badge">Momento de tu recorrido</span><h2>${esc(s.title)}</h2><p>Tómate tu tiempo. Lee, piensa y avanza cuando estés listo.</p></div><div>${s.items.map(crearItem).join('')}</div>${acomp(s.title,"Estoy aquí contigo. Lee con calma y piensa cómo esta enseñanza se relaciona con tu caminar con Dios.")}`;
+    if(s.type==='vf')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Haz una pausa y piensa</h2><p>Responde con sinceridad. No buscamos perfección; vamos a aprender juntos.</p></div><div id="nv1-vf-unico">${vf('Para ser salvo sólo necesito creer que Dios existe.','Efesios 2:8-9')}${vf('El pecado causa una separación entre Dios y el hombre.','Romanos 6:23')}${vf('Soy salvo por asistir a la iglesia y hacer cosas buenas.','Efesios 2:8-9')}</div><div class="nv1-wiz-companion"><span>🌱</span><div><strong>Este es tu punto de partida</strong><p>No importa si alguna respuesta no la conoces todavía.</p></div></div>`;
+    if(s.type==='exam')return `<div class="nv1-wizard-heading"><span class="nv1-badge">Desafío final</span><h2>Reto de comprensión</h2><p>Esta parte del recorrido tendrá el examen de 8 preguntas y 3 minutos.</p></div><div class="nv1-wiz-card"><strong>Prepararemos aquí el reto final.</strong><p>Tu respuesta y resultado se integrarán al progreso personal.</p></div><div class="nv1-wiz-companion"><span>💬</span><div><strong>Ánimo, ${esc(user.nombre||'hermano/a')}</strong><p>Esto no es una competencia. Es una oportunidad para comprobar lo aprendido.</p></div></div>`;
+    return `<div class="nv1-wizard-heading"><span class="nv1-badge">Momento de tu recorrido</span><h2>${esc(s.title)}</h2><p>Tómate tu tiempo. Lee, piensa y avanza cuando estés listo.</p></div><div>${s.items.map(item).join('')}</div><div class="nv1-wiz-companion"><span>💬</span><div><strong>Estoy aquí contigo</strong><p>Avanza a tu ritmo. Puedes volver atrás para repasar.</p></div></div>`;
   }
 
+  function vf(text,ref){
+    const refBtn=ref?'<button type="button" class="nv1-bible-ref" data-ref="'+esc(ref)+'">📖 '+esc(ref)+' · apoyo bíblico</button>':'';
+    return '<article class="nv1-vf-item"><div><div class="nv1-vf-statement">'+esc(text)+'</div>'+refBtn+'</div><div class="nv1-vf-actions"><button type="button" class="nv1-vf-button" data-v="V"><b>V</b><span>Verdadero</span></button><button type="button" class="nv1-vf-button" data-v="F"><b>F</b><span>Falso</span></button></div></article>';
+  }
 
+  function item(r){
+    const t=String(r.Tipo||'').trim().toLowerCase(), text=String(r.Texto||'').trim(), ref=String(r['Cita Bíblica']||'').trim(), num=r.Número==null?'':String(r.Número).trim();
+    const refBtn=ref?`<button type="button" class="nv1-bible-ref" data-ref="${esc(ref)}">📖 ${esc(ref)}</button>`:''; const pensamiento=ref&&typeof crearPensamientoBiblicoNV_==='function'?crearPensamientoBiblicoNV_(ref):'';
+    if(t==='versiculo')return `<article class="nv1-wiz-card"><div class="nv1-wiz-label">📖 Palabra de Dios</div><p>${esc(text)}</p>${refBtn}${pensamiento}<button type="button" class="nv1-audio-control">🔊 Escuchar</button></article>`;
+    if(t==='pregunta'&&/Somos salvos por/i.test(text))return `<article class="nv1-wizard-question nv1-wiz-card nv1-fill-question"><div class="nv1-wiz-label">✍️ Completa la enseñanza</div><div class="nv1-fill-line">Somos salvos por <input class="nv1-blank-input" data-answer="gracia" aria-label="gracia"> por medio de la <input class="nv1-blank-input" data-answer="fe" aria-label="fe">.</div>${refBtn}${pensamiento}<div class="nv1-fill-feedback"></div><button type="button" class="nv1-audio-control">🔊 Escuchar</button></article>`;
+    if(t==='pregunta')return `<article class="nv1-wizard-question nv1-wiz-card"><div class="nv1-wiz-label">✍️ Pregunta ${esc(num)}</div><h3 class="nv1-wiz-q-title">${esc(text)}</h3>${refBtn}${pensamiento}<textarea class="nv1-wiz-answer" data-q="${esc(num)}" placeholder="Escribe aquí lo que piensas..."></textarea><button type="button" class="nv1-audio-control">🔊 Escuchar</button></article>`;
+    const label=t==='bienvenida'?'🌱 Bienvenida':t==='enseñanza'?'💡 Enseñanza':t==='ejercicio'?'🎯 Ejercicio':t==='reflexion'?'💭 Reflexión':'✨ Contenido';
+    return `<article class="nv1-wiz-card"><div class="nv1-wiz-label">${label}</div><p>${esc(text)}</p>${refBtn}${pensamiento}${/fecha\s*:/i.test(text)?'<label class="nv1-date-wiz">📅 Fecha de mi compromiso <input type="date"></label>':''}<button type="button" class="nv1-audio-control">🔊 Escuchar</button></article>`;
+  }
+
+  function instalarInteracciones(r){
+    r.querySelectorAll('.nv1-vf-item').forEach(item=>item.querySelectorAll('.nv1-vf-button').forEach(btn=>btn.onclick=()=>{
+      item.querySelectorAll('.nv1-vf-button').forEach(x=>x.classList.remove('selected'));
+      btn.classList.add('selected');
+      guardarVF_();
+      actualizarBotonVF_();
+    }));
+    restaurarVF_();
+    actualizarBotonVF_();
+    r.querySelectorAll('.nv1-fill-question').forEach(card=>card.querySelectorAll('.nv1-blank-input').forEach(input=>input.oninput=()=>{
+      const vals=[...card.querySelectorAll('.nv1-blank-input')].map(x=>x.value.trim().toLowerCase()),ok=vals[0]==='gracia'&&vals[1]==='fe',partial=vals.some(Boolean),f=card.querySelector('.nv1-fill-feedback');
+      f.className='nv1-fill-feedback '+(ok?'correct':partial?'partial':'wrong');
+      f.textContent=ok?'✓ ¡Muy bien! Has completado correctamente la frase.':partial?'Casi. Revisa las dos respuestas.':'Completa los dos espacios.';
+    }));
+    r.querySelectorAll('.nv1-bible-ref').forEach(b=>b.onclick=()=>typeof abrirBibliaNV1_==='function'&&abrirBibliaNV1_(b.dataset.ref));
+    r.querySelectorAll('.nv1-audio-control').forEach(b=>b.onclick=()=>{
+      const card=b.closest('article');if(!card)return;
+      const clone=card.cloneNode(true);clone.querySelectorAll('button,input,textarea').forEach(x=>x.remove());
+      const text=(clone.innerText||'').replace(/\s+/g,' ').trim();
+      if(!window.speechSynthesis){b.textContent='🔊 Audio no disponible';return;}
+      window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='es-ES';u.rate=.9;
+      const voices=window.speechSynthesis.getVoices(),voice=voices.find(v=>/^es(-|_)/i.test(v.lang));if(voice)u.voice=voice;
+      b.textContent='⏸ Detener';u.onend=()=>b.textContent='🔊 Escuchar';u.onerror=()=>b.textContent='🔊 Reintentar';window.speechSynthesis.speak(u);
+    });
+    r.querySelectorAll('input[type=date]').forEach(i=>i.value=localStorage.getItem('nv1_date_'+(user.idUsuario||user.correo))||'');
+  }
+  function vfKey_(){return 'nv1_vf_'+(user?.idUsuario||user?.correo||'anon');}
+  function guardarVF_(){
+    const respuestas={};
+    document.querySelectorAll('#nv1-vf-unico .nv1-vf-item').forEach((item,i)=>{const b=item.querySelector('.nv1-vf-button.selected');if(b)respuestas[i]=b.dataset.v;});
+    try{localStorage.setItem(vfKey_(),JSON.stringify(respuestas));}catch(_){}
+  }
+  function restaurarVF_(){
+    let respuestas={};try{respuestas=JSON.parse(localStorage.getItem(vfKey_())||'{}');}catch(_){}
+    document.querySelectorAll('#nv1-vf-unico .nv1-vf-item').forEach((item,i)=>item.querySelectorAll('.nv1-vf-button').forEach(b=>b.classList.toggle('selected',respuestas[i]===b.dataset.v)));
+  }
+  function actualizarBotonVF_(){
+    const siguiente=document.querySelector('#nv1-next'),items=document.querySelectorAll('#nv1-vf-unico .nv1-vf-item');
+    if(!siguiente||!items.length)return;
+    const completas=[...items].every(item=>item.querySelector('.nv1-vf-button.selected'));
+    siguiente.disabled=!completas;
+    siguiente.title=completas?'Continuar':'Responde las tres afirmaciones antes de continuar';
+  }
+
+  function volverMenu(){view?.remove();crearMenu();window.scrollTo({top:0,behavior:'smooth'});}
+})();
