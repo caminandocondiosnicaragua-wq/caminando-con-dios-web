@@ -161,3 +161,14 @@
 @keyframes nv1-bubble-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @media(max-width:1320px){.nv1-avatar-right{right:-158px}.nv1-avatar-right .nv1-avatar-figure{width:130px;height:180px}}
 @media(max-width:980px){.nv1-avatar-right{position:relative;right:auto;left:auto;top:auto;width:100%;display:flex;flex-direction:column;align-items:center;margin:18px 0 4px}.nv1-avatar-right .nv1-avatar-bubble{order:1;max-width:420px}.nv1-avatar-right .nv1-avatar-figure{order:2}}
+
+
+/* MOVIMIENTO DE AVATARES SEGUN LA SITUACION */
+.nv1-vf-section .nv1-avatar-figure img{animation:nv1-avatar-greet 4.2s ease-in-out infinite}
+.nv1-avatar-thinking .nv1-avatar-figure img{animation:nv1-avatar-think 4s ease-in-out infinite}
+.nv1-avatar-guiding .nv1-avatar-figure img{animation:nv1-avatar-guide 3.6s ease-in-out infinite}
+.nv1-avatar-challenge .nv1-avatar-figure img,.nv1-avatar-closing .nv1-avatar-figure img{animation:nv1-avatar-encourage 3.8s ease-in-out infinite}
+@keyframes nv1-avatar-greet{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-4px) rotate(2deg)}50%{transform:translateY(0) rotate(-2deg)}75%{transform:translateY(-3px) rotate(1deg)}}
+@keyframes nv1-avatar-think{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-2deg)}}
+@keyframes nv1-avatar-guide{0%,100%{transform:translateX(0) rotate(0)}30%{transform:translateX(-5px) rotate(-3deg)}65%{transform:translateX(4px) rotate(3deg)}}
+@keyframes nv1-avatar-encourage{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-5px) rotate(-2deg)}70%{transform:translateY(-2px) rotate(2deg)}}
