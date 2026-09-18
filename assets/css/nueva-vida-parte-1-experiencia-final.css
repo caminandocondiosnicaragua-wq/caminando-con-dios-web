@@ -132,3 +132,12 @@
  .nv1-nav-indicator{min-width:44px;font-size:18px}
  .nv1-nav-btn span{display:inline}
 }
+
+
+/* GUIA DE CIERRE DEL PASO */
+.nv1-section-guide-end{display:flex;align-items:center;gap:13px;margin:18px 0 8px;padding:13px 16px;border:1px solid rgba(212,175,55,.28);border-radius:14px;background:rgba(18,40,62,.65);color:#dbe5ef}
+.nv1-section-guide-end>span{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:#d4af37;color:#0d1b2a;font-weight:900;font-size:18px}
+.nv1-section-guide-end strong{display:block;color:#f5d76e;font-size:14px;margin-bottom:2px}
+.nv1-section-guide-end p{margin:0;font-size:13px;line-height:1.45}
+@media(max-width:1120px){.nv1-section-guide-end{margin-top:16px}}
+@media(max-width:600px){.nv1-section-guide-end{padding:11px 12px}.nv1-section-guide-end p{font-size:12px}}
