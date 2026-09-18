@@ -67,6 +67,13 @@ function iniciarNuevaVidaParte1(){
           <div class="nv1-progress-track"><div id="nv1-progress-bar" class="nv1-progress-bar"></div></div>
         </div>
 
+        <nav class="nv1-app-nav" aria-label="Navegación de la lección">
+          <button type="button" id="nv1-nav-inicio" class="nv1-nav-btn" onclick="irInicioNV1_()">⌂ <span>Inicio</span></button>
+          <button type="button" id="nv1-nav-atras" class="nv1-nav-btn" onclick="navegarNV1_(-1)">‹ <span>Atrás</span></button>
+          <div class="nv1-nav-indicator"><span id="nv1-nav-step">1</span><small>de <span id="nv1-nav-total">8</span></small></div>
+          <button type="button" id="nv1-nav-siguiente" class="nv1-nav-btn nv1-nav-next" onclick="navegarNV1_(1)"><span>Siguiente</span> ›</button>
+        </nav>
+
         ${renderVerdaderoFalso_()}
         ${renderContenido_()}
         ${renderExamen_()}
@@ -86,6 +93,7 @@ function iniciarNuevaVidaParte1(){
   iniciarHeader(); iniciarFooter();
   restaurarNV1_();
   iniciarInteraccionesNV1_();
+  iniciarNavegacionNV1_();
 }
 
 function renderVerdaderoFalso_(){
@@ -155,6 +163,59 @@ function renderExamen_(){
 
 function renderCierre_(){
  return `<section class="nv1-section nv1-reflection" data-step="8"><span class="nv1-badge">Para cerrar</span><h2>No termina aquí</h2><p class="nv1-section-intro">El material invita a resumir lo aprendido y continuar creciendo. Tómate un momento para escribir tu propia respuesta.</p><div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">♥</div><div><h3>¿Cómo era mi vida sin Cristo?</h3></div></div><textarea class="nv1-answer" data-q="resumen1" placeholder="Escribe tu reflexión..."></textarea></div><div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">✝</div><div><h3>¿Qué hizo Cristo por mí?</h3></div></div><textarea class="nv1-answer" data-q="resumen2" placeholder="Escribe tu reflexión..."></textarea></div><div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">🌱</div><div><h3>¿Cómo se debe mostrar, en mi andar diario, la nueva vida que Dios me dio?</h3></div></div><textarea class="nv1-answer" data-q="resumen3" placeholder="Escribe tu reflexión..."></textarea></div><div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">📖</div><div><h3>Mi compromiso de crecimiento</h3><p class="nv1-section-intro">Esta semana el material propone leer Juan 1–7, un capítulo por día, y memorizar Efesios 2:8-9.</p></div></div><label class="nv1-choice"><input type="checkbox" id="nv1-compromiso"> Me comprometo a apartar tiempo para leer y orar.</label></div><div class="nv1-actions"><button class="nv1-btn nv1-btn-primary" onclick="guardarCierreNV1_()">Guardar mi cierre</button></div><div id="nv1-complete" class="nv1-complete"><h2>🌱 Has dado un paso más</h2><p>Tu avance quedó guardado en este dispositivo para tu cuenta. Puedes volver y continuar desde aquí.</p><div id="nv1-history" class="nv1-history"></div></div></section>`;
+}
+
+function obtenerSeccionesNV1_(){
+ return Array.from(document.querySelectorAll(".nv1-section"));
+}
+
+function iniciarNavegacionNV1_(){
+ const secciones=obtenerSeccionesNV1_();
+ if(!secciones.length)return;
+ const estado=obtenerEstadoNV1_()||{};
+ let indice=0;
+ if(Number.isInteger(estado.ultimoPaso)){
+   const encontrado=secciones.findIndex(s=>Number(s.dataset.step)===Number(estado.ultimoPaso));
+   if(encontrado>=0)indice=encontrado;
+ }
+ mostrarSeccionNV1_(indice,false);
+}
+
+function mostrarSeccionNV1_(indice,guardar=true){
+ const secciones=obtenerSeccionesNV1_();
+ if(!secciones.length)return;
+ indice=Math.max(0,Math.min(indice,secciones.length-1));
+ secciones.forEach((s,i)=>s.classList.toggle("nv1-active",i===indice));
+ const actual=secciones[indice];
+ const paso=Number(actual.dataset.step)||indice+1;
+ const indicador=document.getElementById("nv1-nav-step");
+ const total=document.getElementById("nv1-nav-total");
+ if(indicador)indicador.textContent=paso;
+ if(total)total.textContent=secciones.length;
+ const atras=document.getElementById("nv1-nav-atras");
+ const siguiente=document.getElementById("nv1-nav-siguiente");
+ const inicio=document.getElementById("nv1-nav-inicio");
+ if(atras)atras.disabled=indice===0;
+ if(siguiente)siguiente.disabled=indice===secciones.length-1;
+ if(inicio)inicio.disabled=indice===0;
+ if(guardar){
+   const estado=obtenerEstadoNV1_()||{};
+   estado.ultimoPaso=paso;
+   estado.ultimaActualizacion=new Date().toISOString();
+   guardarEstadoNV1_(estado);
+ }
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function navegarNV1_(direccion){
+ const secciones=obtenerSeccionesNV1_();
+ if(!secciones.length)return;
+ const actual=secciones.findIndex(s=>s.classList.contains("nv1-active"));
+ mostrarSeccionNV1_((actual<0?0:actual)+direccion);
+}
+
+function irInicioNV1_(){
+ mostrarSeccionNV1_(0);
 }
 
 function iniciarInteraccionesNV1_(){
