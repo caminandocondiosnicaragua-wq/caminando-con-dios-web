@@ -90,7 +90,7 @@ function iniciarNuevaVidaParte1(){
 
 function renderVerdaderoFalso_(){
  const items=[
-  ["Para ser salvo sólo necesito creer que Dios existe.","Efesios 2:8-9","false"],
+  ["Para ser salvo sólo necesito creer que Dios existe.","Santiago 2:19","false"],
   ["El pecado causa una separación entre Dios y el hombre.","Romanos 6:23","true"],
   ["Soy salvo por asistir a la iglesia y hacer cosas buenas.","Efesios 2:8-9","false"]
  ];
@@ -274,16 +274,34 @@ function actualizarAcompanamientoNV1_(titulo,texto){const a=document.getElementB
 
 async function abrirBibliaNV1_(referencia){
  const modal=document.getElementById("nv1-bible-modal"),title=document.getElementById("nv1-bible-title"),content=document.getElementById("nv1-bible-content");
- modal.classList.add("open");title.textContent=referencia;content.innerHTML='<div class="nv1-loading">Buscando el pasaje bíblico...</div>';
+ modal.classList.add("open");title.textContent=referencia;content.innerHTML='<div class="nv1-loading">Buscando la cita bíblica...</div>';
  try{
-   const partes=typeof interpretarReferencia==="function"?interpretarReferencia(referencia):[];
-   if(!partes.length)throw new Error("No pude interpretar esta referencia todavía.");
-   const p=partes[0];
-   const datos=await obtenerCapituloBiblia(p.codigo,p.capitulo);
+   const ultimoEspacio=referencia.lastIndexOf(" ");
+   if(ultimoEspacio===-1)throw new Error("Referencia no válida.");
+   const libro=referencia.substring(0,ultimoEspacio).trim();
+   const cita=referencia.substring(ultimoEspacio+1).trim();
+   const partesCita=cita.split(":");
+   const capitulo=parseInt(partesCita[0],10);
+   if(!libro || !Number.isInteger(capitulo))throw new Error("Referencia no válida.");
+   const codigo=obtenerCodigoLibro(libro);
+   if(!codigo)throw new Error("Libro no reconocido.");
+   const datos=await obtenerCapituloBiblia(codigo,capitulo);
    const versos=(datos&&datos.versiculos)||[];
-   const texto=versos.map(v=>`${v.numero}. ${v.texto}`).join("\n\n");
-   content.textContent=texto||"El capítulo fue consultado, pero no devolvió texto visible.";
- }catch(e){content.textContent="No fue posible mostrar el pasaje ahora. La referencia queda registrada para consultarla en la Biblia.";}
+   let seleccion=versos;
+   if(partesCita.length>1){
+     const rango=partesCita[1].split("-");
+     const inicio=parseInt(rango[0],10);
+     const fin=parseInt(rango[1]||rango[0],10);
+     if(Number.isInteger(inicio)){
+       seleccion=versos.filter(v=>{
+         const n=parseInt(v.numero,10);
+         return n>=inicio && n<=fin;
+       });
+     }
+   }
+   const texto=seleccion.map(v=>v.texto).join("\n\n");
+   content.textContent=texto||"La cita fue consultada, pero no devolvió texto visible.";
+ }catch(e){content.textContent="No fue posible mostrar la cita ahora. La referencia queda disponible para consultarla en la Biblia.";}
 }
 function cerrarBibliaNV1_(event){if(event&&event.target!==event.currentTarget)return;document.getElementById("nv1-bible-modal")?.classList.remove("open");}
 function salirNV1_(){if(typeof cerrarSesionComunidad==="function")cerrarSesionComunidad();else localStorage.removeItem("caminando_con_dios_comunidad_usuario");window.location.href="comunidad.html";}
