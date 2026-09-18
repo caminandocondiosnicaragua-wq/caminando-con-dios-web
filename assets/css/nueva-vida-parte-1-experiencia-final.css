@@ -172,3 +172,45 @@
 @keyframes nv1-avatar-think{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-2deg)}}
 @keyframes nv1-avatar-guide{0%,100%{transform:translateX(0) rotate(0)}30%{transform:translateX(-5px) rotate(-3deg)}65%{transform:translateX(4px) rotate(3deg)}}
 @keyframes nv1-avatar-encourage{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-5px) rotate(-2deg)}70%{transform:translateY(-2px) rotate(2deg)}}
+
+
+/* AVISO Y BOTON DE ENVIO DE INFORMACION */
+.nv1-send-notice{
+  margin:18px 0;
+  padding:16px 18px;
+  border:1px solid rgba(212,175,55,.42);
+  border-left:4px solid #d4af37;
+  border-radius:14px;
+  background:rgba(18,40,62,.82);
+  color:#dbe5ef;
+  line-height:1.55;
+  box-shadow:0 8px 22px rgba(0,0,0,.14);
+}
+.nv1-send-notice strong:first-child{color:#f5d76e}
+.nv1-send-notice p{margin:6px 0 0}
+.nv1-send-area{
+  margin:16px 0 24px;
+  padding:16px;
+  text-align:center;
+  border-top:1px solid rgba(212,175,55,.18);
+}
+.nv1-send-info-btn{
+  min-width:230px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.nv1-send-info-btn:disabled{
+  opacity:.78;
+  cursor:default;
+}
+.nv1-send-status{
+  min-height:22px;
+  margin-top:9px;
+  color:#dbe5ef;
+  font-size:14px;
+  line-height:1.45;
+}
+@media(max-width:600px){
+  .nv1-send-notice{padding:13px 14px;font-size:13px}
+  .nv1-send-info-btn{width:100%;min-width:0}
+}
