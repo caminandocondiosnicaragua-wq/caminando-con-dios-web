@@ -362,7 +362,7 @@ function obtenerDatosEnvioSeccionNV1_(paso){
          correo:usuario.correo,
          paso:1,
          tituloPaso:"Bienvenida a la Familia de Dios",
-         seccion:"Falso o Verdadero",
+         seccion:"Ejercicios Espirituales",
          numeroPregunta:Number(item[0]),
          pregunta:item[1],
          citaBiblica:item[2],
