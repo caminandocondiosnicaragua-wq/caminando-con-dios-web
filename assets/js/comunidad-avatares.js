@@ -11,18 +11,7 @@
 
 const COMUNIDAD_AVATAR_KEY = "caminando_con_dios_avatar";
 
-const AVATARES_COMUNIDAD = [
-    {id:"estela", nombre:"Estela", genero:"mujer", icono:"👩🏻‍🦰📖", lema:"Tu guía en el camino", principal:true},
-    {id:"esperanza", nombre:"Esperanza", genero:"mujer", icono:"👩🏻‍🦰✨", lema:"Juntos aprendemos de la Palabra."},
-    {id:"luz", nombre:"Luz", genero:"mujer", icono:"👩🏻‍🦰💡", lema:"Cada día es una nueva oportunidad con Dios."},
-    {id:"alegria", nombre:"Alegría", genero:"mujer", icono:"👩🏻‍🦰😊", lema:"Con Jesús todo tiene esperanza."},
-    {id:"paz", nombre:"Paz", genero:"mujer", icono:"👩🏻‍🦰🙏", lema:"Hablemos con Dios en todo momento."},
-    {id:"daniel", nombre:"Daniel", genero:"hombre", icono:"👦🏻📖", lema:"Caminemos juntos en la verdad."},
-    {id:"santiago", nombre:"Santiago", genero:"hombre", icono:"👦🏻💭", lema:"Pregunta, aprende y crece."},
-    {id:"mateo", nombre:"Mateo", genero:"hombre", icono:"👦🏻💪", lema:"Tú puedes. Dios está contigo."},
-    {id:"lucas", nombre:"Lucas", genero:"hombre", icono:"👦🏻🙏", lema:"La oración nos acerca a Dios."},
-    {id:"esteban", nombre:"Esteban", genero:"hombre", icono:"👦🏻🌱", lema:"Sirvamos juntos a los demás."}
-];
+const RUTA_AVATARES_COMUNIDAD = "assets/img/AVATARES/";\n\nconst AVATARES_COMUNIDAD = [\n    {\n        id:"estela",\n        nombre:"Estela",\n        genero:"mujer",\n        imagen:RUTA_AVATARES_COMUNIDAD + "ESTELA-CAMINANDO%20CON%20DIOS.png",\n        lema:"Tu guía en el camino",\n        principal:true\n    },\n    {\n        id:"alma-luz",\n        nombre:"Alma Luz",\n        genero:"mujer",\n        imagen:RUTA_AVATARES_COMUNIDAD + "ALMA%20LUZ-%20CAMINANDO%20CON%20DIOS.png",\n        lema:"Aprendamos juntos de la Palabra."\n    },\n    {\n        id:"dan",\n        nombre:"Dan",\n        genero:"hombre",\n        imagen:RUTA_AVATARES_COMUNIDAD + "DAN-CAMINANDO%20CON%20DIOS.png",\n        lema:"Caminemos juntos en la verdad."\n    },\n    {\n        id:"sam",\n        nombre:"Sam",\n        genero:"hombre",\n        imagen:RUTA_AVATARES_COMUNIDAD + "SAM-%20CAMINANDO%20CON%20DIOS.png",\n        lema:"Pregunta, aprende y crece."\n    }\n];
 
 function obtenerClaveAvatarComunidad_(){
     const usuario = typeof obtenerUsuarioComunidad === "function" ? obtenerUsuarioComunidad() : null;
@@ -106,7 +95,7 @@ function crearTarjetaAvatarComunidad_(avatar){
                 data-avatar-id="${avatar.id}"
                 data-genero="${avatar.genero}"
                 aria-label="Elegir a ${avatar.nombre}">
-            <span class="avatar-card-figura" aria-hidden="true">${avatar.icono}</span>
+            <span class="avatar-card-figura" aria-hidden="true"><img src="${avatar.imagen}" alt="" loading="lazy"></span>
             <span class="avatar-card-nombre">${avatar.nombre}</span>
             <span class="avatar-card-lema">${avatar.lema}</span>
             <span class="avatar-card-check" aria-hidden="true">✓</span>
@@ -157,7 +146,7 @@ function renderAvatarSeleccionadoComunidad_(contenedor, avatar){
 
     contenedor.innerHTML = `
         <div class="avatar-seleccionado">
-            <div class="avatar-seleccionado-figura" aria-hidden="true">${avatar.icono}</div>
+            <div class="avatar-seleccionado-figura" aria-hidden="true"><img src="${avatar.imagen}" alt="" loading="lazy"></div>
             <div class="avatar-seleccionado-texto">
                 <span class="avatar-selector-badge">Tu compañero de estudio</span>
                 <h2>Caminarás junto a ${avatar.nombre}</h2>
