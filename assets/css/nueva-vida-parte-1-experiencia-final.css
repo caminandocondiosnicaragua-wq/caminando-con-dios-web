@@ -113,3 +113,22 @@
 @media(prefers-reduced-motion:reduce){
   .nv1-avatar-figure img{animation:none}
 }
+
+
+/* NAVEGACION TIPO APLICACION / JUEGO */
+.nv1-section{display:none!important}
+.nv1-section.nv1-active{display:block!important;animation:nv1-screen-in .28s ease both}
+.nv1-app-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto 20px;padding:10px 14px;max-width:620px;background:rgba(13,27,42,.92);border:1px solid rgba(212,175,55,.32);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.18);position:relative;z-index:5}
+.nv1-nav-btn{min-width:112px;padding:11px 16px;border:1px solid rgba(212,175,55,.42);border-radius:12px;background:#12283e;color:#fff;font-weight:900;font-size:14px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.nv1-nav-btn:hover:not(:disabled){transform:translateY(-2px);border-color:#d4af37;box-shadow:0 7px 18px rgba(212,175,55,.14)}
+.nv1-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.nv1-nav-next{background:#1b365d;border-color:rgba(212,175,55,.65)}
+.nv1-nav-indicator{min-width:72px;text-align:center;color:#f5d76e;font-weight:900;font-size:22px;line-height:1}
+.nv1-nav-indicator small{display:block;margin-top:4px;color:#dbe5ef;font-size:11px;font-weight:700}
+@keyframes nv1-screen-in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:600px){
+ .nv1-app-nav{gap:6px;padding:8px;margin:14px 0}
+ .nv1-nav-btn{min-width:0;flex:1;padding:10px 7px;font-size:12px}
+ .nv1-nav-indicator{min-width:44px;font-size:18px}
+ .nv1-nav-btn span{display:inline}
+}
