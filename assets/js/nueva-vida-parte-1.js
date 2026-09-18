@@ -28,6 +28,7 @@ function guardarEstadoNV1_(estado){
 }
 
 function iniciarNuevaVidaParte1(){
+ restaurarTamanoNV1_();
   const usuario = typeof obtenerUsuarioComunidad === "function" ? obtenerUsuarioComunidad() : null;
   if(!usuario){ window.location.href="comunidad.html"; return; }
 
@@ -88,12 +89,32 @@ function iniciarNuevaVidaParte1(){
 }
 
 function renderVerdaderoFalso_(){
-  const items=[
-    ["Para ser salvo sólo necesito creer que Dios existe.","false"],
-    ["El pecado causa una separación entre Dios y el hombre.","true"],
-    ["Soy salvo por asistir a la iglesia y hacer cosas buenas.","false"]
-  ];
-  return `<section class="nv1-section" data-step="1"><span class="nv1-badge">Primero: descubre lo que ya sabes</span><h2>Haz una pausa y piensa</h2><p class="nv1-section-intro">Antes de estudiar, responde con sinceridad. No buscamos perfección; buscamos comenzar el camino.</p><div class="nv1-choices">${items.map((x,i)=>`<label class="nv1-choice"><input type="radio" name="vf-${i}" value="${x[1]}"> <span>${x[0]}</span></label>`).join("")}</div><div class="nv1-actions"><button class="nv1-btn nv1-btn-secondary" onclick="guardarBloqueVF_()">Guardar este momento</button></div></section>`;
+ const items=[
+  ["Para ser salvo sólo necesito creer que Dios existe.","Efesios 2:8-9","false"],
+  ["El pecado causa una separación entre Dios y el hombre.","Romanos 6:23","true"],
+  ["Soy salvo por asistir a la iglesia y hacer cosas buenas.","Efesios 2:8-9","false"]
+ ];
+ const avatar=typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null;
+ const companion=avatar?'<div class="nv1-avatar-thought"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+'"><div class="nv1-thought-bubble"><strong>'+escaparNV1_(avatar.nombre)+' piensa...</strong><p>Antes de responder, lee cada afirmación con calma. No tienes que saberlo todo todavía; este es el punto de partida para aprender juntos.</p></div></div>':'<div class="nv1-section-companion"><span>💬</span><div><strong>Un momento para pensar</strong><p>Lee cada afirmación con calma antes de responder.</p></div></div>';
+ return `<section class="nv1-section nv1-vf-section" data-step="1">
+   <div class="nv1-accessibility" aria-label="Herramientas de lectura">
+     <span>Texto</span><button type="button" onclick="cambiarTamanoNV1_(-1)" aria-label="Reducir letra">A−</button><button type="button" onclick="cambiarTamanoNV1_(1)" aria-label="Aumentar letra">A+</button>
+     <button type="button" class="nv1-audio-control" onclick="escucharSeccionNV1_(this)">🔊 Escuchar</button>
+   </div>
+   <span class="nv1-badge">Primero: descubre lo que ya sabes</span>
+   <h2>Falso o Verdadero</h2>
+   <p class="nv1-section-intro">Responde las <strong>tres afirmaciones</strong>. En cada una debes elegir <strong>Verdadero</strong> o <strong>Falso</strong>. La cita bíblica es apoyo para estudiar, no una tercera opción.</p>
+   ${companion}
+   <div class="nv1-vf-list">${items.map((x,i)=>`<article class="nv1-vf-item">
+      <div class="nv1-vf-statement-wrap"><div class="nv1-vf-number">${i+1}</div><div><div class="nv1-vf-statement">${x[0]}</div><button type="button" class="nv1-ref" data-ref="${x[1]}">📖 ${x[1]} · leer apoyo</button></div></div>
+      <div class="nv1-vf-options" role="group" aria-label="Responder afirmación ${i+1}">
+        <label class="nv1-vf-option"><input type="radio" name="vf-${i}" value="true"><b>V</b><em>Verdadero</em></label>
+        <label class="nv1-vf-option"><input type="radio" name="vf-${i}" value="false"><b>F</b><em>Falso</em></label>
+      </div>
+   </article>`).join("")}</div>
+   <div class="nv1-actions"><button class="nv1-btn nv1-btn-secondary" onclick="guardarBloqueVF_()">Guardar mis respuestas</button></div>
+   <div class="nv1-vf-note" id="nv1-vf-note">Aún no has respondido las tres afirmaciones.</div>
+ </section>`;
 }
 
 function renderContenido_(){
@@ -148,6 +169,14 @@ function restaurarNV1_(){
  if(!estado) return;
  document.querySelectorAll(".nv1-answer").forEach(el=>{if(estado.respuestas&&estado.respuestas[el.dataset.q]!==undefined)el.value=estado.respuestas[el.dataset.q];});
  if(estado.compromiso) document.getElementById("nv1-compromiso").checked=true;
+ if(estado.vf){
+   Object.entries(estado.vf).forEach(([name,value])=>{
+     const el=document.querySelector("input[name='"+name+"'][value='"+value+"']");
+     if(el)el.checked=true;
+   });
+   const note=document.getElementById("nv1-vf-note");
+   if(note)note.textContent=Object.keys(estado.vf).length===3?"✓ Las tres respuestas quedaron guardadas.":"Aún no has respondido las tres afirmaciones.";
+ }
  actualizarProgresoNV1_();
  mostrarHistorialNV1_(estado);
 }
@@ -170,10 +199,13 @@ function guardarRespuestasNV1_(paso, silencioso){
 function guardarBloqueVF_(){
  const estado=obtenerEstadoNV1_()||{};
  estado.vf={};
- document.querySelectorAll("input[name^='vf-']").forEach(i=>{if(i.checked)estado.vf[i.name]=i.value;});
+ document.querySelectorAll("input[name^='vf-']:checked").forEach(i=>{estado.vf[i.name]=i.value;});
  estado.ultimaActualizacion=new Date().toISOString();
  guardarEstadoNV1_(estado);
- actualizarAcompanamientoNV1_("Buen comienzo", "No estamos buscando que aciertes todo desde el principio. Estamos viendo desde dónde empiezas.");
+ const completas=Object.keys(estado.vf).length===3;
+ actualizarAcompanamientoNV1_(completas?"Buen comienzo":"Aún faltan respuestas", completas?"Ya respondiste las tres afirmaciones. Ahora podemos estudiar cada una con calma.":"Recuerda responder las tres afirmaciones: en cada una elige Verdadero o Falso.");
+ const note=document.getElementById("nv1-vf-note");
+ if(note)note.textContent=completas?"✓ Las tres respuestas quedaron guardadas.":"Aún no has respondido las tres afirmaciones.";
  actualizarProgresoNV1_();
 }
 
@@ -256,3 +288,25 @@ async function abrirBibliaNV1_(referencia){
 function cerrarBibliaNV1_(event){if(event&&event.target!==event.currentTarget)return;document.getElementById("nv1-bible-modal")?.classList.remove("open");}
 function salirNV1_(){if(typeof cerrarSesionComunidad==="function")cerrarSesionComunidad();else localStorage.removeItem("caminando_con_dios_comunidad_usuario");window.location.href="comunidad.html";}
 function escaparNV1_(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+
+
+function cambiarTamanoNV1_(delta){
+ const actual=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nv1-font-scale"))||1;
+ const nuevo=Math.min(1.3,Math.max(.9,actual+delta*.1));
+ document.documentElement.style.setProperty("--nv1-font-scale",nuevo);
+ try{localStorage.setItem("nv1_font_scale",String(nuevo));}catch(_){}
+}
+function restaurarTamanoNV1_(){
+ try{const v=parseFloat(localStorage.getItem("nv1_font_scale"));if(v)document.documentElement.style.setProperty("--nv1-font-scale",Math.min(1.3,Math.max(.9,v)));}catch(_){}
+}
+function escucharSeccionNV1_(boton){
+ const seccion=boton.closest(".nv1-section");if(!seccion||!window.speechSynthesis)return;
+ window.speechSynthesis.cancel();
+ const clone=seccion.cloneNode(true);
+ clone.querySelectorAll("button,input").forEach(x=>x.remove());
+ const texto=(clone.innerText||"").replace(/\s+/g," ").trim();
+ const u=new SpeechSynthesisUtterance(texto);u.lang="es-ES";u.rate=.9;
+ const voz=window.speechSynthesis.getVoices().find(v=>/^es(-|_)/i.test(v.lang));if(voz)u.voice=voz;
+ boton.textContent="⏸ Detener";u.onend=()=>boton.textContent="🔊 Escuchar";u.onerror=()=>boton.textContent="🔊 Escuchar";
+ window.speechSynthesis.speak(u);
+}
