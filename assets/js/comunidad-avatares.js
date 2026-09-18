@@ -11,7 +11,39 @@
 
 const COMUNIDAD_AVATAR_KEY = "caminando_con_dios_avatar";
 
-const RUTA_AVATARES_COMUNIDAD = "assets/img/AVATARES/";\n\nconst AVATARES_COMUNIDAD = [\n    {\n        id:"estela",\n        nombre:"Estela",\n        genero:"mujer",\n        imagen:RUTA_AVATARES_COMUNIDAD + "ESTELA-CAMINANDO%20CON%20DIOS.png",\n        lema:"Tu guía en el camino",\n        principal:true\n    },\n    {\n        id:"alma-luz",\n        nombre:"Alma Luz",\n        genero:"mujer",\n        imagen:RUTA_AVATARES_COMUNIDAD + "ALMA%20LUZ-%20CAMINANDO%20CON%20DIOS.png",\n        lema:"Aprendamos juntos de la Palabra."\n    },\n    {\n        id:"dan",\n        nombre:"Dan",\n        genero:"hombre",\n        imagen:RUTA_AVATARES_COMUNIDAD + "DAN-CAMINANDO%20CON%20DIOS.png",\n        lema:"Caminemos juntos en la verdad."\n    },\n    {\n        id:"sam",\n        nombre:"Sam",\n        genero:"hombre",\n        imagen:RUTA_AVATARES_COMUNIDAD + "SAM-%20CAMINANDO%20CON%20DIOS.png",\n        lema:"Pregunta, aprende y crece."\n    }\n];
+const RUTA_AVATARES_COMUNIDAD = "assets/img/AVATARES/";
+
+const AVATARES_COMUNIDAD = [
+    {
+        id:"estela",
+        nombre:"Estela",
+        genero:"mujer",
+        imagen:RUTA_AVATARES_COMUNIDAD + "ESTELA-CAMINANDO%20CON%20DIOS.png",
+        lema:"Tu guía en el camino",
+        principal:true
+    },
+    {
+        id:"alma-luz",
+        nombre:"Alma Luz",
+        genero:"mujer",
+        imagen:RUTA_AVATARES_COMUNIDAD + "ALMA%20LUZ-%20CAMINANDO%20CON%20DIOS.png",
+        lema:"Aprendamos juntos de la Palabra."
+    },
+    {
+        id:"dan",
+        nombre:"Dan",
+        genero:"hombre",
+        imagen:RUTA_AVATARES_COMUNIDAD + "DAN-CAMINANDO%20CON%20DIOS.png",
+        lema:"Caminemos juntos en la verdad."
+    },
+    {
+        id:"sam",
+        nombre:"Sam",
+        genero:"hombre",
+        imagen:RUTA_AVATARES_COMUNIDAD + "SAM-%20CAMINANDO%20CON%20DIOS.png",
+        lema:"Pregunta, aprende y crece."
+    }
+];
 
 function obtenerClaveAvatarComunidad_(){
     const usuario = typeof obtenerUsuarioComunidad === "function" ? obtenerUsuarioComunidad() : null;
