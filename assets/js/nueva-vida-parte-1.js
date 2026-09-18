@@ -159,6 +159,9 @@ function renderContenido_(){
     const imagenPensando=avatar.imagenPensando||avatar.imagen;
     companion='<aside class="nv1-avatar-companion nv1-avatar-thinking" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te recuerda...</strong><p>Tus respuestas serán guardadas para revisión y evaluación. Más adelante podrás consultar tus resultados y ver qué necesitas seguir aprendiendo en tu panel de Información y Estadísticas.</p></div><div class="nv1-avatar-figure"><img src="'+imagenPensando+'" alt="'+escaparNV1_(avatar.nombre)+' pensando"></div></aside>';
   }
+  if(avatar && bi===2){
+    companion='<aside class="nv1-avatar-companion nv1-avatar-right nv1-avatar-moving" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te pregunta...</strong><p>Antes de responder, piensa: ¿en quién debes confiar para ser parte de la familia de Dios? Lee la cita bíblica y encuentra la respuesta en ella.</p></div><div class="nv1-avatar-figure"><img src="'+avatar.imagen+'" alt="'+escaparNV1_(avatar.nombre)+' acompañando la sección"></div></aside>';
+  }
   html+=`<section class="nv1-section" data-step="${bi+2}"><span class="nv1-badge">Paso ${bi+1} de estudio</span><h2>${b.titulo}</h2><p class="nv1-section-intro">${b.intro}</p>${companion}`;
   b.preguntas.forEach(p=>{
     if(Number(p[0])===8){
