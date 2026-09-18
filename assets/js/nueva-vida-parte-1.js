@@ -160,7 +160,13 @@ function renderContenido_(){
     companion='<aside class="nv1-avatar-companion nv1-avatar-thinking" aria-label="Acompañamiento de '+escaparNV1_(avatar.nombre)+'"><div class="nv1-avatar-bubble"><strong>'+escaparNV1_(avatar.nombre)+' te recuerda...</strong><p>Tus respuestas serán guardadas para revisión y evaluación. Más adelante podrás consultar tus resultados y ver qué necesitas seguir aprendiendo en tu panel de Información y Estadísticas.</p></div><div class="nv1-avatar-figure"><img src="'+imagenPensando+'" alt="'+escaparNV1_(avatar.nombre)+' pensando"></div></aside>';
   }
   html+=`<section class="nv1-section" data-step="${bi+2}"><span class="nv1-badge">Paso ${bi+1} de estudio</span><h2>${b.titulo}</h2><p class="nv1-section-intro">${b.intro}</p>${companion}`;
-  b.preguntas.forEach(p=>{html+=`<div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">${p[0]}</div><div><h3>${p[1]}</h3><button class="nv1-ref" data-ref="${p[2]}">📖 ${p[2]} · leer cita</button></div></div><textarea class="nv1-answer" data-q="${p[0]}" placeholder="Escribe con tus propias palabras..."></textarea></div>`});
+  b.preguntas.forEach(p=>{
+    if(Number(p[0])===8){
+      html+=`<div class="nv1-question nv1-fill-question"><div class="nv1-q-head"><div class="nv1-q-num">${p[0]}</div><div><h3>Completa: Somos salvos por <span class="nv1-blank-label">___</span> por medio de la <span class="nv1-blank-label">___</span>.</h3><button class="nv1-ref" data-ref="${p[2]}">📖 ${p[2]} · leer cita</button></div></div><div class="nv1-fill-boxes"><label><span>Primera palabra</span><input type="text" class="nv1-answer nv1-fill-input" data-q="8a" placeholder="Escribe aquí..."></label><label><span>Segunda palabra</span><input type="text" class="nv1-answer nv1-fill-input" data-q="8b" placeholder="Escribe aquí..."></label></div></div>`;
+    }else{
+      html+=`<div class="nv1-question"><div class="nv1-q-head"><div class="nv1-q-num">${p[0]}</div><div><h3>${p[1]}</h3><button class="nv1-ref" data-ref="${p[2]}">📖 ${p[2]} · leer cita</button></div></div><textarea class="nv1-answer" data-q="${p[0]}" placeholder="Escribe con tus propias palabras..."></textarea></div>`;
+    }
+  });
   html+=`<div class="nv1-section-guide-end"><span>✓</span><div><strong>Cuando termines las preguntas</strong><p>Revisa tus respuestas y guarda tu avance antes de continuar.</p></div></div><div class="nv1-actions"><button class="nv1-btn nv1-btn-secondary" onclick="guardarRespuestasNV1_(${bi+2})">Guardar mi avance</button></div></section>`;
  });
  return html;
