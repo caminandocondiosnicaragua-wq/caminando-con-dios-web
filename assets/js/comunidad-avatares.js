@@ -19,6 +19,7 @@ const AVATARES_COMUNIDAD = [
         nombre:"Estela",
         genero:"mujer",
         imagen:RUTA_AVATARES_COMUNIDAD + "ESTELA-CAMINANDO%20CON%20DIOS.png",
+        imagenPensando:RUTA_AVATARES_COMUNIDAD + "ESTELA%20PENSANDO.png",
         lema:"Tu guía en el camino",
         principal:true
     },
