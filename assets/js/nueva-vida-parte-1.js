@@ -94,6 +94,7 @@ function iniciarNuevaVidaParte1(){
   iniciarHeader(); iniciarFooter();
   restaurarNV1_();
   iniciarInteraccionesNV1_();
+  prepararEnvioSeccionesNV1_();
   iniciarNavegacionNV1_();
 }
 
@@ -285,6 +286,205 @@ function iniciarInteraccionesNV1_(){
  document.querySelectorAll(".nv1-answer").forEach(el=>el.addEventListener("input",()=>{guardarRespuestasNV1_(0,true); actualizarProgresoNV1_();}));
  actualizarProgresoNV1_();
  iniciarExamenNV1_();
+}
+
+/*
+ * ENVÍO DE INFORMACIÓN
+ * "Guardar mi avance" continúa usando localStorage.
+ * "Enviar información" es la única acción que manda respuestas al servidor.
+ */
+function prepararEnvioSeccionesNV1_(){
+ document.querySelectorAll(".nv1-section").forEach(seccion=>{
+   const paso=Number(seccion.dataset.step)||0;
+   if(!paso)return;
+
+   if(!seccion.querySelector(".nv1-send-notice")){
+     const aviso=document.createElement("div");
+     aviso.className="nv1-send-notice";
+     aviso.innerHTML="<strong>📋 Antes de continuar</strong><p>Puedes guardar tu avance mientras estudias. Al finalizar esta sección, toca <strong>«Enviar información»</strong> para que tus respuestas queden guardadas y puedas consultar posteriormente tus <strong>estadísticas e informes de progreso</strong>.</p>";
+     const intro=seccion.querySelector(".nv1-section-intro,.nv1-badge");
+     if(intro) intro.insertAdjacentElement("afterend",aviso);
+     else seccion.insertAdjacentElement("afterbegin",aviso);
+   }
+
+   if(!seccion.querySelector(".nv1-send-area")){
+     const area=document.createElement("div");
+     area.className="nv1-send-area";
+     area.innerHTML='<button type="button" class="nv1-btn nv1-btn-primary nv1-send-info-btn" data-paso="'+paso+'">📤 Enviar información</button><div class="nv1-send-status" aria-live="polite"></div>';
+     const actions=seccion.querySelector(".nv1-actions");
+     if(actions) actions.insertAdjacentElement("afterend",area);
+     else seccion.appendChild(area);
+     area.querySelector("button").addEventListener("click",()=>enviarInformacionSeccionNV1_(paso));
+   }
+
+   actualizarEstadoEnvioSeccionNV1_(paso);
+ });
+}
+
+function obtenerClaveEnvioNV1_(paso){
+ const usuario=typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null;
+ if(!usuario)return "nv1_enviado_sin_usuario_"+paso;
+ return "nv1_enviado_"+(usuario.correo||usuario.idUsuario)+"_"+paso;
+}
+
+function actualizarEstadoEnvioSeccionNV1_(paso){
+ const clave=obtenerClaveEnvioNV1_(paso);
+ let enviado=false;
+ try{enviado=localStorage.getItem(clave)==="true";}catch(_){}
+ const boton=document.querySelector('.nv1-send-info-btn[data-paso="'+paso+'"]');
+ const estado=document.querySelector('.nv1-section[data-step="'+paso+'"] .nv1-send-status');
+ if(enviado){
+   if(boton){boton.disabled=true;boton.textContent="✓ Información enviada";}
+   if(estado)estado.textContent="Esta sección ya fue registrada.";
+ }
+}
+
+function obtenerDatosEnvioSeccionNV1_(paso){
+ const seccion=document.querySelector('.nv1-section[data-step="'+paso+'"]');
+ if(!seccion)return [];
+
+ const usuario=typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null;
+ if(!usuario||!usuario.correo)throw new Error("No se encontró el correo del usuario.");
+
+ const datos=[];
+
+ if(paso===1){
+   const items=[
+     ["1","Para ser salvo sólo necesito creer que Dios existe.","Santiago 2:19"],
+     ["2","El pecado causa una separación entre Dios y el hombre.","Romanos 6:23"],
+     ["3","Soy salvo por asistir a la iglesia y hacer cosas buenas.","Efesios 2:8-9"]
+   ];
+   items.forEach((item,i)=>{
+     const seleccionado=seccion.querySelector('input[name="vf-'+i+'"]:checked');
+     if(seleccionado){
+       datos.push({
+         accion:"guardarRespuestaNuevaVida",
+         correo:usuario.correo,
+         paso:1,
+         tituloPaso:"Bienvenida a la Familia de Dios",
+         seccion:"Falso o Verdadero",
+         numeroPregunta:Number(item[0]),
+         pregunta:item[1],
+         citaBiblica:item[2],
+         respuesta:seleccionado.value==="true"?"Verdadero":"Falso",
+         completado:true
+       });
+     }
+   });
+   return datos;
+ }
+
+ if(paso===7){
+   const estado=obtenerEstadoNV1_()||{};
+   if(!estado.examen||!estado.examen.length)return [];
+   const ultimo=estado.examen[0];
+   datos.push({
+     accion:"guardarRespuestaNuevaVida",
+     correo:usuario.correo,
+     paso:7,
+     tituloPaso:"Reto de comprensión",
+     seccion:"Desafío final",
+     numeroPregunta:0,
+     pregunta:"Resultado del reto de comprensión",
+     citaBiblica:"",
+     respuesta:ultimo.score+"/"+ultimo.total,
+     completado:true
+   });
+   return datos;
+ }
+
+ seccion.querySelectorAll(".nv1-question").forEach((preguntaEl)=>{
+   const campo=preguntaEl.querySelector(".nv1-answer");
+   if(!campo)return;
+   const respuesta=String(campo.value||"").trim();
+   if(!respuesta)return;
+
+   const numero=campo.dataset.q||"";
+   const encabezado=preguntaEl.querySelector("h3");
+   const citaBtn=preguntaEl.querySelector(".nv1-ref");
+
+   datos.push({
+     accion:"guardarRespuestaNuevaVida",
+     correo:usuario.correo,
+     paso:paso,
+     tituloPaso:paso===6?"Resumamos":(seccion.querySelector("h2")?.textContent||""),
+     seccion:seccion.querySelector(".nv1-badge")?.textContent||"",
+     numeroPregunta:Number.isFinite(Number(numero))?Number(numero):0,
+     pregunta:encabezado?.textContent?.trim()||"Respuesta abierta",
+     citaBiblica:citaBtn?.dataset.ref||"",
+     respuesta:respuesta,
+     completado:true
+   });
+ });
+
+ return datos;
+}
+
+async function enviarInformacionSeccionNV1_(paso){
+ const boton=document.querySelector('.nv1-send-info-btn[data-paso="'+paso+'"]');
+ const estadoEl=document.querySelector('.nv1-section[data-step="'+paso+'"] .nv1-send-status');
+ if(!boton)return;
+
+ const clave=obtenerClaveEnvioNV1_(paso);
+ try{
+   if(localStorage.getItem(clave)==="true"){
+     actualizarEstadoEnvioSeccionNV1_(paso);
+     return;
+   }
+ }catch(_){}
+
+ let datos;
+ try{
+   datos=obtenerDatosEnvioSeccionNV1_(paso);
+ }catch(e){
+   if(estadoEl)estadoEl.textContent=e.message;
+   return;
+ }
+
+ if(!datos.length){
+   if(estadoEl)estadoEl.textContent="Aún no hay respuestas para enviar. Completa esta sección y vuelve a intentarlo.";
+   return;
+ }
+
+ const config=(typeof CONFIG!=="undefined"&&CONFIG.API)?CONFIG.API:null;
+ if(!config||!config.url){
+   if(estadoEl)estadoEl.textContent="No se encontró la dirección del servidor.";
+   return;
+ }
+
+ boton.disabled=true;
+ boton.textContent="⏳ Enviando...";
+ if(estadoEl)estadoEl.textContent="Estamos registrando tus respuestas...";
+
+ try{
+   for(const dato of datos){
+     const respuesta=await fetch(config.url,{
+       method:"POST",
+       headers:{"Content-Type":"text/plain;charset=utf-8"},
+       body:JSON.stringify(dato)
+     });
+
+     if(!respuesta.ok)throw new Error("El servidor respondió con un error.");
+
+     const texto=await respuesta.text();
+     let resultado=null;
+     try{resultado=JSON.parse(texto);}catch(_){}
+
+     if(resultado&&resultado.ok===false){
+       throw new Error(resultado.mensaje||"No fue posible guardar una respuesta.");
+     }
+   }
+
+   try{localStorage.setItem(clave,"true");}catch(_){}
+   boton.textContent="✓ Información enviada";
+   if(estadoEl)estadoEl.textContent="Tus respuestas fueron guardadas correctamente. Podrás utilizarlas para tus estadísticas e informes de progreso.";
+   actualizarAcompanamientoNV1_("¡Información enviada!","Tus respuestas de esta sección ya fueron registradas. Más adelante podrás consultar tus estadísticas e informes de progreso.");
+ }catch(e){
+   boton.disabled=false;
+   boton.textContent="📤 Enviar información";
+   if(estadoEl)estadoEl.textContent="No se pudo completar el envío. Tus respuestas siguen guardadas en este dispositivo; inténtalo nuevamente.";
+   console.error("Error enviando Nueva Vida:",e);
+ }
 }
 
 function restaurarNV1_(){
