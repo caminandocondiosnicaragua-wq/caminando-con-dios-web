@@ -65,10 +65,124 @@ async function obtenerCapitulosBiblia(version, libro) {
     return consultarApiBiblia_("capitulos", { version, libro });
 }
 
-async function obtenerCapituloBiblia(libro, capitulo, version = CONFIG.BIBLIA.traduccion) {
-    return consultarApiBiblia_("capitulo", {
+/************************************************
+ * CACHÉ LOCAL DE CAPÍTULOS
+ *
+ * El lector del devocional utiliza una sola Biblia
+ * (NVI 2025 mediante el identificador DEVOCIONAL).
+ *
+ * La caché se mantiene separada por versión, libro
+ * y capítulo para no mezclar traducciones.
+ ************************************************/
+
+const CLAVE_CACHE_CAPITULOS_BIBLIA = "caminandoBibliaCapitulos_v1";
+
+function crearClaveCacheCapitulo_(libro, capitulo, version){
+    return `${version}|${libro}|${capitulo}`;
+}
+
+function leerCapituloCache_(libro, capitulo, version){
+    try{
+        const almacen = localStorage.getItem(
+            CLAVE_CACHE_CAPITULOS_BIBLIA
+        );
+
+        if(!almacen) return null;
+
+        const cache = JSON.parse(almacen);
+        const clave = crearClaveCacheCapitulo_(
+            libro,
+            capitulo,
+            version
+        );
+
+        return cache[clave] || null;
+
+    }catch(error){
+        console.warn("No fue posible leer la caché bíblica:", error);
+        return null;
+    }
+}
+
+function guardarCapituloCache_(libro, capitulo, version, datos){
+    try{
+        const almacen = localStorage.getItem(
+            CLAVE_CACHE_CAPITULOS_BIBLIA
+        );
+
+        const cache = almacen ? JSON.parse(almacen) : {};
+
+        const clave = crearClaveCacheCapitulo_(
+            libro,
+            capitulo,
+            version
+        );
+
+        cache[clave] = datos;
+
+        localStorage.setItem(
+            CLAVE_CACHE_CAPITULOS_BIBLIA,
+            JSON.stringify(cache)
+        );
+
+    }catch(error){
+        /*
+         * Si el almacenamiento está lleno o bloqueado,
+         * no impedimos que el capítulo siga funcionando.
+         */
+        console.warn("No fue posible guardar la caché bíblica:", error);
+    }
+}
+
+
+/************************************************
+ * OBTENER CAPÍTULO BÍBLICO
+ ************************************************/
+
+async function obtenerCapituloBiblia(
+    libro,
+    capitulo,
+    version = CONFIG.BIBLIA.traduccion
+){
+    /*
+     * Primero buscamos en caché local.
+     */
+    const almacenado = leerCapituloCache_(
+        libro,
+        capitulo,
+        version
+    );
+
+    if(almacenado){
+        console.log(
+            "📦 Capítulo cargado desde caché:",
+            version,
+            libro,
+            capitulo
+        );
+
+        return almacenado;
+    }
+
+    /*
+     * Solo si no existe en caché consultamos
+     * el Web App, conservando su propia caché.
+     */
+    const datos = await consultarApiBiblia_("capitulo", {
         biblia: libro,
         capitulo,
         version
     });
+
+    /*
+     * Guardamos la respuesta para futuras lecturas.
+     */
+    guardarCapituloCache_(
+        libro,
+        capitulo,
+        version,
+        datos
+    );
+
+    return datos;
 }
