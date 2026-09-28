@@ -34,6 +34,7 @@ const LIBROS_BIBLIA = {
     // POÉTICOS
 
     "Job":"JOB",
+    "Salmo":"PSA",
     "Salmos":"PSA",
     "Proverbios":"PRO",
     "Eclesiastés":"ECC",
