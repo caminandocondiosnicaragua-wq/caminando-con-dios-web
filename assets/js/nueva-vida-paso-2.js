@@ -46,16 +46,17 @@ function renderBase(u){
  const a=avatar();
  const userAvatar=a?"<img src='"+esc(a.imagen)+"' alt='"+esc(a.nombre)+"'>":"👋";
  const big=a?"<div class='nv2-avatar'><img src='"+esc(a.imagen)+"' alt='"+esc(a.nombre)+"'></div>":"";
- app.innerHTML=crearHeader()+crearHero()+"<div class='nv2-page'><div class='nv2-wrap'>
- <div class='nv2-user'><div class='nv2-user-avatar'>"+userAvatar+"</div><div class='nv2-user-info'><strong>Hola, "+esc(u.nombre||"hermano/a")+"</strong><span>"+esc(u.correo||"")+" · Tu recorrido de discipulado es personal.</span></div><button class='nv2-logout' onclick='salir()'>Cerrar sesión</button></div>
- <section class='nv2-hero'><div class='nv2-hero-copy'><div class='nv2-kicker'>Nueva Vida en Cristo · Parte 1 · Paso 2</div><h1>¡Seguro!</h1><p>Aprenderás sobre la seguridad de tu salvación, la vida eterna y cómo Dios te sostiene en Cristo.</p><div class='nv2-companion'>"+big+"<div class='nv2-bubble'><strong id='avatar-title'>Estoy aquí contigo</strong><p id='avatar-text'>Lee, medita, responde y avanza a tu ritmo.</p></div></div></div><div class='nv2-hero-image'><img src='assets/img/hero.png' alt='Caminar con Dios'></div></section>
- <div class='nv2-progress'><div class='nv2-progress-row'><span>Tu avance en Paso 2</span><strong id='pct'>0%</strong></div><div class='nv2-track'><div id='bar' class='nv2-bar'></div></div></div>
- <nav class='nv2-nav'><button id='back' onclick='show(index-1)'>← Atrás</button><div class='nv2-nav-center'><small>Paso 2</small><strong id='title'>Cargando...</strong></div><button id='next' onclick='show(index+1)'>Siguiente →</button></nav>
- <div id='content'></div></div></div>"+crearFooter()+"
- <div id='modal' class='nv2-bible-modal' onclick='closeBib(event)'><div class='nv2-bible-box' onclick='event.stopPropagation()'><button class='nv2-close' onclick='closeBib()'>Cerrar</button><h3 id='bt'></h3><div id='bc' class='nv2-bible-text'></div></div></div>";
+ app.innerHTML=crearHeader()+crearHero()+`
+ <div class="nv2-page"><div class="nv2-wrap">
+  <div class="nv2-user"><div class="nv2-user-avatar">${userAvatar}</div><div class="nv2-user-info"><strong>Hola, ${esc(u.nombre||"hermano/a")}</strong><span>${esc(u.correo||"")} · Tu recorrido de discipulado es personal.</span></div><button class="nv2-logout" onclick="salir()">Cerrar sesión</button></div>
+  <section class="nv2-hero"><div class="nv2-hero-copy"><div class="nv2-kicker">Nueva Vida en Cristo · Parte 1 · Paso 2</div><h1>¡Seguro!</h1><p>Aprenderás sobre la seguridad de tu salvación, la vida eterna y cómo Dios te sostiene en Cristo.</p><div class="nv2-companion">${big}<div class="nv2-bubble"><strong id="avatar-title">Estoy aquí contigo</strong><p id="avatar-text">Lee, medita, responde y avanza a tu ritmo.</p></div></div></div><div class="nv2-hero-image"><img src="assets/img/hero.png" alt="Caminar con Dios"></div></section>
+  <div class="nv2-progress"><div class="nv2-progress-row"><span>Tu avance en Paso 2</span><strong id="pct">0%</strong></div><div class="nv2-track"><div id="bar" class="nv2-bar"></div></div></div>
+  <nav class="nv2-nav"><button id="back" onclick="show(index-1)">← Atrás</button><div class="nv2-nav-center"><small>Paso 2</small><strong id="title">Cargando...</strong></div><button id="next" onclick="show(index+1)">Siguiente →</button></nav>
+  <div id="content"></div>
+ </div></div>${crearFooter()}
+ <div id="modal" class="nv2-bible-modal" onclick="closeBib(event)"><div class="nv2-bible-box" onclick="event.stopPropagation()"><button class="nv2-close" onclick="closeBib()">Cerrar</button><h3 id="bt"></h3><div id="bc" class="nv2-bible-text"></div></div></div>`;
  iniciarHeader();iniciarFooter();
 }
-
 function render(){
  const a=avatar();
  let html=groups.map((g,i)=>"<section class='nv2-section' data-i='"+i+"'><div class='nv2-section-head'><div class='nv2-section-icon'>"+icon(g[0])+"</div><div><h2>"+esc(g[0])+"</h2><p class='nv2-section-intro'>Lee, piensa y responde con tus propias palabras.</p></div></div>"+
