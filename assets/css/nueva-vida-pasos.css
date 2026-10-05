@@ -1,0 +1,56 @@
+/* SELECTOR DE PASOS · NUEVA VIDA EN CRISTO · PARTE 1 */
+.nvsteps-page{min-height:100vh;padding:24px 20px 80px}
+.nvsteps-wrap{max-width:1100px;margin:0 auto}
+.nvsteps-user{display:flex;align-items:center;gap:14px;background:rgba(13,27,42,.9);border:1px solid rgba(212,175,55,.45);border-radius:18px;padding:14px 18px;margin-bottom:22px;box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.nvsteps-user-avatar{width:50px;height:50px;border-radius:50%;overflow:hidden;flex:0 0 50px;background:linear-gradient(135deg,#d4af37,#8b6f1f);display:grid;place-items:center;color:#0d1b2a;font-size:23px;font-weight:900}
+.nvsteps-user-avatar img{width:100%;height:100%;object-fit:cover}
+.nvsteps-user-info{flex:1}
+.nvsteps-user-info strong{display:block;color:#f5d76e;font-size:17px}
+.nvsteps-user-info span{display:block;color:#dbe5ef;font-size:13px;margin-top:3px}
+.nvsteps-logout{background:transparent;color:#f5d76e;border:1px solid rgba(212,175,55,.55);border-radius:10px;padding:9px 13px;cursor:pointer}
+.nvsteps-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:stretch;margin-bottom:24px}
+.nvsteps-hero-copy,.nvsteps-hero-art{border-radius:24px;overflow:hidden;border:1px solid rgba(212,175,55,.3);background:#0d1b2a;box-shadow:0 18px 45px rgba(0,0,0,.2)}
+.nvsteps-hero-copy{padding:32px}
+.nvsteps-kicker{color:#d4af37;font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:12px}
+.nvsteps-hero h1{font-size:clamp(32px,5vw,52px);line-height:1.05;color:#f5d76e;margin:9px 0 12px}
+.nvsteps-hero p{color:#e7eef5;font-size:17px;line-height:1.65;margin:0}
+.nvsteps-hero-art{min-height:260px;position:relative}
+.nvsteps-hero-art img{width:100%;height:100%;object-fit:cover;display:block;opacity:.72}
+.nvsteps-hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,27,42,.12),rgba(13,27,42,.7))}
+.nvsteps-companion{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin:22px 0 4px;padding:16px 18px;border:1px solid rgba(212,175,55,.32);border-radius:20px;background:linear-gradient(145deg,rgba(27,54,93,.82),rgba(13,27,42,.9))}
+.nvsteps-avatar{width:105px;height:145px;flex:0 0 105px;display:flex;align-items:flex-end;justify-content:center}
+.nvsteps-avatar img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(0,0,0,.24));animation:nvsteps-float 4s ease-in-out infinite}
+.nvsteps-bubble{position:relative;max-width:560px;padding:15px 17px;border:1px solid rgba(212,175,55,.5);border-radius:16px;background:linear-gradient(145deg,#172f4a,#0d1b2a);color:#e9f0f6;line-height:1.5}
+.nvsteps-bubble:after{content:"";position:absolute;left:-8px;bottom:24px;width:15px;height:15px;background:#142a42;border-left:1px solid rgba(212,175,55,.5);border-bottom:1px solid rgba(212,175,55,.5);transform:rotate(45deg)}
+.nvsteps-bubble strong{display:block;color:#f5d76e;margin-bottom:5px}
+.nvsteps-bubble p{margin:0;color:#dce7ef;font-size:14px}
+.nvsteps-menu{padding:28px;border-radius:24px;border:1px solid rgba(212,175,55,.35);background:linear-gradient(145deg,rgba(13,27,42,.97),rgba(27,54,93,.9));box-shadow:0 18px 45px rgba(0,0,0,.18)}
+.nvsteps-menu-head{text-align:center;max-width:760px;margin:0 auto 24px}
+.nvsteps-menu-head h2{color:#f5d76e;margin:0 0 8px;font-size:30px}
+.nvsteps-menu-head p{color:#dbe5ef;line-height:1.6;margin:0}
+.nvsteps-progress{margin:0 0 22px}
+.nvsteps-progress-row{display:flex;justify-content:space-between;color:#dbe5ef;font-size:13px;margin-bottom:7px}
+.nvsteps-progress-row strong{color:#f5d76e}
+.nvsteps-track{height:8px;background:#26384c;border-radius:20px;overflow:hidden}
+.nvsteps-bar{height:100%;width:0;background:linear-gradient(90deg,#d4af37,#f5d76e);transition:width .35s ease}
+.nvsteps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.nvsteps-card{position:relative;min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 16px;border-radius:20px;border:1px solid rgba(212,175,55,.22);background:#12283e;color:#fff;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;overflow:hidden}
+.nvsteps-card.available{cursor:pointer}
+.nvsteps-card.available:hover{transform:translateY(-4px);border-color:#d4af37;box-shadow:0 14px 30px rgba(0,0,0,.23)}
+.nvsteps-card.locked{opacity:.62;cursor:not-allowed}
+.nvsteps-icon{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;background:#1b365d;border:1px solid rgba(212,175,55,.28);font-size:31px;margin-bottom:12px}
+.nvsteps-card.available .nvsteps-icon{background:linear-gradient(145deg,#d4af37,#f5d76e);color:#0d1b2a;border-color:#d4af37}
+.nvsteps-card.done .nvsteps-icon{background:#183a2a;border-color:#6fbf8b}
+.nvsteps-card strong{color:#f5d76e;font-size:19px}
+.nvsteps-card small{color:#d1dce7;margin-top:4px;line-height:1.4}
+.nvsteps-state{margin-top:10px;font-size:12px;font-weight:900;color:#f5d76e}
+.nvsteps-card.locked .nvsteps-state{color:#9baaba}
+.nvsteps-lock{position:absolute;top:12px;right:13px;font-size:18px}
+.nvsteps-note{text-align:center;color:#9fb0c0;font-size:12px;margin:20px 0 0}
+.nvsteps-message{display:none;margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(212,175,55,.35);background:rgba(13,27,42,.75);color:#dbe5ef;text-align:center}
+.nvsteps-message.show{display:block}
+@keyframes nvsteps-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(max-width:850px){.nvsteps-hero{grid-template-columns:1fr}.nvsteps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.nvsteps-hero-art{min-height:220px}}
+@media(max-width:600px){.nvsteps-page{padding:16px 12px 60px}.nvsteps-user{align-items:flex-start}.nvsteps-logout{margin-left:auto}.nvsteps-hero-copy{padding:23px}.nvsteps-grid{grid-template-columns:1fr 1fr;gap:10px}.nvsteps-card{min-height:150px;padding:15px 10px}.nvsteps-icon{width:52px;height:52px;font-size:26px}.nvsteps-card strong{font-size:16px}.nvsteps-card small{font-size:11px}.nvsteps-companion{gap:8px}.nvsteps-avatar{width:78px;height:108px;flex-basis:78px}.nvsteps-bubble{padding:11px 12px}.nvsteps-bubble p{font-size:12px}}
+@media(max-width:390px){.nvsteps-grid{grid-template-columns:1fr}.nvsteps-card{min-height:135px}}
+@media(prefers-reduced-motion:reduce){.nvsteps-avatar img{animation:none}.nvsteps-card{transition:none}}
