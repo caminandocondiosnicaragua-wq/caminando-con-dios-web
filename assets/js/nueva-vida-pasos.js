@@ -101,11 +101,7 @@ function renderizarPasosNV1_(){
 function abrirPasoNV1_(numero){
   const estado=obtenerEstadoSelectorNV1_()||{};
   if(numero===1){window.location.href=NV_STEP_INFO[0].url;return;}
-  if(numero===2 && estado.completado===true){
-    const msg=document.getElementById("nvsteps-message");
-    if(msg){msg.textContent="El Paso 2 ya está habilitado. Su contenido se incorporará aquí cuando terminemos de construirlo.";msg.classList.add("show");}
-    return;
-  }
+  if(numero===2 && estado.completado===true){ window.location.href="nueva-vida-parte-1-paso-2.html"; return; }
 }
 
 function salirSelectorNV1_(){
