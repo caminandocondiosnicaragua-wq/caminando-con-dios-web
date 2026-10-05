@@ -1,13 +1,13 @@
 const KEY="caminando_con_dios_nv1_paso_2";
 const EXAM=[
-["Condición antes de la vida eterna",0],
-["¿Toda persona ha pecado?",0],
-["¿Qué hizo Dios por nosotros?",0],
-["¿Cómo mostró Dios su amor?",0],
-["¿Por qué medio es la salvación?",0],
-["¿En quién debemos tener fe?",0],
-["¿Qué recibe quien recibe a Cristo?",0],
-["¿Qué somos en Cristo?",0]
+["Según Efesios 2:1, ¿cuál era nuestra condición antes de recibir la vida eterna?",["Estábamos muertos en delitos y pecados","Éramos hijos maduros de Dios","No teníamos ninguna necesidad espiritual","Ya habíamos alcanzado la vida eterna"],0],
+["Según Romanos 3:23, ¿ha pecado toda persona?",["Sí","No","Solo quienes no asisten a una iglesia","Solo quienes no conocen la Biblia"],0],
+["Según Efesios 2:4-5, ¿qué hizo Dios por nosotros?",["Nos dio vida juntamente con Cristo","Nos pidió que primero hiciéramos suficientes obras","Nos dejó resolver solos nuestra condición","Nos dio salvación por asistir a la iglesia"],0],
+["Según Romanos 5:8, ¿cómo muestra Dios su amor?",["Cristo murió por nosotros siendo aún pecadores","Nos dio riquezas materiales","Nos evitó todas las dificultades","Nos permitió salvarnos por nuestros propios méritos"],0],
+["Según Efesios 2:8-9, la salvación es por...",["Gracia por medio de la fe","Obras y asistencia religiosa","Conocimiento humano","Esfuerzo personal"],0],
+["Según Gálatas 3:26, ¿en quién debemos tener fe para ser hijos de Dios?",["En Cristo Jesús","En nuestras buenas obras","En nuestra propia capacidad","En una tradición religiosa"],0],
+["Según Juan 1:12, ¿qué recibe quien recibe a Cristo?",["El derecho de ser hijo de Dios","Una vida sin problemas","La obligación de salvarse por obras","Una promesa de riqueza"],0],
+["Según 2 Corintios 5:17, quien está en Cristo es...",["Una nueva criatura","La misma persona sin ningún cambio posible","Una persona sin necesidad de crecer","Una persona que ya no necesita obedecer a Dios"],0]
 ];
 let data=[],groups=[],index=0,answers=[],examIndex=0,examAnswers=[],seconds=300,timer=null;
 
@@ -88,11 +88,10 @@ function exam(){
  examQuestion();
 }
 
-function examQuestion(){const q=EXAM[examIndex],labels=["Respuesta A","Respuesta B","Respuesta C","Respuesta D"];ec.textContent="Pregunta "+(examIndex+1)+" de 8";eq.textContent=q[0];eo.innerHTML=labels.map((x,i)=>"<button class='nv2-exam-option "+(examAnswers[examIndex]===i?"selected":"")+"' onclick='selectExam("+i+")'>"+String.fromCharCode(65+i)+". "+x+"</button>").join("")}
-
+function examQuestion(){const q=EXAM[examIndex];ec.textContent="Pregunta "+(examIndex+1)+" de 8";eq.textContent=q[0];eo.innerHTML=q[1].map((x,i)=>"<button class=\"nv2-exam-option "+(examAnswers[examIndex]===i?"selected":"")+"\" onclick=\"selectExam("+i+")\">"+String.fromCharCode(65+i)+". "+esc(x)+"</button>").join("")}
 function selectExam(i){if(!timer){timer=setInterval(()=>{seconds--;et.textContent=Math.floor(seconds/60).toString().padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");if(seconds<=0){clearInterval(timer);finishExam()}},1000)}examAnswers[examIndex]=i;examQuestion()}
 function nextExam(){if(examAnswers[examIndex]===undefined){return}if(examIndex<7){examIndex++;examQuestion()}else finishExam()}
-function finishExam(){if(timer)clearInterval(timer);let correct=0;examAnswers.forEach((x,i)=>{if(x===EXAM[i][1])correct++});const points=Math.round(correct/8*100),s=state();s.examen={correct:correct,total:8,puntos:points,fecha:new Date().toISOString()};s.aprobado=points>=80;s.completado=s.aprobado;save(s);const a=avatar(),m=points>=90?"¡Felicidades! Sigue avanzando.":points>=80?"Bien, sigue adelante y mejora tu próxima lección.":"Ánimo, vuelve a intentarlo.";result.innerHTML=(a?"<img class='nv2-avatar-result' src='"+esc(a.imagen)+"'>":"")+"<div class='nv2-score'>"+points+"</div><h2>"+(points>=80?"¡Aprobado!":"Debes repetir")+"</h2><p><strong>"+m+"</strong></p><p>Resultado: "+correct+"/8</p>"+(points<80?"<button class='nv2-btn nv2-primary' onclick='retry()'>Repetir evaluación</button>":"<button class='nv2-btn nv2-primary' onclick='location.href=\"nueva-vida-parte-1.html\"'>Volver a los pasos</button>");result.classList.add("show")}
+function finishExam(){if(timer)clearInterval(timer);let correct=0;examAnswers.forEach((x,i)=>{if(x===EXAM[i][2])correct++});const points=Math.round(correct/8*100),s=state();s.examen={correct:correct,total:8,puntos:points,fecha:new Date().toISOString()};s.aprobado=points>=80;s.completado=s.aprobado;save(s);const a=avatar(),m=points>=90?"¡Felicidades! Sigue avanzando.":points>=80?"Bien, sigue adelante y mejora tu próxima lección.":"Ánimo, vuelve a intentarlo.";result.innerHTML=(a?"<img class=\"nv2-avatar-result\" src=\""+esc(a.imagen)+"\">":"")+"<div class=\"nv2-score\">"+points+"</div><h2>"+(points>=80?"¡Aprobado!":"Debes repetir")+"</h2><p><strong>"+m+"</strong></p><p>Resultado: "+correct+"/8</p>"+(points<80?"<button class=\"nv2-btn nv2-primary\" onclick=\"retry()\">Repetir evaluación</button>":"<button class=\"nv2-btn nv2-primary\" onclick=\"location.href=&quot;nueva-vida-parte-1.html&quot;\">Volver a los pasos</button>");result.classList.add("show")}
 function retry(){examIndex=0;examAnswers=[];seconds=300;timer=null;result.classList.remove("show");examQuestion()}
 async function bib(ref){modal.classList.add("open");bt.textContent=ref;bc.textContent="Cargando...";try{const p=ref.lastIndexOf(" "),lib=ref.slice(0,p),cit=ref.slice(p+1),ps=cit.split(":"),d=await obtenerCapituloBiblia(obtenerCodigoLibro(lib),parseInt(ps[0]));let v=d.versiculos||[];if(ps[1]){const z=ps[1].split("-"),a=+z[0],b=+(z[1]||z[0]);v=v.filter(x=>+x.numero>=a&&+x.numero<=b)}bc.textContent=v.map(x=>x.texto).join("\\n\\n")}catch(_){bc.textContent="No fue posible mostrar la cita ahora."}}
 function closeBib(e){if(e&&e.target!==e.currentTarget)return;modal.classList.remove("open")}
