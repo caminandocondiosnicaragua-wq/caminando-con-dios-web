@@ -78,7 +78,11 @@ function iniciarSelectorPasosNV1_(){
 function renderizarPasosNV1_(){
   const estado=obtenerEstadoSelectorNV1_()||{};
   const paso1Completado=estado.completado===true;
-  const maxDisponible=paso1Completado?2:1;
+  const usuario=typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null;
+  let paso2Completado=false;
+  if(usuario){try{paso2Completado=JSON.parse(localStorage.getItem("caminando_con_dios_nv1_paso_2_"+(usuario.idUsuario||usuario.correo))||"{}").completado===true}catch(_){}
+  }
+  const maxDisponible=paso2Completado?3:(paso1Completado?2:1);
   const grid=document.getElementById("nvsteps-grid");
   if(!grid)return;
   grid.innerHTML=NV_STEP_INFO.map((step,index)=>{
@@ -98,10 +102,13 @@ function renderizarPasosNV1_(){
   if(txt)txt.textContent=porcentaje+"%";
 }
 
+function paso2CompletadoSelectorNV1_(){const usuario=typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null;if(!usuario)return false;try{return JSON.parse(localStorage.getItem("caminando_con_dios_nv1_paso_2_"+(usuario.idUsuario||usuario.correo))||"{}").completado===true}catch(_){return false}}
+
 function abrirPasoNV1_(numero){
   const estado=obtenerEstadoSelectorNV1_()||{};
   if(numero===1){window.location.href=NV_STEP_INFO[0].url;return;}
   if(numero===2 && estado.completado===true){ window.location.href="nueva-vida-parte-1-paso-2.html"; return; }
+  if(numero===3 && paso2CompletadoSelectorNV1_()){ const msg=document.getElementById("nvsteps-message"); if(msg){msg.textContent="El Paso 3 ya está habilitado. Su contenido se incorporará cuando lo construyamos.";msg.classList.add("show");} return; }
 }
 
 function salirSelectorNV1_(){
