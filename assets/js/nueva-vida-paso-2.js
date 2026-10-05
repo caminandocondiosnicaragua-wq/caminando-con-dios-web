@@ -11,7 +11,7 @@ const EXAM=[
 ];
 let data=[],groups=[],index=0,answers=[],examIndex=0,examAnswers=[],seconds=300,timer=null;
 
-document.addEventListener("DOMContentLoaded",init);
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
 
 function user(){return typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null}
 function avatar(){return typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null}
