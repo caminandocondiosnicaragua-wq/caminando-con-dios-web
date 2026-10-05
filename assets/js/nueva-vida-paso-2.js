@@ -1,0 +1,99 @@
+const KEY="caminando_con_dios_nv1_paso_2";
+const EXAM=[
+["Condición antes de la vida eterna",0],
+["¿Toda persona ha pecado?",0],
+["¿Qué hizo Dios por nosotros?",0],
+["¿Cómo mostró Dios su amor?",0],
+["¿Por qué medio es la salvación?",0],
+["¿En quién debemos tener fe?",0],
+["¿Qué recibe quien recibe a Cristo?",0],
+["¿Qué somos en Cristo?",0]
+];
+let data=[],groups=[],index=0,answers=[],examIndex=0,examAnswers=[],seconds=300,timer=null;
+
+document.addEventListener("DOMContentLoaded",init);
+
+function user(){return typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null}
+function avatar(){return typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null}
+function esc(v){const d=document.createElement("div");d.textContent=String(v??"");return d.innerHTML}
+function state(){const u=user();try{return JSON.parse(localStorage.getItem(KEY+"_"+(u.idUsuario||u.correo))||"{}")}catch(_){return {}}}
+function save(s){const u=user();try{localStorage.setItem(KEY+"_"+(u.idUsuario||u.correo),JSON.stringify(s))}catch(_){}}
+function paso1Terminado(){const u=user();try{return JSON.parse(localStorage.getItem("caminando_con_dios_nv1_"+(u.idUsuario||u.correo))||"{}").completado===true}catch(_){return false}}
+
+async function init(){
+ const u=user();
+ if(!u){location.href="comunidad.html";return}
+ if(!paso1Terminado()){bloqueo();return}
+ renderBase(u);
+ try{
+  const r=await fetch(CONFIG.API.url+"?coleccion=contenidoNuevaVida");
+  const all=await r.json();
+  data=all.filter(x=>String(x.Parte||"").trim()==="Parte 1"&&Number(x.Paso)===2).sort((a,b)=>(a.Orden||0)-(b.Orden||0));
+  const map={};
+  data.forEach(x=>(map[x.Seccion||"Contenido"]??=[]).push(x));
+  groups=Object.entries(map);
+  render();
+  show(0);
+ }catch(e){document.getElementById("content").innerHTML="<div class='nv2-error'>No se pudo cargar el contenido del Paso 2.</div>"}
+}
+
+function bloqueo(){
+ app.innerHTML=crearHeader()+"<div class='nv2-page'><div class='nv2-locked'><h2>🔒 Paso 2 bloqueado</h2><p>Primero debes completar el Paso 1 para continuar.</p><button class='nv2-btn nv2-primary' onclick='location.href=&quot;nueva-vida-parte-1-paso-1.html&quot;'>Ir al Paso 1</button></div></div>";
+ iniciarHeader();
+}
+
+function renderBase(u){
+ const a=avatar();
+ const userAvatar=a?"<img src='"+esc(a.imagen)+"' alt='"+esc(a.nombre)+"'>":"👋";
+ const big=a?"<div class='nv2-avatar'><img src='"+esc(a.imagen)+"' alt='"+esc(a.nombre)+"'></div>":"";
+ app.innerHTML=crearHeader()+crearHero()+"<div class='nv2-page'><div class='nv2-wrap'>
+ <div class='nv2-user'><div class='nv2-user-avatar'>"+userAvatar+"</div><div class='nv2-user-info'><strong>Hola, "+esc(u.nombre||"hermano/a")+"</strong><span>"+esc(u.correo||"")+" · Tu recorrido de discipulado es personal.</span></div><button class='nv2-logout' onclick='salir()'>Cerrar sesión</button></div>
+ <section class='nv2-hero'><div class='nv2-hero-copy'><div class='nv2-kicker'>Nueva Vida en Cristo · Parte 1 · Paso 2</div><h1>¡Seguro!</h1><p>Aprenderás sobre la seguridad de tu salvación, la vida eterna y cómo Dios te sostiene en Cristo.</p><div class='nv2-companion'>"+big+"<div class='nv2-bubble'><strong id='avatar-title'>Estoy aquí contigo</strong><p id='avatar-text'>Lee, medita, responde y avanza a tu ritmo.</p></div></div></div><div class='nv2-hero-image'><img src='assets/img/hero.png' alt='Caminar con Dios'></div></section>
+ <div class='nv2-progress'><div class='nv2-progress-row'><span>Tu avance en Paso 2</span><strong id='pct'>0%</strong></div><div class='nv2-track'><div id='bar' class='nv2-bar'></div></div></div>
+ <nav class='nv2-nav'><button id='back' onclick='show(index-1)'>← Atrás</button><div class='nv2-nav-center'><small>Paso 2</small><strong id='title'>Cargando...</strong></div><button id='next' onclick='show(index+1)'>Siguiente →</button></nav>
+ <div id='content'></div></div></div>"+crearFooter()+"
+ <div id='modal' class='nv2-bible-modal' onclick='closeBib(event)'><div class='nv2-bible-box' onclick='event.stopPropagation()'><button class='nv2-close' onclick='closeBib()'>Cerrar</button><h3 id='bt'></h3><div id='bc' class='nv2-bible-text'></div></div></div>";
+ iniciarHeader();iniciarFooter();
+}
+
+function render(){
+ const a=avatar();
+ let html=groups.map((g,i)=>"<section class='nv2-section' data-i='"+i+"'><div class='nv2-section-head'><div class='nv2-section-icon'>"+icon(g[0])+"</div><div><h2>"+esc(g[0])+"</h2><p class='nv2-section-intro'>Lee, piensa y responde con tus propias palabras.</p></div></div>"+
+ (a?"<div class='nv2-avatar-companion'><img src='"+esc(a.imagen)+"'><div class='nv2-avatar-bubble'><strong>"+esc(a.nombre)+" te acompaña</strong><span>Estoy aquí contigo. Avanza con calma.</span></div></div>":"")+
+ g[1].map(block).join("")+"<div class='nv2-actions'><button class='nv2-btn nv2-secondary' onclick='saveAnswers()'>💾 Guardar mi avance</button></div></section>").join("");
+ html+="<section class='nv2-section' data-i='"+groups.length+"'><div class='nv2-section-head'><div class='nv2-section-icon'>🏆</div><div><h2>Evaluación final</h2><p class='nv2-section-intro'>La evaluación conserva la misma estructura y escala.</p></div></div><div id='exam' class='nv2-exam'></div></section>";
+ document.getElementById("content").innerHTML=html;
+ document.querySelectorAll(".nv2-ref").forEach(b=>b.onclick=()=>bib(b.dataset.ref));
+ document.querySelectorAll(".nv2-answer").forEach(x=>x.oninput=progress);
+ exam();
+}
+
+function icon(s){s=String(s).toLowerCase();if(s.includes("evaluacion"))return"📝";if(s.includes("seguridad"))return"🛡️";if(s.includes("mensaje"))return"💬";if(s.includes("reflex"))return"💭";if(s.includes("advertencia"))return"⚠️";if(s.includes("ejercicio"))return"🙏";if(s.includes("crecer"))return"🌱";return"📖"}
+
+function block(r){
+ const t=String(r.Tipo||"").toLowerCase(),q=t==="pregunta"||t==="reflexion",c=String(r["Cita Bíblica"]||"");
+ const meta="paso='2' data-titulo='Seguro' data-seccion='"+esc(r.Seccion||"")+"' data-numero='"+esc(r.Número||"")+"' data-pregunta='"+esc(r.Texto||"")+"' data-parte='Parte 1'";
+ if(q)return "<article class='nv2-item nv2-question' data-answerable='1' "+meta+"><div class='nv2-q-head'><div class='nv2-q-num'>"+esc(r.Número||"?")+"</div><div><span class='nv2-item-label'>✍️ "+(t==="reflexion"?"Reflexiona":"Pregunta")+"</span><h3>"+esc(r.Texto)+"</h3>"+(c?"<button class='nv2-ref' data-ref='"+esc(c)+"'>📖 "+esc(c)+"</button>":"")+"</div></div><textarea class='nv2-answer' placeholder='Escribe aquí con tus propias palabras...'></textarea></article>";
+ return "<article class='nv2-item'><div class='nv2-item-label'>"+(t==="enseñanza"?"💡 Enseñanza":t==="versiculo"?"📖 Versículo":t==="alternativa"?"💬 Mensaje":"🙏 Ejercicio")+"</div><p>"+esc(r.Texto)+"</p>"+(c?"<button class='nv2-ref' data-ref='"+esc(c)+"'>📖 "+esc(c)+"</button>":"")+"</article>";
+}
+
+function show(i){if(!groups.length)return;index=Math.max(0,Math.min(i,groups.length));document.querySelectorAll(".nv2-section").forEach((s,k)=>s.classList.toggle("active",k===index));document.getElementById("title").textContent=index<groups.length?groups[index][0]:"Evaluación final";back.disabled=index===0;next.disabled=index===groups.length;window.scrollTo({top:0,behavior:"smooth"})}
+
+function saveAnswers(){const s=state();s.respuestas=[...document.querySelectorAll(".nv2-answer")].map(x=>({parte:x.dataset.parte,paso:Number(x.getAttribute("paso")),tituloPaso:x.dataset.titulo,seccion:x.dataset.seccion,numero:x.dataset.numero,pregunta:x.dataset.pregunta,respuesta:x.value}));s.updated=new Date().toISOString();save(s);document.getElementById("avatar-title").textContent="¡Guardado!";document.getElementById("avatar-text").textContent="Tus respuestas quedaron guardadas en este dispositivo."}
+
+function progress(){const n=[...document.querySelectorAll(".nv2-answer")].filter(x=>x.value.trim()).length,total=document.querySelectorAll(".nv2-answer").length,p=Math.round(n/Math.max(1,total)*100);bar.style.width=p+"%";pct.textContent=p+"%"}
+
+function exam(){
+ exam.innerHTML="<div class='nv2-exam-top'><strong id='ec'></strong><span id='et'>05:00</span></div><div id='eq' class='nv2-exam-q'></div><div id='eo'></div><div class='nv2-actions'><button class='nv2-btn nv2-primary' onclick='nextExam()'>Siguiente</button></div><div id='result' class='nv2-result'></div>";
+ examQuestion();
+}
+
+function examQuestion(){const q=EXAM[examIndex],labels=["Respuesta A","Respuesta B","Respuesta C","Respuesta D"];ec.textContent="Pregunta "+(examIndex+1)+" de 8";eq.textContent=q[0];eo.innerHTML=labels.map((x,i)=>"<button class='nv2-exam-option "+(examAnswers[examIndex]===i?"selected":"")+"' onclick='selectExam("+i+")'>"+String.fromCharCode(65+i)+". "+x+"</button>").join("")}
+
+function selectExam(i){if(!timer){timer=setInterval(()=>{seconds--;et.textContent=Math.floor(seconds/60).toString().padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");if(seconds<=0){clearInterval(timer);finishExam()}},1000)}examAnswers[examIndex]=i;examQuestion()}
+function nextExam(){if(examAnswers[examIndex]===undefined){return}if(examIndex<7){examIndex++;examQuestion()}else finishExam()}
+function finishExam(){if(timer)clearInterval(timer);let correct=0;examAnswers.forEach((x,i)=>{if(x===EXAM[i][1])correct++});const points=Math.round(correct/8*100),s=state();s.examen={correct:correct,total:8,puntos:points,fecha:new Date().toISOString()};s.aprobado=points>=80;s.completado=s.aprobado;save(s);const a=avatar(),m=points>=90?"¡Felicidades! Sigue avanzando.":points>=80?"Bien, sigue adelante y mejora tu próxima lección.":"Ánimo, vuelve a intentarlo.";result.innerHTML=(a?"<img class='nv2-avatar-result' src='"+esc(a.imagen)+"'>":"")+"<div class='nv2-score'>"+points+"</div><h2>"+(points>=80?"¡Aprobado!":"Debes repetir")+"</h2><p><strong>"+m+"</strong></p><p>Resultado: "+correct+"/8</p>"+(points<80?"<button class='nv2-btn nv2-primary' onclick='retry()'>Repetir evaluación</button>":"<button class='nv2-btn nv2-primary' onclick='location.href=\"nueva-vida-parte-1.html\"'>Volver a los pasos</button>");result.classList.add("show")}
+function retry(){examIndex=0;examAnswers=[];seconds=300;timer=null;result.classList.remove("show");examQuestion()}
+async function bib(ref){modal.classList.add("open");bt.textContent=ref;bc.textContent="Cargando...";try{const p=ref.lastIndexOf(" "),lib=ref.slice(0,p),cit=ref.slice(p+1),ps=cit.split(":"),d=await obtenerCapituloBiblia(obtenerCodigoLibro(lib),parseInt(ps[0]));let v=d.versiculos||[];if(ps[1]){const z=ps[1].split("-"),a=+z[0],b=+(z[1]||z[0]);v=v.filter(x=>+x.numero>=a&&+x.numero<=b)}bc.textContent=v.map(x=>x.texto).join("\\n\\n")}catch(_){bc.textContent="No fue posible mostrar la cita ahora."}}
+function closeBib(e){if(e&&e.target!==e.currentTarget)return;modal.classList.remove("open")}
+function salir(){if(typeof cerrarSesionComunidad==="function")cerrarSesionComunidad();location.href="comunidad.html"}
