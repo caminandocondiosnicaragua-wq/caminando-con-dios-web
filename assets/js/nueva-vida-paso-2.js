@@ -38,7 +38,9 @@ async function init(){
 }
 
 function bloqueo(){
- document.getElementById("app").innerHTML=crearHeader()+"<div class='nv2-page'><div class='nv2-locked'><h2>🔒 Paso 2 bloqueado</h2><p>Primero debes completar el Paso 1 para continuar.</p><button class='nv2-btn nv2-primary' onclick='location.href=&quot;nueva-vida-parte-1-paso-1.html&quot;'>Ir al Paso 1</button></div></div>";
+ const app=document.getElementById("app");
+ app.innerHTML=crearHeader()+"<div class='nv2-page'><div class='nv2-locked'><h2>🔒 Paso 2 bloqueado</h2><p>Primero debes completar el Paso 1 para continuar.</p><button class='nv2-btn nv2-primary' onclick='location.href=&quot;nueva-vida-parte-1-paso-1.html&quot;'>Ir al Paso 1</button></div></div>";
+ app.style.display="block";
  iniciarHeader();
 }
 
@@ -55,6 +57,7 @@ function renderBase(u){
   <div id="content"></div>
  </div></div>${crearFooter()}
  <div id="modal" class="nv2-bible-modal" onclick="closeBib(event)"><div class="nv2-bible-box" onclick="event.stopPropagation()"><button class="nv2-close" onclick="closeBib()">Cerrar</button><h3 id="bt"></h3><div id="bc" class="nv2-bible-text"></div></div></div>`;
+ document.getElementById("app").style.display="block";
  iniciarHeader();iniciarFooter();
 }
 function render(){
