@@ -11,7 +11,7 @@ const EXAM=[
 ];
 let data=[],groups=[],index=0,answers=[],examIndex=0,examAnswers=[],seconds=300,timer=null;
 
-if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",init)}else{init()}
+let nv2InitIntentado=false;\nfunction iniciarPaso2Seguro(){if(nv2InitIntentado)return;nv2InitIntentado=true;init()}\nif(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",iniciarPaso2Seguro,{once:true})}else{iniciarPaso2Seguro()}\nwindow.addEventListener("load",()=>{if(!document.querySelector(".nv2-page")){nv2InitIntentado=false;iniciarPaso2Seguro()}},{once:true});
 
 function user(){return typeof obtenerUsuarioComunidad==="function"?obtenerUsuarioComunidad():null}
 function avatar(){return typeof obtenerAvatarComunidad==="function"?obtenerAvatarComunidad():null}
